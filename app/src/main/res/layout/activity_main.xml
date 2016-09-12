@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="mei.meiweatherapp.MainActivity">
+
+        <fragment
+            android:id="@+id/place_autocomplete_fragment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/line_color" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="0dip"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:text="@string/latitude"
+                                    android:id="@+id/lblLatitude"
+                                    android:layout_weight="50"
+                                    android:gravity="center_horizontal"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="0dip"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:text="@string/longitude"
+                                    android:id="@+id/lblLongitude"
+                                    android:layout_weight="50"
+                                    android:gravity="center_horizontal"
+                                    android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="0dip"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:layout_weight="50"
+                                    android:id="@+id/txtLat"
+                                    android:gravity="center_horizontal" />
+
+                                <TextView
+                                    android:layout_width="0dip"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:layout_weight="50"
+                                    android:id="@+id/txtLong"
+                                    android:gravity="center_horizontal" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:id="@+id/txtAdress"
+                                    android:gravity="center_horizontal" />
+                        </LinearLayout>
+                </LinearLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/line_color" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="20">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:id="@+id/imgTemp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/txtTemp"
+                    android:layout_gravity="center_horizontal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="20">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgVento"
+                    android:layout_gravity="right" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Large Text"
+                    android:id="@+id/textView" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:orientation="horizontal"
+            android:layout_weight="20"></LinearLayout>
+
+</LinearLayout>
