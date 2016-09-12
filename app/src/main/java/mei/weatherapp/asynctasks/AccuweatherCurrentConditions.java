@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import mei.weatherandroid.Utils;
+import mei.weatherapp.Utils;
 import mei.weatherapp.contratos.Condicoes;
 import mei.weatherapp.contratos.Praia;
 import mei.weatherapp.webservice.AccuWeatherWebService;
