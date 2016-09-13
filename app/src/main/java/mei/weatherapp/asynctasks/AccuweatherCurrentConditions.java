@@ -54,14 +54,13 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Void, Praia> 
             catch (JSONException e)
             {
                 e.printStackTrace();
-                p = null;
             }
-            return p;
         }
         else
         {
-            return null;
+            p = null;
         }
+        return p;
     }
 
     @Override

@@ -43,8 +43,6 @@ public class MainActivity extends FragmentActivity {
         txtTemp = (TextView) findViewById(R.id.txtTemp);
         btnDetails = (Button) findViewById(R.id.btnDetails);
 
-
-
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener()
@@ -62,7 +60,7 @@ public class MainActivity extends FragmentActivity {
                 praia.setMorada(place.getAddress().toString());
 
                 AccuweatherCurrentConditions awcc = new AccuweatherCurrentConditions(MainActivity.this, imgTemp, txtAdress, txtLat, txtLong, txtTemp);
-                //awcc.execute();
+                awcc.execute(praia);
             }
 
             @Override
