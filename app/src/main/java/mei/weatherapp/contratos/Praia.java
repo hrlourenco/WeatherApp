@@ -1,9 +1,10 @@
 package mei.weatherapp.contratos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Praia {
+public class Praia implements Serializable{
     private int id;
     private String nome;
     private String longitude;

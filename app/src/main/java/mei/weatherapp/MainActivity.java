@@ -1,8 +1,11 @@
 package mei.weatherapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +18,6 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 
 import mei.weatherapp.asynctasks.AccuweatherCurrentConditions;
-import mei.weatherapp.contratos.APIData;
 import mei.weatherapp.contratos.Praia;
 
 public class MainActivity extends FragmentActivity {
@@ -28,6 +30,8 @@ public class MainActivity extends FragmentActivity {
     ImageView imgTemp;
     TextView txtTemp;
 
+    Button btnDetails;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,7 @@ public class MainActivity extends FragmentActivity {
         txtAdress = (TextView) findViewById(R.id.txtAdress);
         imgTemp = (ImageView) findViewById(R.id.imgTemp);
         txtTemp = (TextView) findViewById(R.id.txtTemp);
+        btnDetails = (Button) findViewById(R.id.btnDetails);
 
 
 
@@ -64,6 +69,18 @@ public class MainActivity extends FragmentActivity {
             public void onError(Status status) {
                 Log.i(TAG, "An error occurred: " + status);
                 Toast.makeText(MainActivity.this, "Erro ao obter localização", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        btnDetails.setOnClickListener(new View.OnClickListener() {
+          Praia p = new Praia(0, 1, "0", "0", "Ofir", "morada");
+            @Override
+            public void onClick(View view) {
+                Intent viewDetails = new Intent(MainActivity.this, BeachDetails.class);
+                viewDetails.putExtra("praia", p);
+                if (viewDetails.resolveActivity(getPackageManager()) != null) {
+                    startActivity(viewDetails);
+                }
             }
         });
 

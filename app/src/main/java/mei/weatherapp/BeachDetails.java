@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import mei.weatherapp.asynctasks.GetImageAsync;
+import mei.weatherapp.contratos.Praia;
 
 public class BeachDetails extends AppCompatActivity {
 
@@ -17,9 +18,9 @@ public class BeachDetails extends AppCompatActivity {
     setContentView(R.layout.activity_beachdetails);
 
     imgView = (ImageView) findViewById(R.id.imgFoto);
-    String strLocation = this.getIntent().getStringExtra("strLocation");
+    Praia praia = (Praia) this.getIntent().getSerializableExtra("praia");
 
     GetImageAsync getImage = new GetImageAsync(imgView);
-    getImage.execute(strLocation);
+    getImage.execute(praia.getNome());
   }
 }

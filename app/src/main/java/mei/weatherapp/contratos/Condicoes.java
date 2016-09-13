@@ -1,8 +1,10 @@
 package mei.weatherapp.contratos;
 
 
+import java.io.Serializable;
+
 //teste
-public class Condicoes {
+public class Condicoes implements Serializable{
     private int WeatherIcon;
     private String WeatherText;
     private String Temperature;
