@@ -9,6 +9,8 @@ public class Condicoes implements Serializable{
     private int WeatherIcon;
     private String WeatherText;
     private String Temperature;
+    private String TemperatureMax;
+    private String TemperatureMin;
     private String RelativeHumidity;
     private String WindDirection;
     private String WindSpeed;
@@ -19,6 +21,7 @@ public class Condicoes implements Serializable{
     private String Pressure;
     private String PressureTendency;
     private String PrecipitationSummary;
+    private String Data;
 
     public Condicoes() {
     }
@@ -34,6 +37,12 @@ public class Condicoes implements Serializable{
     public void setCloudCover(String cloudCover) {
         CloudCover = cloudCover;
     }
+
+    public String getData() {
+        return Data;
+    }
+
+    public void setData(String data) {Data = data;}
 
     public String getPrecipitationSummary() {
         return PrecipitationSummary;
@@ -65,6 +74,22 @@ public class Condicoes implements Serializable{
 
     public void setRelativeHumidity(String relativeHumidity) {
         RelativeHumidity = relativeHumidity;
+    }
+
+    public String getTemperatureMax() {
+        return TemperatureMax;
+    }
+
+    public void setTemperatureMax(String temperature) {
+        TemperatureMax = temperature;
+    }
+
+    public String getTemperatureMin() {
+        return TemperatureMin;
+    }
+
+    public void setTemperatureMin(String temperatureMin) {
+        TemperatureMin = temperatureMin;
     }
 
     public String getTemperature() {

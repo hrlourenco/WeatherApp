@@ -18,7 +18,7 @@
         android:layout_weight="1"/>
 
     <ListView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:id="@+id/lv_forecast"
         android:layout_gravity="center_vertical"

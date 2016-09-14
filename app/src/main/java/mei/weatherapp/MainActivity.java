@@ -19,7 +19,11 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mei.weatherapp.asynctasks.AccuweatherCurrentConditions;
+import mei.weatherapp.contratos.Condicoes;
 import mei.weatherapp.contratos.Praia;
 
 public class MainActivity extends FragmentActivity {
@@ -75,9 +79,54 @@ public class MainActivity extends FragmentActivity {
         });
 
         btnDetails.setOnClickListener(new View.OnClickListener() {
-          Praia p = new Praia(0, 1, "0", "0", "Ofir", "morada");
             @Override
             public void onClick(View view) {
+
+                Praia p = new Praia(0, 1, "0", "0", "Ofir", "morada");
+                List<Condicoes> lista = new ArrayList<Condicoes>();
+                Condicoes c = new Condicoes();
+                c.setId(1);
+                c.setTemperature("12");
+                c.setWeatherIcon(1);
+                c.setData("01-01-2016");
+                c.setTemperatureMax("40");
+                c.setTemperatureMin("10");
+                lista.add(c);
+                c = new Condicoes();
+                c.setId(2);
+                c.setTemperature("13");
+                c.setWeatherIcon(2);
+                c.setData("02-01-2016");
+                c.setTemperatureMax("40");
+                c.setTemperatureMin("10");
+                lista.add(c);
+                c = new Condicoes();
+                c.setId(3);
+                c.setTemperature("14");
+                c.setWeatherIcon(3);
+                c.setData("03-01-2016");
+                c.setTemperatureMax("40");
+                c.setTemperatureMin("10");
+                lista.add(c);
+                c = new Condicoes();
+                c.setId(4);
+                c.setTemperature("15");
+                c.setWeatherIcon(4);
+                c.setData("04-01-2016");
+                c.setTemperatureMax("40");
+                c.setTemperatureMin("10");
+                lista.add(c);
+                c = new Condicoes();
+                c.setId(5);
+                c.setTemperature("16");
+                c.setWeatherIcon(5);
+                c.setData("05-01-2016");
+                c.setTemperatureMax("40");
+                c.setTemperatureMin("10");
+                lista.add(c);
+                p.setForecast(lista);
+
+
                 Intent viewDetails = new Intent(MainActivity.this, BeachDetails.class);
                 viewDetails.putExtra("praia", p);
                 if (viewDetails.resolveActivity(getPackageManager()) != null) {

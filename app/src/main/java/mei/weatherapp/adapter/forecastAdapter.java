@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import mei.weatherapp.R;
+import mei.weatherapp.Utils;
 import mei.weatherapp.contratos.Condicoes;
 
 /**
@@ -43,6 +44,11 @@ public class forecastAdapter extends BaseAdapter {
   @Override
   public View getView(int i, View view, ViewGroup viewGroup) {
     ImageView img_tempo;
+    TextView tv_tempMax;
+    TextView tv_tempMin;
+    TextView tv_data;
+
+    TextView lixo;
 
     if(view == null){
       LayoutInflater infl = LayoutInflater.from(this.ctx);
@@ -50,11 +56,21 @@ public class forecastAdapter extends BaseAdapter {
     }
 
     img_tempo = (ImageView) view.findViewById(R.id.img_tempo);
+    tv_tempMax = (TextView) view.findViewById(R.id.tv_tempMax);
+    tv_tempMin = (TextView) view.findViewById(R.id.tv_tempMin);
+    tv_data = (TextView) view.findViewById(R.id.tv_data);
+
+    lixo = (TextView) view.findViewById(R.id.lixo);
 
     Condicoes aux = (Condicoes) this.getItem(i);
 
-    String weatherIcon = "aw" + aux.getWeatherIcon() + "s.png";
-    //img_tempo.setImageBitmap();
+    int id = ctx.getResources().getIdentifier(Utils.MakeAWImageString(aux.getWeatherIcon()),"drawable", ctx.getPackageName());
+    img_tempo.setImageResource(id);
+    tv_tempMax.setText(aux.getTemperatureMax() + "º C");
+    tv_tempMin.setText(aux.getTemperatureMin() + "º C");
+    tv_data.setText(aux.getData());
+
+    //lixo.setText(id);
 
     return view;
   }
