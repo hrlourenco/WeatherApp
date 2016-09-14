@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 //teste
 public class Condicoes implements Serializable{
+    private long id;
     private int WeatherIcon;
     private String WeatherText;
     private String Temperature;
@@ -21,6 +22,10 @@ public class Condicoes implements Serializable{
 
     public Condicoes() {
     }
+
+    public long getId() {return id;}
+
+    public void setId(long id) {this.id = id;}
 
     public String getCloudCover() {
         return CloudCover;
