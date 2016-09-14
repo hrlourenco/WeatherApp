@@ -91,6 +91,8 @@ public class MainActivity extends FragmentActivity {
                 c.setData("01-01-2016");
                 c.setTemperatureMax("40");
                 c.setTemperatureMin("10");
+                c.setWindSpeed("23");
+                c.setWeatherText("Parcialmente nublado");
                 lista.add(c);
                 c = new Condicoes();
                 c.setId(2);
@@ -99,6 +101,8 @@ public class MainActivity extends FragmentActivity {
                 c.setData("02-01-2016");
                 c.setTemperatureMax("40");
                 c.setTemperatureMin("10");
+                c.setWindSpeed("23");
+                c.setWeatherText("Parcialmente nublado");
                 lista.add(c);
                 c = new Condicoes();
                 c.setId(3);
@@ -107,6 +111,8 @@ public class MainActivity extends FragmentActivity {
                 c.setData("03-01-2016");
                 c.setTemperatureMax("40");
                 c.setTemperatureMin("10");
+                c.setWindSpeed("23");
+                c.setWeatherText("Parcialmente nublado");
                 lista.add(c);
                 c = new Condicoes();
                 c.setId(4);
@@ -115,6 +121,8 @@ public class MainActivity extends FragmentActivity {
                 c.setData("04-01-2016");
                 c.setTemperatureMax("40");
                 c.setTemperatureMin("10");
+                c.setWindSpeed("23");
+                c.setWeatherText("Parcialmente nublado");
                 lista.add(c);
                 c = new Condicoes();
                 c.setId(5);
@@ -123,6 +131,8 @@ public class MainActivity extends FragmentActivity {
                 c.setData("05-01-2016");
                 c.setTemperatureMax("40");
                 c.setTemperatureMin("10");
+                c.setWindSpeed("23");
+                c.setWeatherText("Parcialmente nublado");
                 lista.add(c);
                 p.setForecast(lista);
 

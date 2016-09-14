@@ -47,8 +47,8 @@ public class forecastAdapter extends BaseAdapter {
     TextView tv_tempMax;
     TextView tv_tempMin;
     TextView tv_data;
-
-    TextView lixo;
+    TextView tv_vento;
+    TextView tv_previsao;
 
     if(view == null){
       LayoutInflater infl = LayoutInflater.from(this.ctx);
@@ -59,8 +59,8 @@ public class forecastAdapter extends BaseAdapter {
     tv_tempMax = (TextView) view.findViewById(R.id.tv_tempMax);
     tv_tempMin = (TextView) view.findViewById(R.id.tv_tempMin);
     tv_data = (TextView) view.findViewById(R.id.tv_data);
-
-    lixo = (TextView) view.findViewById(R.id.lixo);
+    tv_vento = (TextView) view.findViewById(R.id.tv_vento);
+    tv_previsao = (TextView) view.findViewById(R.id.tv_previsao);
 
     Condicoes aux = (Condicoes) this.getItem(i);
 
@@ -69,6 +69,8 @@ public class forecastAdapter extends BaseAdapter {
     tv_tempMax.setText(aux.getTemperatureMax() + "º C");
     tv_tempMin.setText(aux.getTemperatureMin() + "º C");
     tv_data.setText(aux.getData());
+    tv_vento.setText(aux.getWindSpeed() + " Kh");
+    tv_previsao.setText(aux.getWeatherText());
 
     //lixo.setText(id);
 
