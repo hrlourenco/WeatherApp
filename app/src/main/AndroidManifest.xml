@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="mei.weatherapp">
+          package="mei.weatherapp">
 
     <application
         android:allowBackup="true"
@@ -15,6 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".BeachDetails"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB1XBuY5rZ6YRXmkOPcVmdJvw0-s_77EYU"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
