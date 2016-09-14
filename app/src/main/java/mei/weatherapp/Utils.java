@@ -8,6 +8,6 @@ public class Utils {
   public static String MakeAWImageString(int imageId)
   {
     String im = imageId < 10 ? "0" + Integer.toString(imageId) : Integer.toString(imageId);
-    return "aw" + im + "s.png";
+    return "aw" + im + "s";
   }
 }

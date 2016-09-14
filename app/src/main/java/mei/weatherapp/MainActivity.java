@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,12 +25,11 @@ import mei.weatherapp.contratos.Praia;
 public class MainActivity extends FragmentActivity {
 
     String TAG = "<MyAutoComplete Google>";
-    TextView txtLat;
-    TextView txtLong;
     TextView txtAdress;
-
     ImageView imgTemp;
     TextView txtTemp;
+    TextView txtMsg;
+    RelativeLayout load;
 
     Button btnDetails;
 
@@ -36,14 +37,13 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        txtLat = (TextView) findViewById(R.id.txtLat);
-        txtLong = (TextView) findViewById(R.id.txtLong);
         txtAdress = (TextView) findViewById(R.id.txtAdress);
         imgTemp = (ImageView) findViewById(R.id.imgTemp);
         txtTemp = (TextView) findViewById(R.id.txtTemp);
+        txtMsg = (TextView) findViewById(R.id.txtMsg);
         btnDetails = (Button) findViewById(R.id.btnDetails);
-
-
+        load = (RelativeLayout) findViewById(R.id.loading);
+        load.setVisibility(View.GONE);
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
@@ -54,6 +54,8 @@ public class MainActivity extends FragmentActivity {
             public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place: " + place.getName());
 
+                load.setVisibility(View.VISIBLE);
+
                 Praia praia = new Praia();
                 praia.setNome(place.getName().toString());
                 LatLng ll = place.getLatLng();
@@ -61,8 +63,8 @@ public class MainActivity extends FragmentActivity {
                 praia.setLongitude(Double.toString(ll.longitude));
                 praia.setMorada(place.getAddress().toString());
 
-                AccuweatherCurrentConditions awcc = new AccuweatherCurrentConditions(MainActivity.this, imgTemp, txtAdress, txtLat, txtLong, txtTemp);
-                //awcc.execute();
+                AccuweatherCurrentConditions awcc = new AccuweatherCurrentConditions(MainActivity.this, imgTemp, txtAdress, txtTemp, txtMsg, load);
+                awcc.execute(praia);
             }
 
             @Override

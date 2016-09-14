@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">MEI Weather App</string>
-    <string name="latitude">Latitude</string>
-    <string name="longitude">Longitude</string>
+    <string name="icon_do_estado_do_tempo">icon do estado do tempo</string>
 </resources>
