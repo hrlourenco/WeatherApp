@@ -2,7 +2,10 @@ package mei.weatherapp.asynctasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -14,22 +17,23 @@ import mei.weatherapp.contratos.Condicoes;
 import mei.weatherapp.contratos.Praia;
 import mei.weatherapp.webservice.AccuWeatherWebService;
 
-public class AccuweatherCurrentConditions extends AsyncTask<Praia, Void, Praia> {
+public class AccuweatherCurrentConditions extends AsyncTask<Praia, Integer, Praia> {
     Context ctx;
 
-    TextView txtLat;
-    TextView txtLong;
     TextView txtAdress;
     ImageView imgTemp;
     TextView txtTemp;
+    TextView txtMsg;
+    RelativeLayout load;
 
-    public AccuweatherCurrentConditions(Context ctx, ImageView imgTemp, TextView txtAdress, TextView txtLat, TextView txtLong, TextView txtTemp) {
+
+    public AccuweatherCurrentConditions(Context ctx, ImageView imgTemp, TextView txtAdress, TextView txtTemp, TextView txtMsg, RelativeLayout load) {
         this.ctx = ctx;
         this.imgTemp = imgTemp;
         this.txtAdress = txtAdress;
-        this.txtLat = txtLat;
-        this.txtLong = txtLong;
         this.txtTemp = txtTemp;
+        this.txtMsg = txtMsg;
+        this.load = load;
     }
 
     @Override
@@ -49,6 +53,11 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Void, Praia> 
                 JSONObject jo = ja.getJSONObject(0);
                 condicoes.setWeatherText(jo.getString("WeatherText"));
                 condicoes.setWeatherIcon(jo.getInt("WeatherIcon"));
+
+                JSONObject joTemp = jo.getJSONObject("Temperature");
+                JSONObject joTempMetric = joTemp.getJSONObject("Metric");
+                condicoes.setTemperature(Integer.toString(joTempMetric.getInt("Value")));
+
                 p.setCondicoesActuais(condicoes);
             }
             catch (JSONException e)
@@ -69,11 +78,11 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Void, Praia> 
 
         Condicoes c = praia.getCondicoesActuais();
 
-        this.txtLat.setText(praia.getLatitude());
-        this.txtLong.setText(praia.getLongitude());
         this.txtAdress.setText(praia.getMorada());
-        this.txtTemp.setText(c.getWeatherText());
+        this.txtMsg.setText(c.getWeatherText());
         int id = ctx.getResources().getIdentifier(Utils.MakeAWImageString(c.getWeatherIcon()),"drawable", ctx.getPackageName());
         this.imgTemp.setImageResource(id);
+        this.txtTemp.setText(c.getTemperature() + "º C");
+        this.load.setVisibility(View.GONE);
     }
 }

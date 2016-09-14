@@ -4,7 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="mei.meiweatherapp.MainActivity">
+    tools:context="mei.weatherapp.MainActivity"
+    android:background="@drawable/bkgrnd">
+
+        <RelativeLayout
+            android:id="@+id/loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true" />
+        </RelativeLayout>
 
         <fragment
             android:id="@+id/place_autocomplete_fragment"
@@ -12,135 +26,83 @@
             android:layout_height="wrap_content"
             android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
             />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/line_color" />
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:layout_height="0dip"
+            android:layout_weight="20"
+            android:id="@+id/llTopo">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/txtAdress"
+                    android:gravity="bottom|center_horizontal"
+                    android:textColor="#263144" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="40"
+            android:id="@+id/llImage">
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:id="@+id/llSubImage">
 
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:id="@+id/imgTemp"
+                            android:contentDescription="@string/icon_do_estado_do_tempo"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="50dp" />
 
-                                <TextView
-                                    android:layout_width="0dip"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="@string/latitude"
-                                    android:id="@+id/lblLatitude"
-                                    android:layout_weight="50"
-                                    android:gravity="center_horizontal"
-                                    android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="0dip"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Large Text"
+                            android:id="@+id/txtTemp"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="20"
+                            android:textSize="50dp"
+                            android:textColor="#263144" />
 
-                                <TextView
-                                    android:layout_width="0dip"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="@string/longitude"
-                                    android:id="@+id/lblLongitude"
-                                    android:layout_weight="50"
-                                    android:gravity="center_horizontal"
-                                    android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:layout_width="0dip"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:layout_weight="50"
-                                    android:id="@+id/txtLat"
-                                    android:gravity="center_horizontal" />
-
-                                <TextView
-                                    android:layout_width="0dip"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:layout_weight="50"
-                                    android:id="@+id/txtLong"
-                                    android:gravity="center_horizontal" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:id="@+id/txtAdress"
-                                    android:gravity="center_horizontal" />
-                        </LinearLayout>
                 </LinearLayout>
-
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/line_color" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="20">
-
-                <ImageView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:id="@+id/imgTemp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/txtTemp"
-                    android:layout_gravity="center_horizontal" />
-
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="20">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imgVento"
-                    android:layout_gravity="right" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Large Text"
-                    android:id="@+id/textView" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
             android:orientation="vertical"
-            android:layout_weight="20">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/llMsg">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/txtMsg"
+                    android:height="30dp"
+                    android:textAlignment="center"
+                    android:textColor="#263144" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="40"
+            android:id="@+id/llBottom">
 
                 <Button
                     android:layout_width="wrap_content"
@@ -148,6 +110,8 @@
                     android:text="New Button"
                     android:id="@+id/btnDetails"
                     android:layout_gravity="center_horizontal"/>
+
         </LinearLayout>
+
 
 </LinearLayout>
