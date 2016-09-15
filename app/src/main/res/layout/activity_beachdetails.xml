@@ -4,12 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".BeachDetails"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/tv_name"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:onClick="onCheckboxClicked"/>
+
+        <CheckBox
+            android:id="@+id/cb_fav"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:button="@drawable/check"
+            android:gravity="center_vertical"
+            android:checked="false"
+            android:onClick="onCheckboxClicked"/>
+
+    </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
@@ -22,6 +47,6 @@
         android:layout_height="0dp"
         android:id="@+id/lv_forecast"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"/>
+        android:layout_weight="2"/>
 
 </LinearLayout>
