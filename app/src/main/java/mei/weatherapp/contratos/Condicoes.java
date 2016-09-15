@@ -31,7 +31,7 @@ public class Condicoes implements Serializable{
     public void setId(long id) {this.id = id;}
 
     public String getCloudCover() {
-        return CloudCover;
+        return CloudCover == null ? "-" : CloudCover;
     }
 
     public void setCloudCover(String cloudCover) {
@@ -39,13 +39,13 @@ public class Condicoes implements Serializable{
     }
 
     public String getData() {
-        return Data;
+        return Data == null ? "-" : Data;
     }
 
     public void setData(String data) {Data = data;}
 
     public String getPrecipitationSummary() {
-        return PrecipitationSummary;
+        return PrecipitationSummary == null ? "-" : PrecipitationSummary;
     }
 
     public void setPrecipitationSummary(String precipitationSummary) {
@@ -53,7 +53,7 @@ public class Condicoes implements Serializable{
     }
 
     public String getPressure() {
-        return Pressure;
+        return Pressure == null ? "-" : Pressure;
     }
 
     public void setPressure(String pressure) {
@@ -61,7 +61,7 @@ public class Condicoes implements Serializable{
     }
 
     public String getPressureTendency() {
-        return PressureTendency;
+        return PressureTendency == null ? "-" : PressureTendency;
     }
 
     public void setPressureTendency(String pressureTendency) {
@@ -69,7 +69,7 @@ public class Condicoes implements Serializable{
     }
 
     public String getRelativeHumidity() {
-        return RelativeHumidity;
+        return RelativeHumidity == null ? "-" : RelativeHumidity;
     }
 
     public void setRelativeHumidity(String relativeHumidity) {
@@ -77,7 +77,7 @@ public class Condicoes implements Serializable{
     }
 
     public String getTemperatureMax() {
-        return TemperatureMax;
+        return TemperatureMax == null ? "-" : TemperatureMax;
     }
 
     public void setTemperatureMax(String temperature) {
@@ -85,7 +85,7 @@ public class Condicoes implements Serializable{
     }
 
     public String getTemperatureMin() {
-        return TemperatureMin;
+        return TemperatureMin == null ? "-" : TemperatureMin;
     }
 
     public void setTemperatureMin(String temperatureMin) {
@@ -93,7 +93,7 @@ public class Condicoes implements Serializable{
     }
 
     public String getTemperature() {
-        return Temperature;
+        return Temperature == null ? "-" : Temperature;
     }
 
     public void setTemperature(String temperature) {
@@ -101,7 +101,7 @@ public class Condicoes implements Serializable{
     }
 
     public String getUVIndex() {
-        return UVIndex;
+        return UVIndex == null ? "-" : UVIndex;
     }
 
     public void setUVIndex(String UVIndex) {
@@ -109,7 +109,7 @@ public class Condicoes implements Serializable{
     }
 
     public String getUVIndexText() {
-        return UVIndexText;
+        return UVIndexText == null ? "-" : UVIndexText;
     }
 
     public void setUVIndexText(String UVIndexText) {
@@ -125,7 +125,7 @@ public class Condicoes implements Serializable{
     }
 
     public String getWeatherText() {
-        return WeatherText;
+        return WeatherText == null ? "-" : WeatherText;
     }
 
     public void setWeatherText(String weatherText) {
@@ -133,7 +133,7 @@ public class Condicoes implements Serializable{
     }
 
     public String getWindDirection() {
-        return WindDirection;
+        return WindDirection == null ? "-" : WindDirection;
     }
 
     public void setWindDirection(String windDirection) {
@@ -141,7 +141,7 @@ public class Condicoes implements Serializable{
     }
 
     public String getWindGust() {
-        return WindGust;
+        return WindGust == null ? "-" : WindGust;
     }
 
     public void setWindGust(String windGust) {
@@ -149,7 +149,7 @@ public class Condicoes implements Serializable{
     }
 
     public String getWindSpeed() {
-        return WindSpeed;
+        return WindSpeed == null ? "-" : WindSpeed;
     }
 
     public void setWindSpeed(String windSpeed) {

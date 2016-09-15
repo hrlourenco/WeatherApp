@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">MEI Weather App</string>
     <string name="icon_do_estado_do_tempo">icon do estado do tempo</string>
+    <string name="humidade">Humidade</string>
+    <string name="vento">Vento</string>
+    <string name="rajadas">Rajadas</string>
+    <string name="raios_uv">Raios UV</string>
+    <string name="precipita_o">Precipitação</string>
+    <string name="press_o">Pressão</string>
+    <string name="nuvens">Nuvens</string>
 </resources>

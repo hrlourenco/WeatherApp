@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +17,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +29,21 @@ import mei.weatherapp.contratos.Praia;
 public class MainActivity extends FragmentActivity {
 
     String TAG = "<MyAutoComplete Google>";
+
+    RelativeLayout load;
+    TextView txtPercentagem;
     TextView txtAdress;
     ImageView imgTemp;
     TextView txtTemp;
     TextView txtMsg;
-    RelativeLayout load;
+    TextView txtHumidade;
+    TextView txtVento;
+    TextView txtRajadas;
+    TextView txtRaiosUV;
+    TextView txtNuvens;
+    TextView txtPressao;
+    TextView txtPrecipitacao;
+
 
     Button btnDetails;
 
@@ -45,18 +55,36 @@ public class MainActivity extends FragmentActivity {
         imgTemp = (ImageView) findViewById(R.id.imgTemp);
         txtTemp = (TextView) findViewById(R.id.txtTemp);
         txtMsg = (TextView) findViewById(R.id.txtMsg);
+        txtHumidade = (TextView) findViewById(R.id.txtHumidade);
+        txtVento = (TextView) findViewById(R.id.txtVento);
+        txtRajadas = (TextView) findViewById(R.id.txtRajadas);
+        txtRaiosUV = (TextView) findViewById(R.id.txtRaiosUV);
+        txtNuvens = (TextView) findViewById(R.id.txtNuvens);
+        txtPressao = (TextView) findViewById(R.id.txtPressao);
+        txtPrecipitacao = (TextView) findViewById(R.id.txtPrecipitacao);
+        txtPercentagem = (TextView) findViewById(R.id.txtPercentagem);
+
         btnDetails = (Button) findViewById(R.id.btnDetails);
         load = (RelativeLayout) findViewById(R.id.loading);
         load.setVisibility(View.GONE);
 
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
+        autocompleteFragment.setText("Praia ");
+
+
+        autocompleteFragment.setBoundsBias(new LatLngBounds(
+                new LatLng(37.026228, -8.988789),
+                new LatLng(41.685452, -6.624795)));
+
+
+
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener()
         {
-
             @Override
             public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place: " + place.getName());
+                findViewById(R.id.ini).setVisibility(View.GONE);
 
                 load.setVisibility(View.VISIBLE);
 
@@ -67,7 +95,7 @@ public class MainActivity extends FragmentActivity {
                 praia.setLongitude(Double.toString(ll.longitude));
                 praia.setMorada(place.getAddress().toString());
 
-                AccuweatherCurrentConditions awcc = new AccuweatherCurrentConditions(MainActivity.this, imgTemp, txtAdress, txtTemp, txtMsg, load);
+                AccuweatherCurrentConditions awcc = new AccuweatherCurrentConditions(MainActivity.this, load, txtPercentagem, txtAdress, imgTemp, txtTemp, txtMsg, txtHumidade, txtVento, txtRajadas, txtRaiosUV, txtNuvens, txtPressao, txtPrecipitacao);
                 awcc.execute(praia);
             }
 
