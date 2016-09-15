@@ -65,7 +65,7 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Integer, Prai
         p = aw.doSearchLocationGeoPosition(praias[0]);
 
         publishProgress(-2); //a obter json
-        String dataJson = aw.getCurrentConditions(praias[0], true);
+        String dataJson = aw.getCurrentConditions(p, true);
         if(dataJson!=null)
         {
             Condicoes condicoes = new Condicoes();

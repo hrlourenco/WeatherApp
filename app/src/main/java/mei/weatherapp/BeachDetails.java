@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import mei.weatherapp.adapter.forecastAdapter;
+import mei.weatherapp.asynctasks.AccuweatherForecast;
 import mei.weatherapp.asynctasks.GetImageAsync;
 import mei.weatherapp.contratos.Praia;
 
@@ -19,7 +19,6 @@ public class BeachDetails extends AppCompatActivity {
   private ListView lv_forecast;
   private TextView tv_name;
   private CheckBox cb_fav;
-  private Context ctx;
   private Praia praia;
 
 
@@ -30,18 +29,21 @@ public class BeachDetails extends AppCompatActivity {
 
     imgView = (ImageView) findViewById(R.id.imgFoto);
     praia = (Praia) this.getIntent().getSerializableExtra("praia");
+    lv_forecast = (ListView) findViewById(R.id.lv_forecast);
+    tv_name = (TextView) findViewById(R.id.tv_name);
+    cb_fav = (CheckBox) findViewById(R.id.cb_fav);
+
+
+    AccuweatherForecast ac = new AccuweatherForecast(lv_forecast, this);
+    ac.execute(praia);
 
     GetImageAsync getImage = new GetImageAsync(imgView);
-    getImage.execute(praia.getNome());
+    getImage.execute(praia);
 
-    lv_forecast = (ListView) findViewById(R.id.lv_forecast);
-    lv_forecast.setAdapter(new forecastAdapter(BeachDetails.this, praia.getForecast()));
-
-    tv_name = (TextView) findViewById(R.id.tv_name);
     tv_name.setText(praia.getNome());
 
-    cb_fav = (CheckBox) findViewById(R.id.cb_fav);
     cb_fav.setChecked(praia.getFavorita()==0 ? Boolean.FALSE : Boolean.TRUE);
+
   }
 
   public void onCheckboxClicked(View view) {

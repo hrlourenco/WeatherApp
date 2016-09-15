@@ -100,8 +100,8 @@ public class Praia implements Serializable{
         return forecast;
     }
 
-    public void setForecast(List<Condicoes> forecast) {
-        this.forecast = forecast;
+    public void setForecast(List<Condicoes> fore) {
+        this.forecast = fore;
     }
 
     @Override

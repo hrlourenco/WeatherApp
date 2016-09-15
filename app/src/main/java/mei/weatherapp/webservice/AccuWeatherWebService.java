@@ -51,4 +51,12 @@ public class AccuWeatherWebService extends WebserviceConnector {
         buildWebserviceCallURLString(urlCurrentCondition);
         return getWebserviceResponse();
     }
+
+    public String getForecast(Praia praia, Boolean details)
+    {
+        String urlForecast = APIData.Accuweather.getForecastURL(praia.getLocationKey(), details);
+        buildWebserviceCallURLString(urlForecast);
+        return getWebserviceResponse();
+    }
+
 }

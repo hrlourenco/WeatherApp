@@ -13,36 +13,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 
-import mei.weatherapp.webservice.GeonamesWebservice;
+import mei.weatherapp.contratos.Praia;
 import mei.weatherapp.webservice.PanoramioWebservice;
 
 /**
  * Created by joaofaria on 08/09/16.
  */
-public class GetImageAsync extends AsyncTask<String, Void, Bitmap> {
+public class GetImageAsync extends AsyncTask<Praia, Void, Bitmap> {
 
   private PanoramioWebservice wsPan;
-  private GeonamesWebservice wsGeo;
   ImageView imgView;
 
 
   public GetImageAsync(ImageView imgView) {
     this.wsPan = new PanoramioWebservice();
-    this.wsGeo = new GeonamesWebservice();
     this.imgView = imgView;
   }
 
   @Override
-  protected Bitmap doInBackground(String... strings) {
+  protected Bitmap doInBackground(Praia... praias) {
     Bitmap image = null;
     Double x, y;
 
     try {
-      JSONObject geoJsonObj = new JSONObject(wsGeo.doGetCoordinates(strings[0]));
-      JSONArray locationArray = geoJsonObj.getJSONArray("geonames");
-      JSONObject locationObj = locationArray.getJSONObject(0);
-      x = locationObj.getDouble("lng");
-      y = locationObj.getDouble("lat");
+      x = Double.valueOf(praias[0].getLongitude()).doubleValue();
+      y = Double.valueOf(praias[0].getLatitude()).doubleValue();
 
       JSONObject panJsonObj = new JSONObject(wsPan.doGetImage(Double.toString(x-0.01), Double.toString(y-0.01), Double.toString(x+0.01), Double.toString(y+0.01)));
       JSONArray imageArray = panJsonObj.getJSONArray("photos");
