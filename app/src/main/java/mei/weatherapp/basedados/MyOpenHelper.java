@@ -99,8 +99,9 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     }
 
 
-    public void deleteFromPraias(SQLiteDatabase db, Praia p){
-        db.delete(_NOME_, _LOCATION_KEY_ + "=" + p.getLocationKey(), null);
+    public void deleteFromPraias(SQLiteDatabase db){
+      String sqlString = "DELETE FROM " + _NOME_TABELA_;
+      db.execSQL(sqlString);
     }
 
     public Praia getFromPraias(SQLiteDatabase db){
@@ -122,7 +123,8 @@ public class MyOpenHelper extends SQLiteOpenHelper {
         cond.setPrecipitationSummary(cur.getString(cur.getColumnIndex(_PRECIPITACAO_)));
         cond.setWeatherText(cur.getString(cur.getColumnIndex(_WEATHERTEXT_)));
         cond.setTemperature(cur.getString(cur.getColumnIndex(_TEMP_)));
-        cond.setWeatherIcon(Integer.getInteger(cur.getString(cur.getColumnIndex(_ICON_))));
+        int i = Integer.parseInt(cur.getString(cur.getColumnIndex(_ICON_)));
+        cond.setWeatherIcon(i);
 
         p.setCondicoesActuais(cond);
         p.setNome(cur.getString(cur.getColumnIndex(_NOME_)));
@@ -133,7 +135,11 @@ public class MyOpenHelper extends SQLiteOpenHelper {
         p.setMorada(cur.getString(cur.getColumnIndex(_MORADA_)));
       }catch (Exception e){
 
+
       }
+
+
+
 
 
       return p;

@@ -1,5 +1,6 @@
 package mei.weatherapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -46,7 +47,13 @@ public class MainActivity extends FragmentActivity {
     TextView txtNuvens;
     TextView txtPressao;
     TextView txtPrecipitacao;
+    TextView txtLocationKey;
+    TextView txtLatitude;
+    TextView txtLongitude;
+    TextView txtNome;
     private Praia praiaGlobal;
+
+    Context ctx;
 
 
     Button btnDetails;
@@ -55,6 +62,9 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ctx = MainActivity.this;
+
         txtAdress = (TextView) findViewById(R.id.txtAdress);
         imgTemp = (ImageView) findViewById(R.id.imgTemp);
         txtTemp = (TextView) findViewById(R.id.txtTemp);
@@ -67,6 +77,10 @@ public class MainActivity extends FragmentActivity {
         txtPressao = (TextView) findViewById(R.id.txtPressao);
         txtPrecipitacao = (TextView) findViewById(R.id.txtPrecipitacao);
         txtPercentagem = (TextView) findViewById(R.id.txtPercentagem);
+        txtLocationKey = (TextView) findViewById(R.id.txtLocationKey);
+        txtLatitude = (TextView) findViewById(R.id.txtLatitude);
+        txtLongitude = (TextView) findViewById(R.id.txtLongitude);
+        txtNome = (TextView) findViewById(R.id.txtNome);
 
         btnDetails = (Button) findViewById(R.id.btnDetails);
         load = (RelativeLayout) findViewById(R.id.loading);
@@ -80,9 +94,9 @@ public class MainActivity extends FragmentActivity {
                 new LatLng(37.026228, -8.988789),
                 new LatLng(41.685452, -6.624795)));
 
-        GetPraiaFromDB getPraias = new GetPraiaFromDB(MainActivity.this,
+        GetPraiaFromDB getPraias = new GetPraiaFromDB(getApplicationContext(),
           txtAdress, txtMsg, txtTemp, txtHumidade, txtPrecipitacao, txtNuvens, txtPressao, txtRaiosUV,
-          txtRajadas, txtVento, imgTemp, load);
+          txtRajadas, txtVento, imgTemp, (RelativeLayout) findViewById(R.id.ini), txtLocationKey, txtLatitude, txtLongitude, txtNome);
         getPraias.execute();
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener()
@@ -102,7 +116,8 @@ public class MainActivity extends FragmentActivity {
                 praia.setMorada(place.getAddress().toString());
 
                 praiaGlobal = praia;
-                AccuweatherCurrentConditions awcc = new AccuweatherCurrentConditions(MainActivity.this, load, txtPercentagem, txtAdress, imgTemp, txtTemp, txtMsg, txtHumidade, txtVento, txtRajadas, txtRaiosUV, txtNuvens, txtPressao, txtPrecipitacao);
+                AccuweatherCurrentConditions awcc = new AccuweatherCurrentConditions(MainActivity.this, load, txtPercentagem, txtAdress,
+                  imgTemp, txtTemp, txtMsg, txtHumidade, txtVento, txtRajadas, txtRaiosUV, txtNuvens, txtPressao, txtPrecipitacao);
                 awcc.execute(praia);
             }
 
@@ -116,8 +131,15 @@ public class MainActivity extends FragmentActivity {
         btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent viewDetails = new Intent(MainActivity.this, BeachDetails.class);
+                Intent viewDetails = new Intent(ctx, BeachDetails.class);
+                if(praiaGlobal==null){
+                    praiaGlobal = new Praia();
+                    praiaGlobal.setLocationKey((String)txtLocationKey.getText());
+                    praiaGlobal.setLatitude((String)txtLatitude.getText());
+                    praiaGlobal.setLongitude((String)txtLongitude.getText());
+                    praiaGlobal.setNome((String)txtNome.getText());
+                    praiaGlobal.setFavorita(1);
+                }
                 viewDetails.putExtra("praia", praiaGlobal);
                 if (viewDetails.resolveActivity(getPackageManager()) != null) {
                     startActivity(viewDetails);

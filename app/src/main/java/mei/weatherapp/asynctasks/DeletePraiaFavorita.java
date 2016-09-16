@@ -5,12 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 
 import mei.weatherapp.basedados.MyOpenHelper;
-import mei.weatherapp.contratos.Praia;
 
-/**
- * Created by joaofaria on 16/09/16.
- */
-public class DeletePraiaFavorita extends AsyncTask<Praia, Void, Void> {
+
+public class DeletePraiaFavorita extends AsyncTask<Void, Void, Void> {
   private Context ctx;
   private MyOpenHelper moh;
 
@@ -20,10 +17,10 @@ public class DeletePraiaFavorita extends AsyncTask<Praia, Void, Void> {
   }
 
   @Override
-  protected Void doInBackground(Praia... praias) {
+  protected Void doInBackground(Void... voids) {
     SQLiteDatabase db = moh.getWritableDatabase();
 
-    moh.deleteFromPraias(db, praias[0]);
+    moh.deleteFromPraias(db);
 
     return null;
   }

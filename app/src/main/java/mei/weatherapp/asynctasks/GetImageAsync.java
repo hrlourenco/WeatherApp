@@ -16,9 +16,7 @@ import java.net.MalformedURLException;
 import mei.weatherapp.contratos.Praia;
 import mei.weatherapp.webservice.PanoramioWebservice;
 
-/**
- * Created by joaofaria on 08/09/16.
- */
+
 public class GetImageAsync extends AsyncTask<Praia, Void, Bitmap> {
 
   private PanoramioWebservice wsPan;

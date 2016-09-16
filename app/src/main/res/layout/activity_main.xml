@@ -308,6 +308,29 @@
                     android:text="New Button"
                     android:id="@+id/btnDetails"
                     android:layout_gravity="center_horizontal"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="New Text"
+                    android:id="@+id/txtLatitude"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="New Text"
+                    android:id="@+id/txtLongitude"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="New Text"
+                    android:id="@+id/txtLocationKey"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="New Text"
+                    android:id="@+id/txtNome"/>
         </LinearLayout>
 
 

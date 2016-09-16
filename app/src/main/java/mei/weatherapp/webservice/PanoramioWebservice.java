@@ -2,9 +2,7 @@ package mei.weatherapp.webservice;
 
 import java.util.HashMap;
 
-/**
- * Created by joaofaria on 05/09/16.
- */
+
 public class PanoramioWebservice extends WebserviceConnector{
   private final String ENDPOINT = "http://www.panoramio.com/map/get_panoramas.php";
 

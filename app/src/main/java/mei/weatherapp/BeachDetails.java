@@ -1,6 +1,7 @@
 package mei.weatherapp;
 
 import android.app.Application;
+import android.os.PersistableBundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +15,8 @@ import android.widget.TextView;
 
 import mei.weatherapp.asynctasks.AccuweatherForecast;
 import mei.weatherapp.asynctasks.AddPraiaFavorita;
-import mei.weatherapp.asynctasks.DeletePraiaFavorita;
+import mei.weatherapp.asynctasks.
+  DeletePraiaFavorita;
 import mei.weatherapp.asynctasks.GetImageAsync;
 import mei.weatherapp.contratos.Praia;
 
@@ -26,10 +28,10 @@ public class BeachDetails extends AppCompatActivity {
   private CheckBox cb_fav;
   private Praia praia;
 
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_beachdetails);
 
     imgView = (ImageView) findViewById(R.id.imgFoto);
     praia = (Praia) this.getIntent().getSerializableExtra("praia");
@@ -57,12 +59,14 @@ public class BeachDetails extends AppCompatActivity {
       case R.id.cb_fav:
         if (checked){
           praia.setFavorita(1);
-          AddPraiaFavorita ap = new AddPraiaFavorita(this);
+          DeletePraiaFavorita dp = new DeletePraiaFavorita(getApplicationContext());
+          dp.execute();
+          AddPraiaFavorita ap = new AddPraiaFavorita(getApplicationContext());
           ap.execute(praia);
         }else{
           praia.setFavorita(0);
-          DeletePraiaFavorita dp = new DeletePraiaFavorita(this);
-          dp.execute(praia);
+          DeletePraiaFavorita dp = new DeletePraiaFavorita(getApplicationContext());
+          dp.execute();
         }
         break;
     }

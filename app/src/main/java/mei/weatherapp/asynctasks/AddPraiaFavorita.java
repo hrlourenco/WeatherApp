@@ -7,9 +7,7 @@ import android.os.AsyncTask;
 import mei.weatherapp.basedados.MyOpenHelper;
 import mei.weatherapp.contratos.Praia;
 
-/**
- * Created by joaofaria on 16/09/16.
- */
+
 public class AddPraiaFavorita extends AsyncTask<Praia, Void, Void> {
   private Context ctx;
   private MyOpenHelper moh;

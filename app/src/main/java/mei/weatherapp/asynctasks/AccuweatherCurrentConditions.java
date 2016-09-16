@@ -38,7 +38,10 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Integer, Prai
     TextView txtPrecipitacao;
 
 
-    public AccuweatherCurrentConditions(Context ctx, RelativeLayout load, TextView txtPercentagem, TextView txtAdress, ImageView imgTemp, TextView txtTemp, TextView txtMsg, TextView txtHumidade, TextView txtVento, TextView txtRajadas, TextView txtRaiosUV, TextView txtNuvens, TextView txtPressao, TextView txtPrecipitacao) {
+    public AccuweatherCurrentConditions(Context ctx, RelativeLayout load, TextView txtPercentagem, TextView txtAdress,
+                                        ImageView imgTemp, TextView txtTemp, TextView txtMsg, TextView txtHumidade, TextView txtVento,
+                                        TextView txtRajadas, TextView txtRaiosUV, TextView txtNuvens, TextView txtPressao,
+                                        TextView txtPrecipitacao) {
         this.ctx = ctx;
         this.txtPercentagem = txtPercentagem;
         this.imgTemp = imgTemp;
