@@ -24,6 +24,8 @@ import java.util.List;
 
 import mei.weatherapp.asynctasks.AccuweatherCurrentConditions;
 import mei.weatherapp.asynctasks.AccuweatherForecast;
+import mei.weatherapp.asynctasks.GetPraiaFromDB;
+import mei.weatherapp.basedados.MyOpenHelper;
 import mei.weatherapp.contratos.Condicoes;
 import mei.weatherapp.contratos.Praia;
 
@@ -74,12 +76,14 @@ public class MainActivity extends FragmentActivity {
 
         autocompleteFragment.setText("Praia ");
 
-
         autocompleteFragment.setBoundsBias(new LatLngBounds(
                 new LatLng(37.026228, -8.988789),
                 new LatLng(41.685452, -6.624795)));
 
-
+        GetPraiaFromDB getPraias = new GetPraiaFromDB(MainActivity.this,
+          txtAdress, txtMsg, txtTemp, txtHumidade, txtPrecipitacao, txtNuvens, txtPressao, txtRaiosUV,
+          txtRajadas, txtVento, imgTemp, load);
+        getPraias.execute();
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener()
         {
