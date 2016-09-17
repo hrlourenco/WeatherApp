@@ -20,6 +20,8 @@ import mei.weatherapp.asynctasks.
 import mei.weatherapp.asynctasks.GetImageAsync;
 import mei.weatherapp.contratos.Praia;
 
+//TESTE Haby
+
 public class BeachDetails extends AppCompatActivity {
 
   private ImageView imgView;
