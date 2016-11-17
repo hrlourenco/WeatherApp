@@ -65,9 +65,9 @@ public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
     protected Praia doInBackground(Void... voids) {
         SQLiteDatabase db = moh.getWritableDatabase();
 
-        Praia praia = moh.getFromPraias(db);
+        Praia p = moh.getFromPraias(db);
 
-        return praia;
+        return p;
     }
 
     @Override
