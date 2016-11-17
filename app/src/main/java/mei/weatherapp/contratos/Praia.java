@@ -5,71 +5,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Praia implements Serializable{
-    private int id;
+    private String praiaId;
     private String nome;
-    private String longitude;
-    private String latitude;
-    private String morada;
-    private int favorita;
-    private String locationKey;
-
-    private Condicoes condicoesActuais;
-    private List<Condicoes> forecast;
+    private Float latitude;
+    private Float longitude;
+    private int rate;
+    private Float temperatura;
+    private Boolean favorito;
 
     //CONSTRUTORES
     public Praia() {
     }
 
-    public Praia(int favorita, int id, String latitude, String longitude, String nome, String morada) {
-        this.favorita = favorita;
-        this.id = id;
+    public Praia(String praiaId, String nome, Float latitude, Float longitude, int rate, Boolean favorito, float temperatura) {
+        this.praiaId = praiaId;
+        this.nome = nome;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.nome = nome;
-        this.morada = morada;
-        this.condicoesActuais = new Condicoes();
-        this.forecast = new ArrayList<Condicoes>();
+        this.rate = rate;
+        this.favorito = favorito;
+        this.temperatura = temperatura;
     }
 
     //GET & SET
-    public String getMorada() {
-        return morada;
+    public String getPraiaId() {
+        return praiaId;
     }
 
-    public void setMorada(String morada) {
-        this.morada = morada;
-    }
-
-    public int getFavorita() {
-        return favorita;
-    }
-
-    public void setFavorita(int favorita) {
-        this.favorita = favorita;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public void setPraiaId(String praiaId) {
+        this.praiaId = praiaId;
     }
 
     public String getNome() {
@@ -80,35 +44,39 @@ public class Praia implements Serializable{
         this.nome = nome;
     }
 
-    public String getLocationKey() {
-        return locationKey;
+    public Float getLatitude() {
+        return latitude;
     }
 
-    public void setLocationKey(String locationKey) {
-        this.locationKey = locationKey;
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
     }
 
-    public Condicoes getCondicoesActuais() {
-        return condicoesActuais;
+    public Float getLongitude() {
+        return longitude;
     }
 
-    public void setCondicoesActuais(Condicoes condicoesActuais) {
-        this.condicoesActuais = condicoesActuais;
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
     }
 
-    public List<Condicoes> getForecast() {
-        return forecast;
+    public int getRate() {
+        return rate;
     }
 
-    public void setForecast(List<Condicoes> fore) {
-        this.forecast = fore;
+    public void setRate(int rate) {
+        this.rate = rate;
     }
 
-    @Override
-    public String toString() {
-        return "" + nome +
-                ", " + longitude +
-                ", " + latitude;
+    public Boolean getFavorito() {
+        return favorito;
     }
 
+    public void setFavorito(Boolean favorito) {
+        this.favorito = favorito;
+    }
+
+    public Float getTemperatura() { return temperatura; }
+
+    public void setTemperatura(Float temperatura) { this.temperatura = temperatura; }
 }
