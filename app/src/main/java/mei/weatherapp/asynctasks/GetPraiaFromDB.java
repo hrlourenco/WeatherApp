@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import mei.weatherapp.MainActivity;
 import mei.weatherapp.Utils;
 import mei.weatherapp.basedados.MyOpenHelper;
 import mei.weatherapp.contratos.Condicoes;
