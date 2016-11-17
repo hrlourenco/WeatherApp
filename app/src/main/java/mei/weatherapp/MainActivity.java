@@ -20,14 +20,8 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mei.weatherapp.asynctasks.AccuweatherCurrentConditions;
-import mei.weatherapp.asynctasks.AccuweatherForecast;
 import mei.weatherapp.asynctasks.GetPraiaFromDB;
-import mei.weatherapp.basedados.MyOpenHelper;
-import mei.weatherapp.contratos.Condicoes;
 import mei.weatherapp.contratos.Praia;
 
 public class MainActivity extends FragmentActivity {
@@ -81,7 +75,7 @@ public class MainActivity extends FragmentActivity {
         txtLatitude = (TextView) findViewById(R.id.txtLatitude);
         txtLongitude = (TextView) findViewById(R.id.txtLongitude);
         txtNome = (TextView) findViewById(R.id.txtNome);
-
+//HUGO LOURENÇO
         btnDetails = (Button) findViewById(R.id.btnDetails);
         load = (RelativeLayout) findViewById(R.id.loading);
         load.setVisibility(View.GONE);
