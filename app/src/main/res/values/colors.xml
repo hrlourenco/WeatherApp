@@ -3,7 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="background_color">#FFFFFF</color>
+    <color name="background_color">#2c3e50</color>
     <color name="border_color">#CCCCCC</color>
     <color name="line_color">#666666</color>
+    <color name="textColor">#eeeeee</color>
 </resources>

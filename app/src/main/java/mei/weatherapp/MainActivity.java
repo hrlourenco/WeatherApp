@@ -34,13 +34,6 @@ public class MainActivity extends FragmentActivity {
     ImageView imgTemp;
     TextView txtTemp;
     TextView txtMsg;
-    TextView txtHumidade;
-    TextView txtVento;
-    TextView txtRajadas;
-    TextView txtRaiosUV;
-    TextView txtNuvens;
-    TextView txtPressao;
-    TextView txtPrecipitacao;
     TextView txtLocationKey;
     TextView txtLatitude;
     TextView txtLongitude;
@@ -63,19 +56,12 @@ public class MainActivity extends FragmentActivity {
         imgTemp = (ImageView) findViewById(R.id.imgTemp);
         txtTemp = (TextView) findViewById(R.id.txtTemp);
         txtMsg = (TextView) findViewById(R.id.txtMsg);
-        txtHumidade = (TextView) findViewById(R.id.txtHumidade);
-        txtVento = (TextView) findViewById(R.id.txtVento);
-        txtRajadas = (TextView) findViewById(R.id.txtRajadas);
-        txtRaiosUV = (TextView) findViewById(R.id.txtRaiosUV);
-        txtNuvens = (TextView) findViewById(R.id.txtNuvens);
-        txtPressao = (TextView) findViewById(R.id.txtPressao);
-        txtPrecipitacao = (TextView) findViewById(R.id.txtPrecipitacao);
         txtPercentagem = (TextView) findViewById(R.id.txtPercentagem);
         txtLocationKey = (TextView) findViewById(R.id.txtLocationKey);
         txtLatitude = (TextView) findViewById(R.id.txtLatitude);
         txtLongitude = (TextView) findViewById(R.id.txtLongitude);
         txtNome = (TextView) findViewById(R.id.txtNome);
-//HUGO LOURENÇO
+
         btnDetails = (Button) findViewById(R.id.btnDetails);
         load = (RelativeLayout) findViewById(R.id.loading);
         load.setVisibility(View.GONE);
@@ -89,8 +75,7 @@ public class MainActivity extends FragmentActivity {
                 new LatLng(41.685452, -6.624795)));
 
         GetPraiaFromDB getPraias = new GetPraiaFromDB(getApplicationContext(),
-          txtAdress, txtMsg, txtTemp, txtHumidade, txtPrecipitacao, txtNuvens, txtPressao, txtRaiosUV,
-          txtRajadas, txtVento, imgTemp, (RelativeLayout) findViewById(R.id.ini), txtLocationKey, txtLatitude, txtLongitude, txtNome);
+          txtAdress, txtMsg, txtTemp, imgTemp, (RelativeLayout) findViewById(R.id.ini), txtLocationKey, txtLatitude, txtLongitude, txtNome);
         getPraias.execute();
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener()
@@ -111,7 +96,7 @@ public class MainActivity extends FragmentActivity {
 
                 praiaGlobal = praia;
                 AccuweatherCurrentConditions awcc = new AccuweatherCurrentConditions(MainActivity.this, load, txtPercentagem, txtAdress,
-                  imgTemp, txtTemp, txtMsg, txtHumidade, txtVento, txtRajadas, txtRaiosUV, txtNuvens, txtPressao, txtPrecipitacao);
+                  imgTemp, txtTemp, txtMsg);
                 awcc.execute(praia);
             }
 

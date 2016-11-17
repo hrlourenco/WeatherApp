@@ -21,7 +21,7 @@ import mei.weatherapp.webservice.AccuWeatherWebService;
 public class AccuweatherCurrentConditions extends AsyncTask<Praia, Integer, Praia> {
     Context ctx;
 
-    int totalLoads = 7;
+    int totalLoads = 1;
 
     RelativeLayout load;
     TextView txtPercentagem;
@@ -29,33 +29,18 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Integer, Prai
     ImageView imgTemp;
     TextView txtTemp;
     TextView txtMsg;
-    TextView txtHumidade;
-    TextView txtVento;
-    TextView txtRajadas;
-    TextView txtRaiosUV;
-    TextView txtNuvens;
-    TextView txtPressao;
-    TextView txtPrecipitacao;
+
 
 
     public AccuweatherCurrentConditions(Context ctx, RelativeLayout load, TextView txtPercentagem, TextView txtAdress,
-                                        ImageView imgTemp, TextView txtTemp, TextView txtMsg, TextView txtHumidade, TextView txtVento,
-                                        TextView txtRajadas, TextView txtRaiosUV, TextView txtNuvens, TextView txtPressao,
-                                        TextView txtPrecipitacao) {
+                                        ImageView imgTemp, TextView txtTemp, TextView txtMsg) {
         this.ctx = ctx;
         this.txtPercentagem = txtPercentagem;
         this.imgTemp = imgTemp;
         this.load = load;
         this.txtAdress = txtAdress;
-        this.txtHumidade = txtHumidade;
         this.txtMsg = txtMsg;
-        this.txtNuvens = txtNuvens;
-        this.txtPrecipitacao = txtPrecipitacao;
-        this.txtPressao = txtPressao;
-        this.txtRaiosUV = txtRaiosUV;
-        this.txtRajadas = txtRajadas;
         this.txtTemp = txtTemp;
-        this.txtVento = txtVento;
     }
 
     @Override
@@ -91,46 +76,6 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Integer, Prai
                 condicoes.setTemperature(Integer.toString(jo2.getInt("Value")));
                 publishProgress(1);
 
-                //Vento
-                jo1 = jo.getJSONObject("Wind");
-                jo2 = jo1.getJSONObject("Direction");
-                condicoes.setWindDirection(Integer.toString(jo2.getInt("Degrees")) + " " + jo2.getString("Localized"));
-                jo2 = jo1.getJSONObject("Speed");
-                jo3 = jo2.getJSONObject("Metric");
-                condicoes.setWindSpeed(Double.toString(jo3.getDouble("Value")) + " " + jo3.getString("Unit"));
-                publishProgress(2);
-
-
-                //Rajadas
-                jo1 = jo.getJSONObject("WindGust");
-                jo2 = jo1.getJSONObject("Speed");
-                jo3 = jo2.getJSONObject("Metric");
-                condicoes.setWindGust(Integer.toString(jo3.getInt("Value")) + " " + jo3.getString("Unit"));
-                publishProgress(3);
-
-                //Rais UV
-                condicoes.setUVIndex(Integer.toString(jo.getInt("UVIndex")));
-                condicoes.setUVIndexText(jo.getString("UVIndexText"));
-                publishProgress(4);
-
-                //Nuvens
-                condicoes.setCloudCover(Integer.toString(jo.getInt("CloudCover")));
-                publishProgress(5);
-
-                //Pressão
-                jo1 = jo.getJSONObject("Pressure");
-                jo2 = jo1.getJSONObject("Metric");
-                condicoes.setPressure(Integer.toString(jo2.getInt("Value")) + " " + jo2.getString("Unit"));
-                jo1 = jo.getJSONObject("PressureTendency");
-                condicoes.setPressureTendency(jo1.getString("LocalizedText"));
-                publishProgress(6);
-
-                //Resumo Precipitação
-                jo1 = jo.getJSONObject("PrecipitationSummary");
-                jo2 = jo1.getJSONObject("Precipitation");
-                jo3 = jo2.getJSONObject("Metric");
-                condicoes.setPrecipitationSummary(Integer.toString(jo3.getInt("Value")) + " " + jo3.getString("Unit"));
-                publishProgress(7);
 
                 p.setCondicoesActuais(condicoes);
             }
@@ -157,14 +102,6 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Integer, Prai
         int id = ctx.getResources().getIdentifier(Utils.MakeAWImageString(c.getWeatherIcon()),"drawable", ctx.getPackageName());
         this.imgTemp.setImageResource(id);
         this.txtTemp.setText(c.getTemperature() + "º C");
-
-        this.txtHumidade.setText(c.getRelativeHumidity());
-        this.txtNuvens.setText(c.getCloudCover());
-        this.txtPrecipitacao.setText(c.getPrecipitationSummary());
-        this.txtPressao.setText(c.getPressure() + ", " + c.getPressureTendency());
-        this.txtRaiosUV.setText(c.getUVIndex() + ", " + c.getUVIndexText());
-        this.txtRajadas.setText(c.getWindGust());
-        this.txtVento.setText(c.getWindSpeed() + "(" + c.getWindDirection() + ")");
 
         this.load.setVisibility(View.GONE);
     }

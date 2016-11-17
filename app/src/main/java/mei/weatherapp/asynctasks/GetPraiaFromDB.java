@@ -21,13 +21,6 @@ public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
     private TextView txtAdress;
     private TextView txtMsg;
     private TextView txtTemp;
-    private TextView txtHumidade;
-    private TextView txtPrecipitacao;
-    private TextView txtNuvens;
-    private TextView txtPressao;
-    private TextView txtRaiosUV;
-    private TextView txtRajadas;
-    private TextView txtVento;
     private ImageView imgTemp;
     private RelativeLayout load;
     private TextView txtLocationKey;
@@ -35,21 +28,12 @@ public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
     private TextView txtLatitude;
     private TextView txtNome;
 
-    public GetPraiaFromDB(Context ctx, TextView txtAdress, TextView txtMsg, TextView txtTemp, TextView txtHumidade,
-                          TextView txtPrecipitacao, TextView txtNuvens, TextView txtPressao, TextView txtRaiosUV, TextView txtRajadas,
-                          TextView txtVento, ImageView imgTemp, RelativeLayout load,TextView txtLocationKey,
-                          TextView txtLatitude, TextView txtLongitude, TextView nome) {
+    public GetPraiaFromDB(Context ctx, TextView txtAdress, TextView txtMsg, TextView txtTemp, ImageView imgTemp
+            , RelativeLayout load,TextView txtLocationKey, TextView txtLatitude, TextView txtLongitude, TextView nome) {
         this.ctx = ctx;
         this.txtAdress = txtAdress;
         this.txtMsg = txtMsg;
         this.txtTemp = txtTemp;
-        this.txtHumidade = txtHumidade;
-        this.txtPrecipitacao = txtPrecipitacao;
-        this.txtNuvens = txtNuvens;
-        this.txtPressao = txtPressao;
-        this.txtRaiosUV = txtRaiosUV;
-        this.txtRajadas = txtRajadas;
-        this.txtVento = txtVento;
         this.imgTemp = imgTemp;
         this.load = load;
         this.txtLocationKey = txtLocationKey;
@@ -82,14 +66,6 @@ public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
             int id = ctx.getResources().getIdentifier(Utils.MakeAWImageString(c.getWeatherIcon()),"drawable", ctx.getPackageName());
             imgTemp.setImageResource(id);
             txtTemp.setText(c.getTemperature() + "º C");
-
-            txtHumidade.setText(c.getRelativeHumidity());
-            txtNuvens.setText(c.getCloudCover());
-            txtPrecipitacao.setText(c.getPrecipitationSummary());
-            txtPressao.setText(c.getPressure() + ", " + c.getPressureTendency());
-            txtRaiosUV.setText(c.getUVIndex() + ", " + c.getUVIndexText());
-            txtRajadas.setText(c.getWindGust());
-            txtVento.setText(c.getWindSpeed() + "(" + c.getWindDirection() + ")");
             txtLocationKey.setText(praia.getLocationKey());
             txtLongitude.setText(praia.getLongitude());
             txtLatitude.setText(praia.getLatitude());

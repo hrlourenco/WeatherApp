@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="mei.weatherapp.MainActivity"
-    android:background="@drawable/bkgrnd">
+    android:background="@color/background_color">
 
         <fragment
             android:id="@+id/place_autocomplete_fragment"
@@ -70,7 +70,7 @@
                     android:text="Small Text"
                     android:id="@+id/txtAdress"
                     android:gravity="bottom|center_horizontal"
-                    android:textColor="#263144" />
+                    android:textColor="@color/textColor" />
         </LinearLayout>
 
         <LinearLayout
@@ -103,7 +103,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="20"
                             android:textSize="50dp"
-                            android:textColor="#263144" />
+                            android:textColor="@color/textColor" />
 
                 </LinearLayout>
         </LinearLayout>
@@ -133,167 +133,6 @@
             android:layout_weight="40"
             android:id="@+id/llBottom">
 
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp">
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="5dp">
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="@string/humidade"
-                                    android:id="@+id/lblHumidade"
-                                    android:textColor="#263144"
-                                    android:textStyle="bold"
-                                    android:textAlignment="textStart" />
-
-                                <TextView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:id="@+id/txtHumidade"
-                                    android:textAlignment="textStart" />
-                        </TableRow>
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="5dp">
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="@string/vento"
-                                    android:id="@+id/lblVento"
-                                    android:textColor="#263144"
-                                    android:textStyle="bold"
-                                    android:textAlignment="textStart" />
-
-                                <TextView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:id="@+id/txtVento"
-                                    android:textAlignment="textStart" />
-                        </TableRow>
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="5dp">
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="@string/rajadas"
-                                    android:id="@+id/lblRajadas"
-                                    android:textColor="#263144"
-                                    android:textStyle="bold"
-                                    android:textAlignment="textStart" />
-
-                                <TextView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:id="@+id/txtRajadas"
-                                    android:textAlignment="textStart" />
-                        </TableRow>
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="5dp">
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="@string/raios_uv"
-                                    android:id="@+id/lblRaiosUV"
-                                    android:textColor="#263144"
-                                    android:textStyle="bold"
-                                    android:textAlignment="textStart" />
-
-                                <TextView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:id="@+id/txtRaiosUV"
-                                    android:textAlignment="textStart" />
-                        </TableRow>
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="5dp">
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="@string/nuvens"
-                                    android:id="@+id/lblNuvens"
-                                    android:textColor="#263144"
-                                    android:textStyle="bold"
-                                    android:textAlignment="textStart" />
-
-                                <TextView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:id="@+id/txtNuvens"
-                                    android:textAlignment="textStart" />
-                        </TableRow>
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="5dp">
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="@string/press_o"
-                                    android:id="@+id/lblPressao"
-                                    android:textColor="#263144"
-                                    android:textStyle="bold"
-                                    android:textAlignment="textStart" />
-
-                                <TextView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:id="@+id/txtPressao"
-                                    android:textAlignment="textStart" />
-                        </TableRow>
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="5dp">
-
-                                <TextView
-                                    android:layout_width="150dp"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="@string/precipita_o"
-                                    android:id="@+id/lblPrecipitacao"
-                                    android:textColor="#263144"
-                                    android:textStyle="bold"
-                                    android:textAlignment="textStart" />
-
-                                <TextView
-                                    android:layout_width="fill_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:id="@+id/txtPrecipitacao"
-                                    android:textAlignment="textStart" />
-                        </TableRow>
-                </TableLayout>
         </LinearLayout>
 
         <LinearLayout
