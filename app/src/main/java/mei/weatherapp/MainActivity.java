@@ -75,7 +75,6 @@ public class MainActivity extends FragmentActivity {
         txtLatitude = (TextView) findViewById(R.id.txtLatitude);
         txtLongitude = (TextView) findViewById(R.id.txtLongitude);
         txtNome = (TextView) findViewById(R.id.txtNome);
-//HUGO LOURENÇO
         btnDetails = (Button) findViewById(R.id.btnDetails);
         load = (RelativeLayout) findViewById(R.id.loading);
         load.setVisibility(View.GONE);
