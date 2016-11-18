@@ -20,6 +20,7 @@ public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
     private TextView txtAdress;
     private TextView txtMsg;
     private TextView txtTemp;
+    private TextView txtRate;
     private ImageView imgTemp;
     private RelativeLayout load;
     private TextView txtLocationKey;
@@ -27,12 +28,13 @@ public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
     private TextView txtLatitude;
     private TextView txtNome;
 
-    public GetPraiaFromDB(Context ctx, TextView txtAdress, TextView txtMsg, TextView txtTemp, ImageView imgTemp
+    public GetPraiaFromDB(Context ctx, TextView txtAdress, TextView txtMsg, TextView txtTemp, TextView txtRate, ImageView imgTemp
             , RelativeLayout load,TextView txtLocationKey, TextView txtLatitude, TextView txtLongitude, TextView nome) {
         this.ctx = ctx;
         this.txtAdress = txtAdress;
         this.txtMsg = txtMsg;
         this.txtTemp = txtTemp;
+        this.txtRate = txtRate;
         this.imgTemp = imgTemp;
         this.load = load;
         this.txtLocationKey = txtLocationKey;
@@ -65,6 +67,7 @@ public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
             int id = ctx.getResources().getIdentifier(Utils.MakeAWImageString(c.getWeatherIcon()),"drawable", ctx.getPackageName());
             imgTemp.setImageResource(id);
             txtTemp.setText(c.getTemperature() + "º C");
+            txtRate.setText(c.getRating() + "");
             txtLocationKey.setText(praia.getLocationKey());
             txtLongitude.setText(praia.getLongitude());
             txtLatitude.setText(praia.getLatitude());

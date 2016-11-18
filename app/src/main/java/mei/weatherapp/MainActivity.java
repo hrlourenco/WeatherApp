@@ -33,6 +33,7 @@ public class MainActivity extends FragmentActivity {
     TextView txtAdress;
     ImageView imgTemp;
     TextView txtTemp;
+    TextView txtRate;
     TextView txtMsg;
     TextView txtLocationKey;
     TextView txtLatitude;
@@ -55,6 +56,7 @@ public class MainActivity extends FragmentActivity {
         txtAdress = (TextView) findViewById(R.id.txtAdress);
         imgTemp = (ImageView) findViewById(R.id.imgTemp);
         txtTemp = (TextView) findViewById(R.id.txtTemp);
+        txtRate = (TextView) findViewById(R.id.txtRate);
         txtMsg = (TextView) findViewById(R.id.txtMsg);
         txtPercentagem = (TextView) findViewById(R.id.txtPercentagem);
         txtLocationKey = (TextView) findViewById(R.id.txtLocationKey);
@@ -75,7 +77,7 @@ public class MainActivity extends FragmentActivity {
                 new LatLng(41.685452, -6.624795)));
 
         GetPraiaFromDB getPraias = new GetPraiaFromDB(getApplicationContext(),
-          txtAdress, txtMsg, txtTemp, imgTemp, (RelativeLayout) findViewById(R.id.ini), txtLocationKey, txtLatitude, txtLongitude, txtNome);
+          txtAdress, txtMsg, txtTemp, txtRate, imgTemp, (RelativeLayout) findViewById(R.id.ini), txtLocationKey, txtLatitude, txtLongitude, txtNome);
         getPraias.execute();
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener()
