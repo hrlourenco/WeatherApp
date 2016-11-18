@@ -17,27 +17,23 @@ import mei.weatherapp.contratos.Praia;
 public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
     private Context ctx;
     private MyOpenHelper moh;
-    private TextView txtAdress;
     private TextView txtMsg;
     private TextView txtTemp;
     private TextView txtRate;
     private ImageView imgTemp;
     private RelativeLayout load;
-    private TextView txtLocationKey;
     private TextView txtLongitude;
     private TextView txtLatitude;
     private TextView txtNome;
 
-    public GetPraiaFromDB(Context ctx, TextView txtAdress, TextView txtMsg, TextView txtTemp, TextView txtRate, ImageView imgTemp
-            , RelativeLayout load,TextView txtLocationKey, TextView txtLatitude, TextView txtLongitude, TextView nome) {
+    public GetPraiaFromDB(Context ctx, TextView txtMsg, TextView txtTemp, TextView txtRate, ImageView imgTemp
+            , RelativeLayout load, TextView txtLatitude, TextView txtLongitude, TextView nome) {
         this.ctx = ctx;
-        this.txtAdress = txtAdress;
         this.txtMsg = txtMsg;
         this.txtTemp = txtTemp;
         this.txtRate = txtRate;
         this.imgTemp = imgTemp;
         this.load = load;
-        this.txtLocationKey = txtLocationKey;
         this.txtLatitude = txtLatitude;
         this.txtLongitude = txtLongitude;
         this.txtNome=nome;
@@ -59,22 +55,20 @@ public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
     protected void onPostExecute(Praia praia) {
         super.onPostExecute(praia);
 
-        if(praia.getLocationKey()!=null){
-            Condicoes c = praia.getCondicoesActuais();
+//        if(praia.getLocationKey()!=null){
+            Condicoes c = null;// = praia.getCondicoesActuais();
 
-            txtAdress.setText(praia.getMorada());
             txtMsg.setText(c.getWeatherText());
             int id = ctx.getResources().getIdentifier(Utils.MakeAWImageString(c.getWeatherIcon()),"drawable", ctx.getPackageName());
             imgTemp.setImageResource(id);
             txtTemp.setText(c.getTemperature() + "º C");
             txtRate.setText(c.getRating() + "");
-            txtLocationKey.setText(praia.getLocationKey());
-            txtLongitude.setText(praia.getLongitude());
-            txtLatitude.setText(praia.getLatitude());
+            txtLongitude.setText(praia.getLongitude().toString());
+            txtLatitude.setText(praia.getLatitude().toString());
             txtNome.setText(praia.getNome());
 
             load.setVisibility(View.GONE);
-        }
+//        }
 
     }
 }

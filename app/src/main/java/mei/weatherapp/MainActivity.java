@@ -3,6 +3,7 @@ package mei.weatherapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.Double2;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -30,12 +31,10 @@ public class MainActivity extends FragmentActivity {
 
     RelativeLayout load;
     TextView txtPercentagem;
-    TextView txtAdress;
     ImageView imgTemp;
     TextView txtTemp;
     TextView txtRate;
     TextView txtMsg;
-    TextView txtLocationKey;
     TextView txtLatitude;
     TextView txtLongitude;
     TextView txtNome;
@@ -53,13 +52,11 @@ public class MainActivity extends FragmentActivity {
 
         ctx = MainActivity.this;
 
-        txtAdress = (TextView) findViewById(R.id.txtAdress);
         imgTemp = (ImageView) findViewById(R.id.imgTemp);
         txtTemp = (TextView) findViewById(R.id.txtTemp);
         txtRate = (TextView) findViewById(R.id.txtRate);
         txtMsg = (TextView) findViewById(R.id.txtMsg);
         txtPercentagem = (TextView) findViewById(R.id.txtPercentagem);
-        txtLocationKey = (TextView) findViewById(R.id.txtLocationKey);
         txtLatitude = (TextView) findViewById(R.id.txtLatitude);
         txtLongitude = (TextView) findViewById(R.id.txtLongitude);
         txtNome = (TextView) findViewById(R.id.txtNome);
@@ -77,7 +74,7 @@ public class MainActivity extends FragmentActivity {
                 new LatLng(41.685452, -6.624795)));
 
         GetPraiaFromDB getPraias = new GetPraiaFromDB(getApplicationContext(),
-          txtAdress, txtMsg, txtTemp, txtRate, imgTemp, (RelativeLayout) findViewById(R.id.ini), txtLocationKey, txtLatitude, txtLongitude, txtNome);
+          txtMsg, txtTemp, txtRate, imgTemp, (RelativeLayout) findViewById(R.id.ini), txtLatitude, txtLongitude, txtNome);
         getPraias.execute();
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener()
@@ -92,12 +89,11 @@ public class MainActivity extends FragmentActivity {
                 Praia praia = new Praia();
                 praia.setNome(place.getName().toString());
                 LatLng ll = place.getLatLng();
-                praia.setLatitude(Double.toString(ll.latitude));
-                praia.setLongitude(Double.toString(ll.longitude));
-                praia.setMorada(place.getAddress().toString());
+                praia.setLatitude(ll.latitude);
+                praia.setLongitude(ll.longitude);
 
                 praiaGlobal = praia;
-                AccuweatherCurrentConditions awcc = new AccuweatherCurrentConditions(MainActivity.this, load, txtPercentagem, txtAdress,
+                AccuweatherCurrentConditions awcc = new AccuweatherCurrentConditions(MainActivity.this, load, txtPercentagem,
                   imgTemp, txtTemp, txtMsg);
                 awcc.execute(praia);
             }
@@ -115,11 +111,9 @@ public class MainActivity extends FragmentActivity {
                 Intent viewDetails = new Intent(ctx, BeachDetails.class);
                 if(praiaGlobal==null){
                     praiaGlobal = new Praia();
-                    praiaGlobal.setLocationKey((String)txtLocationKey.getText());
-                    praiaGlobal.setLatitude((String)txtLatitude.getText());
-                    praiaGlobal.setLongitude((String)txtLongitude.getText());
+                    praiaGlobal.setLatitude(Double.parseDouble(txtLatitude.getText().toString()));
+                    praiaGlobal.setLongitude(Double.parseDouble(txtLongitude.getText().toString()));
                     praiaGlobal.setNome((String)txtNome.getText());
-                    praiaGlobal.setFavorita(1);
                 }
                 viewDetails.putExtra("praia", praiaGlobal);
                 if (viewDetails.resolveActivity(getPackageManager()) != null) {

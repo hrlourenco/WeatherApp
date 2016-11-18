@@ -7,8 +7,8 @@ import java.util.List;
 public class Praia implements Serializable{
     private String praiaId;
     private String nome;
-    private Float latitude;
-    private Float longitude;
+    private Double latitude;
+    private Double longitude;
     private int rate;
     private Float temperatura;
     private Boolean favorito;
@@ -17,7 +17,7 @@ public class Praia implements Serializable{
     public Praia() {
     }
 
-    public Praia(String praiaId, String nome, Float latitude, Float longitude, int rate, Boolean favorito, float temperatura) {
+    public Praia(String praiaId, String nome, Double latitude, Double longitude, int rate, Boolean favorito, float temperatura) {
         this.praiaId = praiaId;
         this.nome = nome;
         this.latitude = latitude;
@@ -44,19 +44,19 @@ public class Praia implements Serializable{
         this.nome = nome;
     }
 
-    public Float getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Float latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Float getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Float longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 

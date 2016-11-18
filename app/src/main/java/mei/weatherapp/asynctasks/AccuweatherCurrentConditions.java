@@ -25,20 +25,18 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Integer, Prai
 
     RelativeLayout load;
     TextView txtPercentagem;
-    TextView txtAdress;
     ImageView imgTemp;
     TextView txtTemp;
     TextView txtMsg;
 
 
 
-    public AccuweatherCurrentConditions(Context ctx, RelativeLayout load, TextView txtPercentagem, TextView txtAdress,
+    public AccuweatherCurrentConditions(Context ctx, RelativeLayout load, TextView txtPercentagem,
                                         ImageView imgTemp, TextView txtTemp, TextView txtMsg) {
         this.ctx = ctx;
         this.txtPercentagem = txtPercentagem;
         this.imgTemp = imgTemp;
         this.load = load;
-        this.txtAdress = txtAdress;
         this.txtMsg = txtMsg;
         this.txtTemp = txtTemp;
     }
@@ -77,7 +75,7 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Integer, Prai
                 publishProgress(1);
 
 
-                p.setCondicoesActuais(condicoes);
+                //p.setCondicoesActuais(condicoes);
             }
             catch (JSONException e)
             {
@@ -95,9 +93,8 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Integer, Prai
     protected void onPostExecute(Praia praia) {
         super.onPostExecute(praia);
 
-        Condicoes c = praia.getCondicoesActuais();
+        Condicoes c = null; // = praia.getCondicoesActuais();
 
-        this.txtAdress.setText(praia.getMorada());
         this.txtMsg.setText(c.getWeatherText());
         int id = ctx.getResources().getIdentifier(Utils.MakeAWImageString(c.getWeatherIcon()),"drawable", ctx.getPackageName());
         this.imgTemp.setImageResource(id);
