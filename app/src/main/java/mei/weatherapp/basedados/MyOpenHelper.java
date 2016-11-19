@@ -11,6 +11,7 @@ import java.security.PublicKey;
 
 import mei.weatherapp.contratos.Condicoes;
 import mei.weatherapp.contratos.Praia;
+import mei.weatherapp.contratos.User;
 
 //Estruturas
 public class MyOpenHelper extends SQLiteOpenHelper {
@@ -58,7 +59,6 @@ public class MyOpenHelper extends SQLiteOpenHelper {
       _USERS_ID_ + " INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT, " +
       _USERS_USER_ID_ + " TEXT  NOT NULL, " +
       _USERS_USERNAME_ + " TEXT  NOT NULL, " +
-      _USERS_CREDITOS_ + " FLOAT  NOT NULL, " +
       ")";
 
     db.execSQL(CreateUsersDbSql);
@@ -78,7 +78,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
   public void insertIntoPaias (SQLiteDatabase db, Praia p){
     ContentValues cvPraias = new ContentValues();
 
-    cvPraias.put(_PRAIAS_ID_, p.getPraiaId());
+    cvPraias.put(_PRAIAS_PRAIA_ID_, p.getPraiaId());
     cvPraias.put(_PRAIAS_NOME_, p.getNome());
     cvPraias.put(_PRAIAS_LONGITUDE_, p.getLongitude());
     cvPraias.put(_PRAIAS_LATITUDE_, p.getLatitude());
@@ -89,9 +89,23 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     db.insert(_PRAIAS_NOME_TABELA_, null, cvPraias);
   }
 
+  public void insertIntoUsers (SQLiteDatabase db, User u){
+    ContentValues cvUsers = new ContentValues();
+
+    cvUsers.put(_USERS_USER_ID_, u.getUserId());
+    cvUsers.put(_USERS_USERNAME_, u.getUsername());
+
+    db.insert(_USERS_NOME_TABELA_, null, cvUsers);
+  }
+
 
   public void deleteFromPraias(SQLiteDatabase db){
     String sqlString = "DELETE FROM " + _PRAIAS_NOME_TABELA_;
+    db.execSQL(sqlString);
+  }
+
+  public void deleteFromUsers(SQLiteDatabase db){
+    String sqlString = "DELETE FROM " + _USERS_NOME_TABELA_;
     db.execSQL(sqlString);
   }
 
@@ -110,9 +124,23 @@ public class MyOpenHelper extends SQLiteOpenHelper {
       p.setLatitude(cur.getDouble(cur.getColumnIndex(_PRAIAS_LATITUDE_)));
       p.setRate(cur.getInt(cur.getColumnIndex(_PRAIAS_RATE_)));
       p.setTemperatura(cur.getFloat(cur.getColumnIndex(_PRAIAS_TEMPERATURA_)));
-    }catch (Exception e){
-
-    }
+    }catch (Exception e){    }
     return p;
+  }
+
+  public User getFromUsers (SQLiteDatabase db){
+    User u = new User();
+
+    String sqlString = "SELECT * FROM " + _USERS_NOME_TABELA_;
+
+    Cursor cur = db.rawQuery(sqlString, null);
+
+    try {
+      cur.moveToFirst();
+      u.setUsername(cur.getString(cur.getColumnIndex(_USERS_USERNAME_)));
+      u.setUserId(cur.getString(cur.getColumnIndex(_USERS_USER_ID_)));
+    }catch (Exception e){    }
+
+    return u;
   }
 }
