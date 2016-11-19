@@ -15,23 +15,26 @@ public class Praia implements Serializable{
   private String imagem;
   private int rating;
   private int numRating;
+  private ArrayList<Condicoes> forecast;
 
   //CONSTRUTORES
   public Praia() {
   }
 
-  public Praia(String praiaId, String nome, Double latitude, Double longitude, int rate, Float temperatura, Boolean favorito, String imagem, int rating, int numRating) {
-    this.praiaId = praiaId;
-    this.nome = nome;
-    this.latitude = latitude;
-    this.longitude = longitude;
-    this.rate = rate;
-    this.temperatura = temperatura;
-    this.favorito = favorito;
-    this.imagem = imagem;
-    this.rating = rating;
+  public Praia(ArrayList<Condicoes> forecast, int numRating, int rating, String imagem, Boolean favorito, Float temperatura, int rate, Double longitude, Double latitude, String nome, String praiaId) {
+    this.forecast = forecast;
     this.numRating = numRating;
+    this.rating = rating;
+    this.imagem = imagem;
+    this.favorito = favorito;
+    this.temperatura = temperatura;
+    this.rate = rate;
+    this.longitude = longitude;
+    this.latitude = latitude;
+    this.nome = nome;
+    this.praiaId = praiaId;
   }
+
 
   //GET & SET
 
@@ -113,5 +116,13 @@ public class Praia implements Serializable{
 
   public void setNumRating(int numRating) {
     this.numRating = numRating;
+  }
+
+  public ArrayList<Condicoes> getForecast() {
+    return forecast;
+  }
+
+  public void setForecast(ArrayList<Condicoes> forecast) {
+    this.forecast = forecast;
   }
 }
