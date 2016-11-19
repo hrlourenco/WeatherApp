@@ -1,96 +1,71 @@
 package mei.weatherapp.contratos;
-
-
 import java.io.Serializable;
 
-//teste
 public class Condicoes implements Serializable{
-    private long id;
-    private int WeatherIcon;
-    private String WeatherText;
-    private String Rating;
-    private String Temperature;
-    private String TemperatureMax;
-    private String TemperatureMin;
-    private String RelativeHumidity;
-    private String WindSpeed;
-    private String Data;
+  private String icon;
+  private String mensagem;
+  private Double pressao;
+  private Double humidade;
+  private Double tempMax;
+  private Double tempMin;
 
-    public Condicoes() {
-    }
+  public Condicoes() {
+  }
 
-    public long getId() {return id;}
+  public Condicoes(String icon, String mensagem, Double pressao, Double humidade, Double tempMax, Double tempMin) {
+    this.icon = icon;
+    this.mensagem = mensagem;
+    this.pressao = pressao;
+    this.humidade = humidade;
+    this.tempMax = tempMax;
+    this.tempMin = tempMin;
+  }
 
-    public void setId(long id) {this.id = id;}
+  public String getIcon() {
+    return icon;
+  }
 
-    public String getData() {
-        return Data == null ? "-" : Data;
-    }
+  public void setIcon(String icon) {
+    this.icon = icon;
+  }
 
-    public void setData(String data) {Data = data;}
+  public String getMensagem() {
+    return mensagem;
+  }
 
-    public String getRelativeHumidity() {
-        return RelativeHumidity == null ? "-" : RelativeHumidity;
-    }
+  public void setMensagem(String mensagem) {
+    this.mensagem = mensagem;
+  }
 
-    public void setRelativeHumidity(String relativeHumidity) {
-        RelativeHumidity = relativeHumidity;
-    }
+  public Double getPressao() {
+    return pressao;
+  }
 
-    public String getTemperatureMax() {
-        return TemperatureMax == null ? "-" : TemperatureMax;
-    }
+  public void setPressao(Double pressao) {
+    this.pressao = pressao;
+  }
 
-    public void setTemperatureMax(String temperature) {
-        TemperatureMax = temperature;
-    }
+  public Double getHumidade() {
+    return humidade;
+  }
 
-    public String getTemperatureMin() {
-        return TemperatureMin == null ? "-" : TemperatureMin;
-    }
+  public void setHumidade(Double humidade) {
+    this.humidade = humidade;
+  }
 
-    public void setTemperatureMin(String temperatureMin) {
-        TemperatureMin = temperatureMin;
-    }
+  public Double getTempMax() {
+    return tempMax;
+  }
 
-    public String getTemperature() {
-        return Temperature == null ? "-" : Temperature;
-    }
+  public void setTempMax(Double tempMax) {
+    this.tempMax = tempMax;
+  }
 
-    public void setTemperature(String temperature) {
-        Temperature = temperature;
-    }
+  public Double getTempMin() {
+    return tempMin;
+  }
 
-    public int getWeatherIcon() {
-        return WeatherIcon;
-    }
-
-    public void setWeatherIcon(int weatherIcon) {
-        WeatherIcon = weatherIcon;
-    }
-
-    public String getWeatherText() {
-        return WeatherText == null ? "-" : WeatherText;
-    }
-
-    public void setWeatherText(String weatherText) {
-        WeatherText = weatherText;
-    }
-
-    public String getWindSpeed() {
-        return WindSpeed == null ? "-" : WindSpeed;
-    }
-
-    public void setWindSpeed(String windSpeed) {
-        WindSpeed = windSpeed;
-    }
-
-    public String getRating() {
-        return Rating;
-    }
-
-    public void setRating(String rating) {
-        Rating = rating;
-    }
-
+  public void setTempMin(Double tempMin) {
+    this.tempMin = tempMin;
+  }
 }
