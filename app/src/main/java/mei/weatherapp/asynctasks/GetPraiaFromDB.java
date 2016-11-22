@@ -15,6 +15,7 @@ import mei.weatherapp.contratos.Praia;
 
 
 public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
+
     private Context ctx;
     private MyOpenHelper moh;
     private TextView txtMsg;
@@ -54,7 +55,7 @@ public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
     @Override
     protected void onPostExecute(Praia praia) {
         super.onPostExecute(praia);
-
+/*
 //        if(praia.getLocationKey()!=null){
             Condicoes c = null;// = praia.getCondicoesActuais();
 
@@ -69,6 +70,6 @@ public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
 
             load.setVisibility(View.GONE);
 //        }
-
+*/
     }
 }

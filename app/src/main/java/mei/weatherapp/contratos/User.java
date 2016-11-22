@@ -1,8 +1,5 @@
 package mei.weatherapp.contratos;
 
-/**
- * Created by joaofaria on 17/11/16.
- */
 public class User {
   private String userId;
   private String username;

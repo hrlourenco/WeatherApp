@@ -39,7 +39,7 @@ public class AccuweatherForecast extends AsyncTask<Praia, Integer, Praia> {
     List<Condicoes> lista = new ArrayList<Condicoes>();
     Condicoes cond;
     Praia p = praias[0];
-
+/*
     AccuWeatherWebService ws = new AccuWeatherWebService();
 
     try {
@@ -61,7 +61,7 @@ public class AccuweatherForecast extends AsyncTask<Praia, Integer, Praia> {
       e.printStackTrace();
     }
     p.setForecast(lista);
-
+*/
     return p;
   }
 

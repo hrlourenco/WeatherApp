@@ -1,15 +1,21 @@
 package mei.weatherapp.webservice;
-  import android.net.Uri;
+import android.net.Uri;
 
-  import java.io.BufferedReader;
-  import java.io.DataOutputStream;
-  import java.io.IOException;
-  import java.io.InputStream;
-  import java.io.InputStreamReader;
-  import java.net.HttpURLConnection;
-  import java.net.MalformedURLException;
-  import java.net.URL;
-  import java.util.Map;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Map;
 
 /**
  * Created by nunooliveira on 20/10/15.
@@ -127,7 +133,7 @@ public abstract class WebserviceConnector {
       result = StreamToString(inputStream);
 
       BufferedReader in = new BufferedReader(
-        new InputStreamReader(this.connection.getInputStream()));
+              new InputStreamReader(this.connection.getInputStream()));
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -140,6 +146,55 @@ public abstract class WebserviceConnector {
           e.printStackTrace();
         }
       }
+    }
+
+    return result;
+
+  }
+
+  protected String postToWebserviceJson(JSONObject json) {
+    String result = "";
+    DataOutputStream wr = null;
+    Uri.Builder input_builder = new Uri.Builder();
+    String input_data = "";
+
+    try {
+      this.connection = (HttpURLConnection) ((webservice_call.openConnection()));
+      //to avoid buffering data before sending data
+      this.connection.setChunkedStreamingMode(0);
+
+      //Connect
+      this.connection.setDoOutput(true);
+      this.connection.setRequestProperty("Content-Type", "application/json");
+      this.connection.setRequestProperty("Accept", "application/json");
+      this.connection.setRequestMethod("POST");
+      this.connection.connect();
+
+      //Write
+      OutputStream outputStream = this.connection.getOutputStream();
+      BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+      writer.write(json.toString());
+      writer.flush();
+      writer.close();
+      outputStream.close();
+
+      //Read
+      BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(this.connection.getInputStream(), "UTF-8"));
+
+      String line = null;
+      StringBuilder sb = new StringBuilder();
+
+      while ((line = bufferedReader.readLine()) != null) {
+        sb.append(line);
+      }
+
+      bufferedReader.close();
+      result = sb.toString();
+
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
     return result;

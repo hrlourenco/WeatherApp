@@ -1,7 +1,14 @@
 package mei.weatherapp.contratos;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Praia implements Serializable{
@@ -9,32 +16,36 @@ public class Praia implements Serializable{
   private String nome;
   private Double latitude;
   private Double longitude;
-  private int rate;
-  private Float temperatura;
   private Boolean favorito;
   private String imagem;
+  private Double rate;
   private int rating;
   private int numRating;
   private ArrayList<Condicoes> forecast;
+  private String dataTempo;
+  //dados do tempo actual
+  private String icon;
+  private Float temperatura;
 
   //CONSTRUTORES
   public Praia() {
   }
 
-  public Praia(ArrayList<Condicoes> forecast, int numRating, int rating, String imagem, Boolean favorito, Float temperatura, int rate, Double longitude, Double latitude, String nome, String praiaId) {
-    this.forecast = forecast;
-    this.numRating = numRating;
-    this.rating = rating;
-    this.imagem = imagem;
+  public Praia(String dataTempo, Boolean favorito, ArrayList<Condicoes> forecast, String imagem, Double latitude
+          , Double longitude, String nome, int numRating, String praiaId, Double rate, int rating, Float temperatura) {
+    this.dataTempo = dataTempo;
     this.favorito = favorito;
-    this.temperatura = temperatura;
-    this.rate = rate;
-    this.longitude = longitude;
+    this.forecast = forecast;
+    this.imagem = imagem;
     this.latitude = latitude;
+    this.longitude = longitude;
     this.nome = nome;
+    this.numRating = numRating;
     this.praiaId = praiaId;
+    this.rate = rate;
+    this.rating = rating;
+    this.temperatura = temperatura;
   }
-
 
   //GET & SET
 
@@ -70,11 +81,11 @@ public class Praia implements Serializable{
     this.longitude = longitude;
   }
 
-  public int getRate() {
+  public Double getRate() {
     return rate;
   }
 
-  public void setRate(int rate) {
+  public void setRate(Double rate) {
     this.rate = rate;
   }
 
@@ -125,4 +136,55 @@ public class Praia implements Serializable{
   public void setForecast(ArrayList<Condicoes> forecast) {
     this.forecast = forecast;
   }
+
+  public String getDataTempo() {
+    return dataTempo;
+  }
+
+  public void setDataTempo(String dataTempo) {
+    this.dataTempo = dataTempo;
+  }
+
+  public Praia doParsingAPIJsonToPraia(String apiPraia) {
+    Praia resPraia = new Praia();
+    try {
+      JSONObject geral = new JSONObject(apiPraia);
+      JSONObject praia = geral.getJSONObject("praia");
+      resPraia.setPraiaId(praia.getString("_id"));
+      resPraia.setNome(praia.getString("praia"));
+      resPraia.setImagem(praia.getString("imagem"));
+      resPraia.setDataTempo(praia.getString("dataTempo"));
+      //pegar o array tempo
+      String array = praia.getString("tempo");
+      JSONArray tempo = new JSONArray(array);
+      //pegar o primeiro elemento que contem a temperatura do dia actual
+      JSONObject tempoActual = tempo.getJSONObject(0);
+      resPraia.setTemperatura(Float.parseFloat(tempoActual.getString("tempMax")));
+      //objecto rating
+      try {
+        JSONObject ratingObj = praia.getJSONObject("rating");
+        resPraia.setRating(ratingObj.getInt("ratingGeral"));
+        resPraia.setNumRating(ratingObj.getInt("ratingGeralNum"));
+        Double rateAux = 0.0;
+        if (resPraia.getNumRating() > 0) {
+          int a = resPraia.getRating();
+          int b = resPraia.getNumRating();
+          rateAux = ((double) a / (double) b);
+        } else
+          rateAux = -1.0;
+        resPraia.setRate(rateAux);
+      } catch (JSONException e) {
+        resPraia.setRating(0);
+        resPraia.setNumRating(0);
+        resPraia.setRate(0.0);
+      }
+
+    } catch (JSONException e) {
+      e.printStackTrace();
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+    return resPraia;
+  }
+
 }

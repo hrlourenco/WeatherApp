@@ -44,6 +44,7 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Integer, Prai
     @Override
     protected Praia doInBackground(Praia... praias) {
         Praia p = new Praia();
+        /*
 
         publishProgress(-1); //aceder à api
 
@@ -86,13 +87,14 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Integer, Prai
         {
             p = null;
         }
+        */
         return p;
     }
 
     @Override
     protected void onPostExecute(Praia praia) {
         super.onPostExecute(praia);
-
+/*
         Condicoes c = null; // = praia.getCondicoesActuais();
 
         this.txtMsg.setText(c.getWeatherText());
@@ -100,7 +102,7 @@ public class AccuweatherCurrentConditions extends AsyncTask<Praia, Integer, Prai
         this.imgTemp.setImageResource(id);
         this.txtTemp.setText(c.getTemperature() + "º C");
 
-        this.load.setVisibility(View.GONE);
+        this.load.setVisibility(View.GONE);*/
     }
 
     @Override

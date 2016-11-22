@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 import mei.weatherapp.asynctasks.AccuweatherCurrentConditions;
 import mei.weatherapp.asynctasks.GetPraiaFromDB;
+import mei.weatherapp.asynctasks.GetPraiasAPI;
 import mei.weatherapp.contratos.Praia;
 
 public class MainActivity extends FragmentActivity {
@@ -73,9 +74,9 @@ public class MainActivity extends FragmentActivity {
                 new LatLng(37.026228, -8.988789),
                 new LatLng(41.685452, -6.624795)));
 
-        GetPraiaFromDB getPraias = new GetPraiaFromDB(getApplicationContext(),
+/*        GetPraiaFromDB getPraias = new GetPraiaFromDB(getApplicationContext(),
           txtMsg, txtTemp, txtRate, imgTemp, (RelativeLayout) findViewById(R.id.ini), txtLatitude, txtLongitude, txtNome);
-        getPraias.execute();
+        getPraias.execute();*/
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener()
         {
@@ -93,6 +94,10 @@ public class MainActivity extends FragmentActivity {
                 praia.setLongitude(ll.longitude);
 
                 praiaGlobal = praia;
+
+                GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, null);
+                ws.execute(praia);
+
                 AccuweatherCurrentConditions awcc = new AccuweatherCurrentConditions(MainActivity.this, load, txtPercentagem,
                   imgTemp, txtTemp, txtMsg);
                 awcc.execute(praia);

@@ -8,6 +8,7 @@ import mei.weatherapp.contratos.Praia;
 
 //http://developer.accuweather.com/apis
 public class AccuWeatherWebService extends WebserviceConnector {
+    /*
     private final String APIKEY = "vplLxDyBIiRtS44dUIX0NiGLNCZFpzW9";
     private final String ENDPOINT = "http://dataservice.accuweather.com/";
 
@@ -58,5 +59,5 @@ public class AccuWeatherWebService extends WebserviceConnector {
         buildWebserviceCallURLString(urlForecast);
         return getWebserviceResponse();
     }
-
+*/
 }

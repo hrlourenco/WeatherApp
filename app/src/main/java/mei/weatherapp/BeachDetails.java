@@ -50,13 +50,13 @@ public class BeachDetails extends AppCompatActivity {
 
     tv_name.setText(praia.getNome());
 
-    cb_fav.setChecked(praia.getFavorita()==0 ? Boolean.FALSE : Boolean.TRUE);
+    //cb_fav.setChecked(praia.getFavorita()==0 ? Boolean.FALSE : Boolean.TRUE);
 
   }
 
   public void onCheckboxClicked(View view) {
     boolean checked = ((CheckBox) view).isChecked();
-
+/*
     switch(view.getId()) {
       case R.id.cb_fav:
         if (checked){
@@ -72,5 +72,6 @@ public class BeachDetails extends AppCompatActivity {
         }
         break;
     }
+    */
   }
 }

@@ -38,7 +38,7 @@ public class forecastAdapter extends BaseAdapter {
 
   @Override
   public long getItemId(int i) {
-    return ds.get(i).getId();
+    return 0;// ds.get(i).getId();
   }
 
   @Override
@@ -63,7 +63,7 @@ public class forecastAdapter extends BaseAdapter {
     tv_previsao = (TextView) view.findViewById(R.id.tv_previsao);
 
     Condicoes aux = (Condicoes) this.getItem(i);
-
+/*
     int id = ctx.getResources().getIdentifier(Utils.MakeAWImageString(aux.getWeatherIcon()),"drawable", ctx.getPackageName());
     img_tempo.setImageResource(id);
     tv_tempMax.setText(aux.getTemperatureMax() + "º C");
@@ -71,7 +71,7 @@ public class forecastAdapter extends BaseAdapter {
     tv_data.setText(aux.getData());
     tv_vento.setText(aux.getWindSpeed() + " Kh");
     tv_previsao.setText(aux.getWeatherText());
-
+*/
     //lixo.setText(id);
 
     return view;
