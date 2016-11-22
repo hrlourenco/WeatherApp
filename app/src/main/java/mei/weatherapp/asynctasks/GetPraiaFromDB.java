@@ -57,13 +57,13 @@ public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
         super.onPostExecute(praia);
 /*
 //        if(praia.getLocationKey()!=null){
-            Condicoes c = null;// = praia.getCondicoesActuais();
+            Condicoes c = praia.getForecast().get(0);
 
-            txtMsg.setText(c.getWeatherText());
-            int id = ctx.getResources().getIdentifier(Utils.MakeAWImageString(c.getWeatherIcon()),"drawable", ctx.getPackageName());
+            txtMsg.setText(c.getMensagem());
+            int id = ctx.getResources().getIdentifier(c.getIcon(),"drawable", ctx.getPackageName());
             imgTemp.setImageResource(id);
-            txtTemp.setText(c.getTemperature() + "º C");
-            txtRate.setText(c.getRating() + "");
+            txtTemp.setText(c.getTempMax() + "º C");
+            txtRate.setText(praia.getRate() + "");
             txtLongitude.setText(praia.getLongitude().toString());
             txtLatitude.setText(praia.getLatitude().toString());
             txtNome.setText(praia.getNome());
