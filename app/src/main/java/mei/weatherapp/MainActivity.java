@@ -95,7 +95,7 @@ public class MainActivity extends FragmentActivity {
 
                 praiaGlobal = praia;
 
-                GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, null);
+                GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, null);
                 ws.execute(praia);
 
                 AccuweatherCurrentConditions awcc = new AccuweatherCurrentConditions(MainActivity.this, load, txtPercentagem,
