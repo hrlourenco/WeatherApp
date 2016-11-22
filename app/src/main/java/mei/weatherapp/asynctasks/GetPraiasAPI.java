@@ -1,7 +1,10 @@
 package mei.weatherapp.asynctasks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.renderscript.Double2;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -10,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import mei.weatherapp.Utils;
 import mei.weatherapp.contratos.Condicoes;
 import mei.weatherapp.contratos.Praia;
 import mei.weatherapp.webservice.AccuWeatherWebService;
@@ -23,13 +27,14 @@ public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
     TextView txtPercentagem;
     ImageView imgTemp;
     TextView txtTemp;
+    TextView txtRate;
     TextView txtMsg;
 
     Context ctx;
     Integer totalLoads = 2;
 
     public GetPraiasAPI(Context ctx, ImageView imgTemp, RelativeLayout load
-            , TextView txtMsg, TextView txtPercentagem, TextView txtTemp, String userId) {
+            , TextView txtMsg, TextView txtPercentagem, TextView txtTemp, TextView txtRate, String userId) {
         this.ctx = ctx;
         this.imgTemp = imgTemp;
         this.load = load;
@@ -37,6 +42,7 @@ public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
         this.txtMsg = txtMsg;
         this.txtPercentagem = txtPercentagem;
         this.txtTemp = txtTemp;
+        this.txtTemp = txtRate;
         this.txtUserId = txtUserId;
     }
 
@@ -60,6 +66,21 @@ public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
     @Override
     protected void onPostExecute(Praia praia) {
         super.onPostExecute(praia);
+        Integer val = (int)Math.round(praia.getRate());
+        switch (val) {
+            case 0: this.txtMsg.setText("Muito Mau"); break;
+            case 1: this.txtMsg.setText("Bom"); break;
+            case 2: this.txtMsg.setText("Muito Bom"); break;
+            default: this.txtMsg.setText("Melhor.... Impossível");
+        }
+
+        int id = ctx.getResources().getIdentifier(praia.getIcon(),"drawable", ctx.getPackageName());
+        this.imgTemp.setImageResource(id);
+        this.txtTemp.setText(praia.getTemperatura() + "º C");
+        this.txtRate.setText(praia.getRate() + "");
+
+        this.load.setVisibility(View.GONE);
+
     }
 
     @Override

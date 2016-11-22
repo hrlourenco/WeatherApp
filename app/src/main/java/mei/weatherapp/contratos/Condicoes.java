@@ -5,6 +5,7 @@ public class Condicoes implements Serializable{
   private String icon;
   private String mensagem;
   private Double pressao;
+  private Double vento;
   private Double humidade;
   private Double tempMax;
   private Double tempMin;
@@ -12,13 +13,14 @@ public class Condicoes implements Serializable{
   public Condicoes() {
   }
 
-  public Condicoes(String icon, String mensagem, Double pressao, Double humidade, Double tempMax, Double tempMin) {
+  public Condicoes(Double humidade, String icon, String mensagem, Double pressao, Double tempMax, Double tempMin, Double vento) {
+    this.humidade = humidade;
     this.icon = icon;
     this.mensagem = mensagem;
     this.pressao = pressao;
-    this.humidade = humidade;
     this.tempMax = tempMax;
     this.tempMin = tempMin;
+    this.vento = vento;
   }
 
   public String getIcon() {
@@ -67,5 +69,13 @@ public class Condicoes implements Serializable{
 
   public void setTempMin(Double tempMin) {
     this.tempMin = tempMin;
+  }
+
+  public Double getVento() {
+    return vento;
+  }
+
+  public void setVento(Double vento) {
+    this.vento = vento;
   }
 }
