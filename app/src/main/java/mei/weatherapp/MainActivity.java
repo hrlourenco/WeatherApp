@@ -46,10 +46,14 @@ public class MainActivity extends FragmentActivity {
 
     Button btnDetails;
 
+    Button btnTestes;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        btnTestes = (Button) findViewById(R.id.btn_testes);
 
         ctx = MainActivity.this;
 
@@ -123,6 +127,17 @@ public class MainActivity extends FragmentActivity {
                 viewDetails.putExtra("praia", praiaGlobal);
                 if (viewDetails.resolveActivity(getPackageManager()) != null) {
                     startActivity(viewDetails);
+                }
+            }
+        });
+
+
+        btnTestes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent login = new Intent(ctx, Login.class);
+                if (login.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(login, 1);
                 }
             }
         });

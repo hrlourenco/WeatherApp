@@ -14,6 +14,12 @@
             android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
             />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/btn_testes"/>
+
         <RelativeLayout
             android:id="@+id/loading"
             android:layout_width="match_parent"

@@ -2,9 +2,15 @@ package mei.weatherapp.webservice;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+
 import mei.weatherapp.contratos.APIData;
+import mei.weatherapp.contratos.User;
 
 public class WeatherIPCAWebService extends WebserviceConnector {
+
+    private final String ENDPOINT = "http://weatheripca.herokuapp.com/api/v1/";
 
     public WeatherIPCAWebService() {
     }
@@ -48,5 +54,16 @@ public class WeatherIPCAWebService extends WebserviceConnector {
         }
 
         return result;
+    }
+
+    public String doLogin(String passwordHash){
+        String call_uri_base = ENDPOINT;
+        call_uri_base += "users/" + passwordHash + "/";
+
+        HashMap<String, String> params = new HashMap<>();
+        buildWebserviceCall(call_uri_base, params);
+        String res = getWebserviceResponse();
+
+        return res;
     }
 }
