@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import mei.weatherapp.asynctasks.AddUserAsyncTask;
 import mei.weatherapp.asynctasks.LoginAsyncTask;
 import mei.weatherapp.contratos.User;
 
@@ -18,7 +19,6 @@ public class Login extends AppCompatActivity {
   TextView lblTitle;
   TextView txtUsername;
   TextView txtPassword;
-  TextView txtUserId;
   Button btnRegistar;
   Button btnLogin;
   Button btnRegistarOk;
@@ -39,7 +39,6 @@ public class Login extends AppCompatActivity {
     btnRegistarOk = (Button) findViewById(R.id.btn_registar_ok);
     txtUsername = (TextView) findViewById(R.id.txt_username);
     txtPassword = (TextView) findViewById(R.id.txt_password);
-    txtUserId = (TextView) findViewById(R.id.txt_userID);
 
 
     btnRegistar.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +72,14 @@ public class Login extends AppCompatActivity {
       public void onClick(View view) {
         LoginAsyncTask login = new LoginAsyncTask(Login.this);
         login.execute(txtUsername.getText().toString() + txtPassword.getText().toString());
+      }
+    });
+
+    btnRegistarOk.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        AddUserAsyncTask add = new AddUserAsyncTask(Login.this, txtUsername.getText().toString(), txtPassword.getText().toString());
+        add.execute();
       }
     });
   }

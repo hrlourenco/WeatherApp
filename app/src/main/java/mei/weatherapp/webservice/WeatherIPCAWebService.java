@@ -57,13 +57,23 @@ public class WeatherIPCAWebService extends WebserviceConnector {
     }
 
     public String doLogin(String passwordHash){
-        String call_uri_base = ENDPOINT;
-        call_uri_base += "users/" + passwordHash + "/";
-
-        HashMap<String, String> params = new HashMap<>();
-        buildWebserviceCall(call_uri_base, params);
+        buildWebserviceCall(APIData.WeatherIPCA.ENDPOINT_USERS + passwordHash + "/", null);
         String res = getWebserviceResponse();
 
         return res;
+    }
+
+    public String doAddUser(String username, String passwordHash){
+        JSONObject data = new JSONObject();
+        String result = null;
+        try {
+            data.put("username", username);
+            data.put("passwordHash", passwordHash);
+            buildWebserviceCall(APIData.WeatherIPCA.ENDPOINT, null);
+            result = postToWebserviceJson(data);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
