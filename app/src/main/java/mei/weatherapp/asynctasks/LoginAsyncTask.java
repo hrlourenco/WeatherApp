@@ -17,6 +17,7 @@ public class LoginAsyncTask extends AsyncTask<String, Void, User> {
 
   private Context ctx;
   private User user;
+  private JSONObject res;
 
   public LoginAsyncTask(Context ctx) {
     this.ctx = ctx;
@@ -26,21 +27,8 @@ public class LoginAsyncTask extends AsyncTask<String, Void, User> {
   protected User doInBackground(String... strings) {
     try {
       WeatherIPCAWebService ws = new WeatherIPCAWebService();
-      JSONObject res = new JSONObject(ws.doLogin(strings[0]));
-      if(res.has("internalErrorCode")){
-        if(res.getInt("internalErrorCode")==100){
-          Toast toast = Toast.makeText(ctx, "Erro no servidor", Toast.LENGTH_SHORT);
-          toast.show();
-        }
-        if(res.getInt("internalErrorCode")==101){
-          Toast toast = Toast.makeText(ctx, "Utilizador não encontrado", Toast.LENGTH_SHORT);
-          toast.show();
-        }
-        if(res.getInt("internalErrorCode")==102){
-          Toast toast = Toast.makeText(ctx, "Acesso negado", Toast.LENGTH_SHORT);
-          toast.show();
-        }
-      }else {
+      res = new JSONObject(ws.doLogin(strings[0]));
+      if(!res.has("internalErrorCode")){
         user = new User(res.getString("_id"), res.getString("username"));
       }
     } catch (JSONException e) {
@@ -51,6 +39,22 @@ public class LoginAsyncTask extends AsyncTask<String, Void, User> {
 
   @Override
   protected void onPostExecute(User user) {
+    try {
+      if(res.getInt("internalErrorCode")==100){
+        Toast toast = Toast.makeText(ctx, "Erro no servidor", Toast.LENGTH_SHORT);
+        toast.show();
+      }
+      if(res.getInt("internalErrorCode")==101){
+        Toast toast = Toast.makeText(ctx, "Utilizador não encontrado", Toast.LENGTH_SHORT);
+        toast.show();
+      }
+      if(res.getInt("internalErrorCode")==102){
+        Toast toast = Toast.makeText(ctx, "Acesso negado", Toast.LENGTH_SHORT);
+        toast.show();
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
     if(user != null){
       Activity a = (Activity) ctx;
       Intent intenteMain = new Intent(ctx, MainActivity.class);

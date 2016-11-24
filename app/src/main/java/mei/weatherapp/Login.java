@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import mei.weatherapp.asynctasks.AddUserAsyncTask;
 import mei.weatherapp.asynctasks.LoginAsyncTask;
@@ -70,16 +71,32 @@ public class Login extends AppCompatActivity {
     btnLogin.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        LoginAsyncTask login = new LoginAsyncTask(Login.this);
-        login.execute(txtUsername.getText().toString() + txtPassword.getText().toString());
+        if (txtUsername.getText().equals("")){
+          Toast.makeText(Login.this, "Username obrigatório", Toast.LENGTH_SHORT).show();
+        } else if (txtPassword.getText().toString().equals("")){
+          Toast.makeText(Login.this, "Password obrigatória", Toast.LENGTH_SHORT).show();
+        } else {
+          LoginAsyncTask login = new LoginAsyncTask(Login.this);
+          login.execute(txtUsername.getText().toString().toString() + txtPassword.getText().toString());
+        }
       }
     });
 
     btnRegistarOk.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        AddUserAsyncTask add = new AddUserAsyncTask(Login.this, txtUsername.getText().toString(), txtPassword.getText().toString());
-        add.execute();
+        if (txtUsername.getText().toString().equals("")){
+          Toast.makeText(Login.this, "Username obrigatório", Toast.LENGTH_SHORT).show();
+        } else if (txtPassword.getText().toString().equals("")){
+          Toast.makeText(Login.this, "Password obrigatória", Toast.LENGTH_SHORT).show();
+        } else if (txtPassword2.getText().toString().equals("")){
+          Toast.makeText(Login.this, "Confirmação obrigatória", Toast.LENGTH_SHORT).show();
+        } else if (!txtPassword.getText().toString().equals(txtPassword2.getText().toString())) {
+          Toast.makeText(Login.this, "Passwords diferentes", Toast.LENGTH_SHORT).show();
+        } else {
+          AddUserAsyncTask add = new AddUserAsyncTask(Login.this, txtUsername.getText().toString(), txtPassword.getText().toString());
+          add.execute();
+        }
       }
     });
   }

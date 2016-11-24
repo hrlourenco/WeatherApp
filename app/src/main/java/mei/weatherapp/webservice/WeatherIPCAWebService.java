@@ -59,7 +59,6 @@ public class WeatherIPCAWebService extends WebserviceConnector {
     public String doLogin(String passwordHash){
         buildWebserviceCall(APIData.WeatherIPCA.ENDPOINT_USERS + passwordHash + "/", null);
         String res = getWebserviceResponse();
-
         return res;
     }
 
@@ -69,7 +68,7 @@ public class WeatherIPCAWebService extends WebserviceConnector {
         try {
             data.put("username", username);
             data.put("passwordHash", passwordHash);
-            buildWebserviceCall(APIData.WeatherIPCA.ENDPOINT, null);
+            buildWebserviceCall(APIData.WeatherIPCA.ENDPOINT_USERS, null);
             result = postToWebserviceJson(data);
         } catch (JSONException e) {
             e.printStackTrace();

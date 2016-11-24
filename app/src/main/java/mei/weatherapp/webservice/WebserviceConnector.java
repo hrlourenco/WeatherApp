@@ -80,9 +80,12 @@ public abstract class WebserviceConnector {
     try{
       this.connect("GET"); //faz a ligacao ao servico
       int rc = this.connection.getResponseCode();
-      if( rc == HttpURLConnection.HTTP_OK){
+      if( rc == HttpURLConnection.HTTP_OK) {
         //le o resultado da resposta do servico
         InputStream inputStream = this.connection.getInputStream();
+        result = StreamToString(inputStream);
+      } else {
+        InputStream inputStream = this.connection.getErrorStream();
         result = StreamToString(inputStream);
       }
     }
@@ -179,7 +182,13 @@ public abstract class WebserviceConnector {
       outputStream.close();
 
       //Read
-      BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(this.connection.getInputStream(), "UTF-8"));
+      BufferedReader bufferedReader;
+      Integer statusCode = this.connection.getResponseCode();
+      if (statusCode >= 200 && statusCode < 300){
+        bufferedReader = new BufferedReader(new InputStreamReader(this.connection.getInputStream(), "UTF-8"));
+      } else {
+        bufferedReader = new BufferedReader(new InputStreamReader(this.connection.getErrorStream(), "UTF-8"));
+      }
 
       String line = null;
       StringBuilder sb = new StringBuilder();
