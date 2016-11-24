@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.security.Principal;
 import java.security.PublicKey;
+import java.util.Date;
 
 import mei.weatherapp.contratos.Condicoes;
 import mei.weatherapp.contratos.Praia;
@@ -27,13 +28,13 @@ public class MyOpenHelper extends SQLiteOpenHelper {
   public static final String _PRAIAS_LONGITUDE_ = "longitude";
   public static final String _PRAIAS_RATE_ = "rate";
   public static final String _PRAIAS_TEMPERATURA_ = "temperatura";
+  public static final String _PRAIAS_DATA_TEMPO_ = "dataTempo";
 
   //DADOS PARA CRIAÇÃO DA TABELA USERS
   public static final String _USERS_NOME_TABELA_ = "users";
   public static final String _USERS_ID_ = "_id";
   public static final String _USERS_USER_ID_ = "userId";
   public static final String _USERS_USERNAME_ = "username";
-  public static final String _USERS_CREDITOS_ = "creditos";
 
 
   public MyOpenHelper(Context context) {
@@ -47,10 +48,11 @@ public class MyOpenHelper extends SQLiteOpenHelper {
       _PRAIAS_ID_ + " INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT, " +
       _PRAIAS_PRAIA_ID_ + " TEXT  NOT NULL, " +
       _PRAIAS_NOME_ + " TEXT  NOT NULL, " +
-      _PRAIAS_LONGITUDE_ + " FLOAT  NOT NULL, " +
-      _PRAIAS_LATITUDE_ + " TEXT  NOT NULL, " +
+      _PRAIAS_LONGITUDE_ + " DOUBLE  NOT NULL, " +
+      _PRAIAS_LATITUDE_ + " DOUBLE  NOT NULL, " +
       _PRAIAS_RATE_ + " INTEGER DEFAULT '0' NOT NULL, " +
-      _PRAIAS_TEMPERATURA_ + " FLOAT DEFAULT '0' NOT NULL, " +
+      _PRAIAS_TEMPERATURA_ + " DOUBLE DEFAULT '0' NOT NULL " +
+      _PRAIAS_DATA_TEMPO_ + " DATE NOT NULL " +
       ")";
 
     db.execSQL(CreatePraisDbSql);
@@ -58,10 +60,16 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     String CreateUsersDbSql = "CREATE TABLE " + _USERS_NOME_TABELA_ + " ( " +
       _USERS_ID_ + " INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT, " +
       _USERS_USER_ID_ + " TEXT  NOT NULL, " +
-      _USERS_USERNAME_ + " TEXT  NOT NULL, " +
+      _USERS_USERNAME_ + " TEXT  NOT NULL " +
       ")";
 
     db.execSQL(CreateUsersDbSql);
+
+    String sqlInsertPraia = "INSERT INTO " + _PRAIAS_NOME_TABELA_ + "( "+ _PRAIAS_PRAIA_ID_ + "," + _PRAIAS_NOME_ + "," + _PRAIAS_LONGITUDE_ + "," +
+      _PRAIAS_LATITUDE_ + "," + _PRAIAS_RATE_ + "," + _PRAIAS_TEMPERATURA_ + ") VALUES ('5835c5eb5bd8bf001095c17f', 'Praia da Luz', 37.0972979, " +
+      "-8.778702, 3, 30, '24-11-2016')";
+
+    db.execSQL(sqlInsertPraia);
 
   }
 
@@ -109,10 +117,10 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     db.execSQL(sqlString);
   }
 
-  public Praia getFromPraias(SQLiteDatabase db){
+  public Praia getFromPraias(SQLiteDatabase db, String id){
     Praia p = new Praia();
 
-    String sqlString = "SELECT * FROM "+ _PRAIAS_NOME_TABELA_;
+    String sqlString = "SELECT * FROM "+ _PRAIAS_NOME_TABELA_ + " WHERE " + _PRAIAS_PRAIA_ID_ + " = '" + id + "'";
 
     Cursor cur = db.rawQuery(sqlString, null);
 
@@ -123,7 +131,8 @@ public class MyOpenHelper extends SQLiteOpenHelper {
       p.setLongitude(cur.getDouble(cur.getColumnIndex(_PRAIAS_LONGITUDE_)));
       p.setLatitude(cur.getDouble(cur.getColumnIndex(_PRAIAS_LATITUDE_)));
       p.setRate(cur.getDouble(cur.getColumnIndex(_PRAIAS_RATE_)));
-      p.setTemperatura(cur.getFloat(cur.getColumnIndex(_PRAIAS_TEMPERATURA_)));
+      p.setTemperatura(cur.getDouble(cur.getColumnIndex(_PRAIAS_TEMPERATURA_)));
+      p.setDataTempo(new Date(cur.getString(cur.getColumnIndex(_PRAIAS_TEMPERATURA_))));
     }catch (Exception e){    }
     return p;
   }

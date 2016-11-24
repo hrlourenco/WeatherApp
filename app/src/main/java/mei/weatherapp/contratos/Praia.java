@@ -22,17 +22,17 @@ public class Praia implements Serializable{
   private int rating;
   private int numRating;
   private ArrayList<Condicoes> forecast;
-  private String dataTempo;
+  private Date dataTempo;
   //dados do tempo actual
   private String icon;
-  private Float temperatura;
+  private Double temperatura;
 
   //CONSTRUTORES
   public Praia() {
   }
 
-  public Praia(String dataTempo, Boolean favorito, ArrayList<Condicoes> forecast, String imagem, Double latitude
-          , Double longitude, String nome, int numRating, String praiaId, Double rate, int rating, Float temperatura) {
+  public Praia(Date dataTempo, Boolean favorito, ArrayList<Condicoes> forecast, String imagem, Double latitude
+          , Double longitude, String nome, int numRating, String praiaId, Double rate, int rating, Double temperatura) {
     this.dataTempo = dataTempo;
     this.favorito = favorito;
     this.forecast = forecast;
@@ -89,11 +89,11 @@ public class Praia implements Serializable{
     this.rate = rate;
   }
 
-  public Float getTemperatura() {
+  public Double getTemperatura() {
     return temperatura;
   }
 
-  public void setTemperatura(Float temperatura) {
+  public void setTemperatura(Double temperatura) {
     this.temperatura = temperatura;
   }
 
@@ -137,11 +137,11 @@ public class Praia implements Serializable{
     this.forecast = forecast;
   }
 
-  public String getDataTempo() {
+  public Date getDataTempo() {
     return dataTempo;
   }
 
-  public void setDataTempo(String dataTempo) {
+  public void setDataTempo(Date dataTempo) {
     this.dataTempo = dataTempo;
   }
 
@@ -161,14 +161,14 @@ public class Praia implements Serializable{
       resPraia.setPraiaId(praia.getString("_id"));
       resPraia.setNome(praia.getString("praia"));
       resPraia.setImagem(praia.getString("imagem"));
-      resPraia.setDataTempo(praia.getString("dataTempo"));
+      resPraia.setDataTempo(new Date(praia.getString("dataTempo")));
       //pegar o array tempo
       String array = praia.getString("tempo");
       JSONArray tempo = new JSONArray(array);
       //pegar o primeiro elemento que contem a temperatura do dia actual
       JSONObject tempoActual = tempo.getJSONObject(0);
       if(tempoActual.has("tempMax"))
-        resPraia.setTemperatura(Float.parseFloat(tempoActual.getString("tempMax")));
+        resPraia.setTemperatura(Double.parseDouble(tempoActual.getString("tempMax")));
       if(tempoActual.has("icon"))
         resPraia.setIcon(tempoActual.getString("icon"));
       ArrayList<Condicoes> auxArrayCondicoes = new ArrayList<Condicoes>();

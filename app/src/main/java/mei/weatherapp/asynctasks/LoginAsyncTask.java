@@ -3,6 +3,7 @@ package mei.weatherapp.asynctasks;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import mei.weatherapp.MainActivity;
+import mei.weatherapp.basedados.MyOpenHelper;
 import mei.weatherapp.contratos.User;
 import mei.weatherapp.webservice.WeatherIPCAWebService;
 
@@ -18,8 +20,10 @@ public class LoginAsyncTask extends AsyncTask<String, Void, User> {
   private Context ctx;
   private User user;
   private JSONObject res;
+  private MyOpenHelper moh;
 
   public LoginAsyncTask(Context ctx) {
+    moh = new MyOpenHelper(ctx);
     this.ctx = ctx;
   }
 
@@ -34,6 +38,11 @@ public class LoginAsyncTask extends AsyncTask<String, Void, User> {
     } catch (JSONException e) {
       e.printStackTrace();
     }
+
+    SQLiteDatabase db = moh.getWritableDatabase();
+    moh.deleteFromUsers(db);
+    moh.insertIntoUsers(db, user);
+
     return user;
   }
 

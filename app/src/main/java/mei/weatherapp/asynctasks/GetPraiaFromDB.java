@@ -14,7 +14,7 @@ import mei.weatherapp.contratos.Condicoes;
 import mei.weatherapp.contratos.Praia;
 
 
-public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
+public class GetPraiaFromDB extends AsyncTask<String, Void, Praia> {
 
     private Context ctx;
     private MyOpenHelper moh;
@@ -44,10 +44,10 @@ public class GetPraiaFromDB extends AsyncTask<Void, Void, Praia> {
     }
 
     @Override
-    protected Praia doInBackground(Void... voids) {
+    protected Praia doInBackground(String... strings) {
         SQLiteDatabase db = moh.getWritableDatabase();
 
-        Praia praia = moh.getFromPraias(db);
+        Praia praia = moh.getFromPraias(db, strings[0]);
 
         return praia;
     }

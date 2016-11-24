@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 import mei.weatherapp.MainActivity;
 import mei.weatherapp.basedados.MyOpenHelper;
+import mei.weatherapp.contratos.Praia;
 import mei.weatherapp.contratos.User;
 import mei.weatherapp.webservice.WeatherIPCAWebService;
 
@@ -39,13 +40,14 @@ public class AddUserAsyncTask extends AsyncTask<Void, Void, User> {
   protected User doInBackground(Void... voids) {
     try {
       WeatherIPCAWebService ws = new WeatherIPCAWebService();
-      res = new JSONObject(ws.doAddUser(username, password));
+      res = new JSONObject(ws.doAddUser(username, username + password));
       if (!res.has("internalErrorCode")){
         user = new User(res.getString("_id"), res.getString("username"));
 
         SQLiteDatabase db = moh.getWritableDatabase();
         moh.deleteFromUsers(db);
         moh.insertIntoUsers(db, user);
+
       }
     } catch (JSONException e) {
       e.printStackTrace();
