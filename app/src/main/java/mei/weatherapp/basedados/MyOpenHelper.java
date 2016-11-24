@@ -52,7 +52,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
       _PRAIAS_LATITUDE_ + " DOUBLE  NOT NULL, " +
       _PRAIAS_RATE_ + " INTEGER DEFAULT '0' NOT NULL, " +
       _PRAIAS_TEMPERATURA_ + " DOUBLE DEFAULT '0' NOT NULL " +
-      _PRAIAS_DATA_TEMPO_ + " DATE NOT NULL " +
+      _PRAIAS_DATA_TEMPO_ + " LONG NOT NULL " +
       ")";
 
     db.execSQL(CreatePraisDbSql);
@@ -67,7 +67,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
 
     String sqlInsertPraia = "INSERT INTO " + _PRAIAS_NOME_TABELA_ + "( "+ _PRAIAS_PRAIA_ID_ + "," + _PRAIAS_NOME_ + "," + _PRAIAS_LONGITUDE_ + "," +
       _PRAIAS_LATITUDE_ + "," + _PRAIAS_RATE_ + "," + _PRAIAS_TEMPERATURA_ + ") VALUES ('5835c5eb5bd8bf001095c17f', 'Praia da Luz', 37.0972979, " +
-      "-8.778702, 3, 30, '24-11-2016')";
+      "-8.778702, 3, 30, " + System.nanoTime() + ")";
 
     db.execSQL(sqlInsertPraia);
 
@@ -132,7 +132,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
       p.setLatitude(cur.getDouble(cur.getColumnIndex(_PRAIAS_LATITUDE_)));
       p.setRate(cur.getDouble(cur.getColumnIndex(_PRAIAS_RATE_)));
       p.setTemperatura(cur.getDouble(cur.getColumnIndex(_PRAIAS_TEMPERATURA_)));
-      p.setDataTempo(new Date(cur.getString(cur.getColumnIndex(_PRAIAS_TEMPERATURA_))));
+      p.setDataTempo(cur.getLong(cur.getColumnIndex(_PRAIAS_TEMPERATURA_)));
     }catch (Exception e){    }
     return p;
   }
