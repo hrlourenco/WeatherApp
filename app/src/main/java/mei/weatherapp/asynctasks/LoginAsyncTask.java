@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.icu.text.DateFormat;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -21,10 +22,12 @@ public class LoginAsyncTask extends AsyncTask<String, Void, User> {
   private User user;
   private JSONObject res;
   private MyOpenHelper moh;
+  private Boolean keep;
 
-  public LoginAsyncTask(Context ctx) {
+  public LoginAsyncTask(Context ctx, Boolean keep) {
     moh = new MyOpenHelper(ctx);
     this.ctx = ctx;
+    this.keep = keep;
   }
 
   @Override
@@ -39,9 +42,11 @@ public class LoginAsyncTask extends AsyncTask<String, Void, User> {
       e.printStackTrace();
     }
 
-    SQLiteDatabase db = moh.getWritableDatabase();
-    moh.deleteFromUsers(db);
-    moh.insertIntoUsers(db, user);
+    if (keep){
+      SQLiteDatabase db = moh.getWritableDatabase();
+      moh.deleteFromUsers(db);
+      moh.insertIntoUsers(db, user);
+    }
 
     return user;
   }

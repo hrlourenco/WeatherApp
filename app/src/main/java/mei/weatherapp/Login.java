@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,7 @@ public class Login extends AppCompatActivity {
   Button btnLogin;
   Button btnRegistarOk;
   Button btnRegistarCancelar;
-  User user = new User();
+  CheckBox chkManter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class Login extends AppCompatActivity {
     btnRegistarOk = (Button) findViewById(R.id.btn_registar_ok);
     txtUsername = (TextView) findViewById(R.id.txt_username);
     txtPassword = (TextView) findViewById(R.id.txt_password);
+    chkManter = (CheckBox) findViewById(R.id.chk_manter);
 
 
     btnRegistar.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +78,7 @@ public class Login extends AppCompatActivity {
         } else if (txtPassword.getText().toString().equals("")){
           Toast.makeText(Login.this, "Password obrigatória", Toast.LENGTH_SHORT).show();
         } else {
-          LoginAsyncTask login = new LoginAsyncTask(Login.this);
+          LoginAsyncTask login = new LoginAsyncTask(Login.this, chkManter.isChecked());
           login.execute(txtUsername.getText().toString().toString() + txtPassword.getText().toString());
         }
       }
@@ -94,7 +96,7 @@ public class Login extends AppCompatActivity {
         } else if (!txtPassword.getText().toString().equals(txtPassword2.getText().toString())) {
           Toast.makeText(Login.this, "Passwords diferentes", Toast.LENGTH_SHORT).show();
         } else {
-          AddUserAsyncTask add = new AddUserAsyncTask(Login.this, txtUsername.getText().toString(), txtPassword.getText().toString());
+          AddUserAsyncTask add = new AddUserAsyncTask(Login.this, txtUsername.getText().toString(), txtPassword.getText().toString(), chkManter.isChecked());
           add.execute();
         }
       }

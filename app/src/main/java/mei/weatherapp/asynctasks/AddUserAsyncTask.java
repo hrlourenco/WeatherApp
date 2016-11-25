@@ -28,11 +28,13 @@ public class AddUserAsyncTask extends AsyncTask<Void, Void, User> {
   private String password;
   private MyOpenHelper moh;
   private JSONObject res;
+  private Boolean keep;
 
-  public AddUserAsyncTask(Context ctx, String username, String password) {
+  public AddUserAsyncTask(Context ctx, String username, String password, Boolean keep) {
     this.ctx = ctx;
     this.username = username;
     this.password = password;
+    this.keep = keep;
     moh = new MyOpenHelper(ctx);
   }
 
@@ -44,9 +46,11 @@ public class AddUserAsyncTask extends AsyncTask<Void, Void, User> {
       if (!res.has("internalErrorCode")){
         user = new User(res.getString("_id"), res.getString("username"));
 
-        SQLiteDatabase db = moh.getWritableDatabase();
-        moh.deleteFromUsers(db);
-        moh.insertIntoUsers(db, user);
+        if(keep){
+          SQLiteDatabase db = moh.getWritableDatabase();
+          moh.deleteFromUsers(db);
+          moh.insertIntoUsers(db, user);
+        }
 
       }
     } catch (JSONException e) {
