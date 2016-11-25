@@ -16,25 +16,25 @@ import mei.weatherapp.contratos.User;
 
 //Estruturas
 public class MyOpenHelper extends SQLiteOpenHelper {
-  public static final String NAME = "praias.db";
-  public static final int VERSAO = 1;
+  private static final String NAME = "praias.db";
+  private static final int VERSAO = 1;
 
   //DADOS DA CRIAÇÃO DA TABELA PRAIAS
-  public static final String _PRAIAS_NOME_TABELA_ = "praias";
-  public static final String _PRAIAS_ID_ = "_id";
-  public static final String _PRAIAS_PRAIA_ID_ = "praiaId";
-  public static final String _PRAIAS_NOME_ = "nome";
-  public static final String _PRAIAS_LATITUDE_ = "latitude";
-  public static final String _PRAIAS_LONGITUDE_ = "longitude";
-  public static final String _PRAIAS_RATE_ = "rate";
-  public static final String _PRAIAS_TEMPERATURA_ = "temperatura";
-  public static final String _PRAIAS_DATA_TEMPO_ = "dataTempo";
+  private static final String _PRAIAS_NOME_TABELA_ = "praias";
+  private static final String _PRAIAS_ID_ = "_id";
+  private static final String _PRAIAS_PRAIA_ID_ = "praiaId";
+  private static final String _PRAIAS_NOME_ = "nome";
+  private static final String _PRAIAS_LATITUDE_ = "latitude";
+  private static final String _PRAIAS_LONGITUDE_ = "longitude";
+  private static final String _PRAIAS_RATE_ = "rate";
+  private static final String _PRAIAS_TEMPERATURA_ = "temperatura";
+  private static final String _PRAIAS_DATA_TEMPO_ = "dataTempo";
 
   //DADOS PARA CRIAÇÃO DA TABELA USERS
-  public static final String _USERS_NOME_TABELA_ = "users";
-  public static final String _USERS_ID_ = "_id";
-  public static final String _USERS_USER_ID_ = "userId";
-  public static final String _USERS_USERNAME_ = "username";
+  private static final String _USERS_NOME_TABELA_ = "users";
+  private static final String _USERS_ID_ = "_id";
+  private static final String _USERS_USER_ID_ = "userId";
+  private static final String _USERS_USERNAME_ = "username";
 
 
   public MyOpenHelper(Context context) {
@@ -65,6 +65,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
 
     db.execSQL(CreateUsersDbSql);
 
+    //TODO: Comentar este código antes de entregar
     String sqlInsertPraia = "INSERT INTO " + _PRAIAS_NOME_TABELA_ + "( "+ _PRAIAS_PRAIA_ID_ + "," + _PRAIAS_NOME_ + "," + _PRAIAS_LONGITUDE_ + "," +
       _PRAIAS_LATITUDE_ + "," + _PRAIAS_RATE_ + "," + _PRAIAS_TEMPERATURA_ + ") VALUES ('5835c5eb5bd8bf001095c17f', 'Praia da Luz', 37.0972979, " +
       "-8.778702, 3, 30, " + System.nanoTime() + ")";
@@ -122,9 +123,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
 
     String sqlString = "SELECT * FROM "+ _PRAIAS_NOME_TABELA_ + " WHERE " + _PRAIAS_PRAIA_ID_ + " = '" + id + "'";
 
-    Cursor cur = db.rawQuery(sqlString, null);
-
-    try {
+    try (Cursor cur = db.rawQuery(sqlString, null)) {
       cur.moveToFirst();
       p.setPraiaId(cur.getString(cur.getColumnIndex(_PRAIAS_PRAIA_ID_)));
       p.setNome(cur.getString(cur.getColumnIndex(_PRAIAS_NOME_)));
@@ -133,7 +132,10 @@ public class MyOpenHelper extends SQLiteOpenHelper {
       p.setRate(cur.getDouble(cur.getColumnIndex(_PRAIAS_RATE_)));
       p.setTemperatura(cur.getDouble(cur.getColumnIndex(_PRAIAS_TEMPERATURA_)));
       p.setDataTempo(cur.getLong(cur.getColumnIndex(_PRAIAS_TEMPERATURA_)));
-    }catch (Exception e){    }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
     return p;
   }
 
@@ -142,14 +144,13 @@ public class MyOpenHelper extends SQLiteOpenHelper {
 
     String sqlString = "SELECT * FROM " + _USERS_NOME_TABELA_;
 
-    Cursor cur = db.rawQuery(sqlString, null);
-
-    try {
+    try (Cursor cur = db.rawQuery(sqlString, null)) {
       cur.moveToFirst();
       u.setUsername(cur.getString(cur.getColumnIndex(_USERS_USERNAME_)));
       u.setUserId(cur.getString(cur.getColumnIndex(_USERS_USER_ID_)));
-    }catch (Exception e){    }
-
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
     return u;
   }
 }
