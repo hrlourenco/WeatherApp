@@ -3,6 +3,7 @@ package mei.weatherapp;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.renderscript.Double2;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -21,9 +22,12 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import java.util.ArrayList;
+
 import mei.weatherapp.asynctasks.AccuweatherCurrentConditions;
 import mei.weatherapp.asynctasks.GetPraiaFromDB;
 import mei.weatherapp.asynctasks.GetPraiasAPI;
+import mei.weatherapp.contratos.Condicoes;
 import mei.weatherapp.contratos.Praia;
 
 public class MainActivity extends FragmentActivity {
@@ -135,9 +139,19 @@ public class MainActivity extends FragmentActivity {
         btnTestes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent login = new Intent(ctx, Login.class);
-                if (login.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(login, 1);
+                ArrayList<Condicoes> cond = new ArrayList<Condicoes>();
+                Condicoes c = new Condicoes(10d, "Nuvens", "Mau tempo", 10d, 10d, 10d, 10d);
+                cond.add(c);
+                cond.add(c);
+                cond.add(c);
+                cond.add(c);
+                cond.add(c);
+                cond.add(c);
+                Praia p = new Praia(System.nanoTime(), true, cond, "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAEXssip00E1IbKEDVz70BtB6u0dUgmMUkMHuBLISuJZxCJHRT4kSnjYURCH0dqNpZ0mqlTBa4dvhDNNe2Sf2scdD_0IDNlQ77xFRLy2JC6Rh1vSgpsQ9LbYjBxxw76m3wD28whAoMdiMraDNnoE4RKCmM_3373l6VFE39M78TUdiEhD_DArjfGyrkR2njMKCpNb3GhQ_asLppkC9FqJV1MWNQin4NQRaKg&key=AIzaSyBITKEHhyk2e-LG-XA59DfpxxFqoDmzqm4", 37.1165537, -8.5353523, "Praia das rochas", 3, "583381eb893b140010421987", 3d, 3, 10d);
+                Intent details = new Intent(ctx, BeachDetails.class);
+                details.putExtra("praia", p);
+                if (details.resolveActivity(getPackageManager()) != null) {
+                    startActivity(details);
                 }
             }
         });

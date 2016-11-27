@@ -1,33 +1,22 @@
 package mei.weatherapp;
 
-import android.app.Application;
-import android.os.PersistableBundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.CheckBox;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import mei.weatherapp.asynctasks.AccuweatherForecast;
-import mei.weatherapp.asynctasks.AddPraiaFavorita;
-import mei.weatherapp.asynctasks.
-  DeletePraiaFavorita;
-import mei.weatherapp.asynctasks.GetImageAsync;
+import com.squareup.picasso.Picasso;
+
+import mei.weatherapp.adapter.forecastAdapter;
 import mei.weatherapp.contratos.Praia;
 
-//TESTE Haby
 
 public class BeachDetails extends AppCompatActivity {
 
   private ImageView imgView;
   private ListView lv_forecast;
   private TextView tv_name;
-  private CheckBox cb_fav;
   private Praia praia;
 
   @Override
@@ -39,39 +28,11 @@ public class BeachDetails extends AppCompatActivity {
     praia = (Praia) this.getIntent().getSerializableExtra("praia");
     lv_forecast = (ListView) findViewById(R.id.lv_forecast);
     tv_name = (TextView) findViewById(R.id.tv_name);
-    cb_fav = (CheckBox) findViewById(R.id.cb_fav);
 
-
-    AccuweatherForecast ac = new AccuweatherForecast(lv_forecast, this);
-    ac.execute(praia);
-
-    GetImageAsync getImage = new GetImageAsync(imgView);
-    getImage.execute(praia);
+    Picasso.with(BeachDetails.this).load(praia.getImagem()).into(imgView);
 
     tv_name.setText(praia.getNome());
 
-    //cb_fav.setChecked(praia.getFavorita()==0 ? Boolean.FALSE : Boolean.TRUE);
-
-  }
-
-  public void onCheckboxClicked(View view) {
-    boolean checked = ((CheckBox) view).isChecked();
-/*
-    switch(view.getId()) {
-      case R.id.cb_fav:
-        if (checked){
-          praia.setFavorita(1);
-          DeletePraiaFavorita dp = new DeletePraiaFavorita(getApplicationContext());
-          dp.execute();
-          AddPraiaFavorita ap = new AddPraiaFavorita(getApplicationContext());
-          ap.execute(praia);
-        }else{
-          praia.setFavorita(0);
-          DeletePraiaFavorita dp = new DeletePraiaFavorita(getApplicationContext());
-          dp.execute();
-        }
-        break;
-    }
-    */
+    lv_forecast.setAdapter(new forecastAdapter(BeachDetails.this, praia.getForecast()));
   }
 }
