@@ -42,7 +42,7 @@ public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
         this.txtMsg = txtMsg;
         this.txtPercentagem = txtPercentagem;
         this.txtTemp = txtTemp;
-        this.txtTemp = txtRate;
+        this.txtRate = txtRate;
         this.txtUserId = txtUserId;
     }
 
@@ -74,7 +74,9 @@ public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
             default: this.txtMsg.setText("Melhor.... Impossível");
         }
 
-        int id = ctx.getResources().getIdentifier(praia.getIcon(),"drawable", ctx.getPackageName());
+        String iconTempo = praia.getIcon();
+        iconTempo = "icon_" + iconTempo.replace("-","");
+        int id = ctx.getResources().getIdentifier(Utils.IconWeatherString(praia.getIcon()),"drawable", ctx.getPackageName());
         this.imgTemp.setImageResource(id);
         this.txtTemp.setText(praia.getTemperatura() + "º C");
         this.txtRate.setText(praia.getRate() + "");

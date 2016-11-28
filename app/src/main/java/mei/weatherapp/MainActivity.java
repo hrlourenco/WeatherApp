@@ -2,8 +2,8 @@ package mei.weatherapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.renderscript.Double2;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -22,13 +22,12 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-import java.util.ArrayList;
-
 import mei.weatherapp.asynctasks.AccuweatherCurrentConditions;
 import mei.weatherapp.asynctasks.GetPraiaFromDB;
 import mei.weatherapp.asynctasks.GetPraiasAPI;
-import mei.weatherapp.contratos.Condicoes;
+import mei.weatherapp.contratos.GPSData;
 import mei.weatherapp.contratos.Praia;
+import mei.weatherapp.uteis.GPSLocationProvider;
 
 public class MainActivity extends FragmentActivity {
 
@@ -44,20 +43,18 @@ public class MainActivity extends FragmentActivity {
     TextView txtLongitude;
     TextView txtNome;
     private Praia praiaGlobal;
-
     Context ctx;
-
-
     Button btnDetails;
-
-    Button btnTestes;
+    Button btnLogin;
+    Button btnActualLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnTestes = (Button) findViewById(R.id.btn_testes);
+        //localização actual
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         ctx = MainActivity.this;
 
@@ -73,19 +70,20 @@ public class MainActivity extends FragmentActivity {
         btnDetails = (Button) findViewById(R.id.btnDetails);
         load = (RelativeLayout) findViewById(R.id.loading);
         load.setVisibility(View.GONE);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnActualLocation = (Button) findViewById(R.id.btnActualLocation);
 
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        praiaGlobal = new Praia();
 
-        autocompleteFragment.setText("Praia ");
+        //fragmento Google
+        final PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
+        //limites de portugal para filtro de localizações principais
         autocompleteFragment.setBoundsBias(new LatLngBounds(
                 new LatLng(37.026228, -8.988789),
                 new LatLng(41.685452, -6.624795)));
 
-/*        GetPraiaFromDB getPraias = new GetPraiaFromDB(getApplicationContext(),
-          txtMsg, txtTemp, txtRate, imgTemp, (RelativeLayout) findViewById(R.id.ini), txtLatitude, txtLongitude, txtNome);
-        getPraias.execute();*/
-
+        //alterações de localização
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener()
         {
             @Override
@@ -100,15 +98,12 @@ public class MainActivity extends FragmentActivity {
                 LatLng ll = place.getLatLng();
                 praia.setLatitude(ll.latitude);
                 praia.setLongitude(ll.longitude);
-
+                //actualizar praiaGlobal
                 praiaGlobal = praia;
-
+                //chamar dados da API
                 GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, null);
                 ws.execute(praia);
-
-                AccuweatherCurrentConditions awcc = new AccuweatherCurrentConditions(MainActivity.this, load, txtPercentagem,
-                  imgTemp, txtTemp, txtMsg);
-                awcc.execute(praia);
+                //desactivar rating
             }
 
             @Override
@@ -118,6 +113,33 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+
+        //Obter dados da actualização actual
+        GPSLocationProvider.requestLocation(MainActivity.this, new GPSLocationProvider.LocationCallback() {
+            @Override
+            public void onNewLocation(GPSData data) {
+                if(data.lon != -1) {
+                    //actualizar praiaGlobal
+                    praiaGlobal.setLatitude((double) data.lat);
+                    praiaGlobal.setLongitude((double) data.lon);
+                    praiaGlobal.setNome(data.cidade);
+                    //actualizar layout
+                    txtLatitude.setText(Double.toString(praiaGlobal.getLatitude()));
+                    txtLatitude.setText(Double.toString(praiaGlobal.getLongitude()));
+                    txtNome.setText(praiaGlobal.getNome());
+                    //actualizar fragmento
+                    autocompleteFragment.setText(data.cidade);
+                    //chamar dados da API
+                    GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, null);
+                    ws.execute(praiaGlobal);
+                } else {
+                    Toast.makeText(MainActivity.this, "Impossivel obter localização", Toast.LENGTH_LONG).show();
+                    autocompleteFragment.setText("Praia ");
+                }
+            }
+        });
+
+        /*EVENTOS DE BOTÕES*/
         btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,25 +158,40 @@ public class MainActivity extends FragmentActivity {
         });
 
 
-        btnTestes.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<Condicoes> cond = new ArrayList<Condicoes>();
-                Condicoes c = new Condicoes(10d, "partly-cloudy-day", "Mau tempo", 10d, 10d, 10d, 10d);
-                cond.add(c);
-                cond.add(c);
-                cond.add(c);
-                cond.add(c);
-                cond.add(c);
-                cond.add(c);
-                Praia p = new Praia(System.nanoTime(), true, cond, "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=CoQBdwAAAEXssip00E1IbKEDVz70BtB6u0dUgmMUkMHuBLISuJZxCJHRT4kSnjYURCH0dqNpZ0mqlTBa4dvhDNNe2Sf2scdD_0IDNlQ77xFRLy2JC6Rh1vSgpsQ9LbYjBxxw76m3wD28whAoMdiMraDNnoE4RKCmM_3373l6VFE39M78TUdiEhD_DArjfGyrkR2njMKCpNb3GhQ_asLppkC9FqJV1MWNQin4NQRaKg&key=AIzaSyBITKEHhyk2e-LG-XA59DfpxxFqoDmzqm4", 37.1165537, -8.5353523, "Praia das rochas", 3, "583381eb893b140010421987", 3d, 3, 10d);
-                Intent details = new Intent(ctx, BeachDetails.class);
-                details.putExtra("praia", p);
-                if (details.resolveActivity(getPackageManager()) != null) {
-                    startActivity(details);
+                Intent login = new Intent(ctx, Login.class);
+                if (login.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(login, 1);
                 }
             }
         });
 
+        btnActualLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GPSLocationProvider.requestLocation(MainActivity.this, new GPSLocationProvider.LocationCallback() {
+                    @Override
+                    public void onNewLocation(GPSData data) {
+                        if(data.lon != -1) {
+                            //actualizar praiaGlobal
+                            praiaGlobal.setLatitude((double) data.lat);
+                            praiaGlobal.setLongitude((double) data.lon);
+                            praiaGlobal.setNome(data.cidade);
+                            //actualizar layout
+                            txtLatitude.setText(Double.toString(praiaGlobal.getLatitude()));
+                            txtLatitude.setText(Double.toString(praiaGlobal.getLongitude()));
+                            txtNome.setText(praiaGlobal.getNome());
+                            //actualizar fragmento
+                            autocompleteFragment.setText(data.cidade);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Impossivel obter localização", Toast.LENGTH_LONG).show();
+                            autocompleteFragment.setText("Praia ");
+                        }
+                    }
+                });
+            }
+        });
     }
 }

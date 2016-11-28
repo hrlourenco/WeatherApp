@@ -37,7 +37,6 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/txt_username"
-        android:text="joao"
         android:textColor="@color/textColor"/>
 
     <TextView
@@ -54,8 +53,7 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/txt_password"
-        android:textColor="@color/textColor"
-        android:text="jj"/>
+        android:textColor="@color/textColor" />
 
     <TextView
         android:layout_width="wrap_content"

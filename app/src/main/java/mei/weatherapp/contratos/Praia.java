@@ -22,7 +22,7 @@ public class Praia implements Serializable{
   private int rating;
   private int numRating;
   private ArrayList<Condicoes> forecast;
-  private Long dataTempo;
+  private String dataTempo;
   //dados do tempo actual
   private String icon;
   private Double temperatura;
@@ -31,7 +31,7 @@ public class Praia implements Serializable{
   public Praia() {
   }
 
-  public Praia(Long dataTempo, Boolean favorito, ArrayList<Condicoes> forecast, String imagem, Double latitude
+  public Praia(String dataTempo, Boolean favorito, ArrayList<Condicoes> forecast, String imagem, Double latitude
           , Double longitude, String nome, int numRating, String praiaId, Double rate, int rating, Double temperatura) {
     this.dataTempo = dataTempo;
     this.favorito = favorito;
@@ -137,11 +137,11 @@ public class Praia implements Serializable{
     this.forecast = forecast;
   }
 
-  public Long getDataTempo() {
+  public String getDataTempo() {
     return dataTempo;
   }
 
-  public void setDataTempo(Long dataTempo) {
+  public void setDataTempo(String dataTempo) {
     this.dataTempo = dataTempo;
   }
 
@@ -161,7 +161,7 @@ public class Praia implements Serializable{
       resPraia.setPraiaId(praia.getString("_id"));
       resPraia.setNome(praia.getString("praia"));
       resPraia.setImagem(praia.getString("imagem"));
-      resPraia.setDataTempo(praia.getLong("dataTempo"));
+      resPraia.setDataTempo(praia.getString("dataTempo"));
       //pegar o array tempo
       String array = praia.getString("tempo");
       JSONArray tempo = new JSONArray(array);

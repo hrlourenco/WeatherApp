@@ -131,7 +131,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
       p.setLatitude(cur.getDouble(cur.getColumnIndex(_PRAIAS_LATITUDE_)));
       p.setRate(cur.getDouble(cur.getColumnIndex(_PRAIAS_RATE_)));
       p.setTemperatura(cur.getDouble(cur.getColumnIndex(_PRAIAS_TEMPERATURA_)));
-      p.setDataTempo(cur.getLong(cur.getColumnIndex(_PRAIAS_TEMPERATURA_)));
+      p.setDataTempo(cur.getString(cur.getColumnIndex(_PRAIAS_TEMPERATURA_)));
     } catch (Exception e) {
       e.printStackTrace();
     }

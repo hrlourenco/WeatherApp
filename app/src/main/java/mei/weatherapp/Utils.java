@@ -10,4 +10,10 @@ public class Utils {
     String im = imageId < 10 ? "0" + Integer.toString(imageId) : Integer.toString(imageId);
     return "aw" + im + "s";
   }
+
+  //dado um icon devolve o seu drawable
+  //esta a fazer replace de "-" por "" e prefixo "icon_"
+  public static String IconWeatherString(String name) {
+    return ("icon_" + name.replace("-",""));
+  }
 }
