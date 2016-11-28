@@ -85,8 +85,8 @@ public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
         iconTempo = "icon_" + iconTempo.replace("-","");
         int id = ctx.getResources().getIdentifier(Utils.IconWeatherString(praia.getIcon()),"drawable", ctx.getPackageName());
         this.imgTemp.setImageResource(id);
-        this.txtTemp.setText(praia.getTemperatura() + "º C");
-        this.txtRate.setText(praia.getRate() + "");
+        this.txtTemp.setText(String.format("%.1f",praia.getTemperatura()) + "º C");
+        this.txtRate.setText(String.format("%.1f",praia.getRate()) + "");
 
         this.load.setVisibility(View.GONE);
 

@@ -1,21 +1,16 @@
 package mei.weatherapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.renderscript.Double2;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,14 +22,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-
-import org.w3c.dom.Text;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 
 import mei.weatherapp.asynctasks.AccuweatherCurrentConditions;
 import mei.weatherapp.asynctasks.GetPraiaFromDB;
@@ -45,13 +33,8 @@ import mei.weatherapp.contratos.User;
 import mei.weatherapp.interfaces.AsyncResponse;
 import mei.weatherapp.uteis.GPSLocationProvider;
 
-import static android.R.attr.data;
-
 public class MainActivity extends FragmentActivity {
-    static final int REQUEST_LOGIN = 1;
-    static final int REQUEST_TAKE_PHOTO = 2;
 
-    String mCurrentPhotoPath;
     String TAG = "<MyAutoComplete Google>";
 
     RelativeLayout load;
@@ -63,13 +46,22 @@ public class MainActivity extends FragmentActivity {
     TextView txtLatitude;
     TextView txtLongitude;
     TextView txtNome;
+    TextView txtRatingMessage;
+    RatingBar ratingBar;
     private Praia praiaGlobal;
     Context ctx;
     Button btnDetails;
     Button btnLogin;
     Button btnActualLocation;
-    Button btnPhoto;
     private User user;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1) {
+            user = (User) data.getSerializableExtra("user");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,13 +81,14 @@ public class MainActivity extends FragmentActivity {
         txtLatitude = (TextView) findViewById(R.id.txtLatitude);
         txtLongitude = (TextView) findViewById(R.id.txtLongitude);
         txtNome = (TextView) findViewById(R.id.txtNome);
+        txtRatingMessage = (TextView) findViewById(R.id.txtRatingMessage);
+        ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
         btnDetails = (Button) findViewById(R.id.btnDetails);
         load = (RelativeLayout) findViewById(R.id.loading);
         load.setVisibility(View.GONE);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnActualLocation = (Button) findViewById(R.id.btnActualLocation);
-        btnPhoto = (Button) findViewById(R.id.btnPhoto);
 
         praiaGlobal = new Praia();
 
@@ -129,6 +122,14 @@ public class MainActivity extends FragmentActivity {
                     @Override
                     public void processFinish(Praia output) {
                         praiaGlobal = output;
+                        if(praiaGlobal.getNumRating()<3) {
+                            txtRatingMessage.setText("Votos insuficientes");
+                            txtRate.setText("");
+                            ratingBar.setRating(Float.parseFloat("0.0"));
+                        } else {
+                            txtRatingMessage.setText("Well done!");
+                            ratingBar.setRating(Float.parseFloat(praiaGlobal.getRate().toString()));
+                        }
                     }
                 });
                 ws.execute(praia).getStatus();
@@ -143,7 +144,7 @@ public class MainActivity extends FragmentActivity {
         });
 
 
-        //Obter dados da actualização actual
+        //Obter dados da actualização actual ao iniciar
         GPSLocationProvider.requestLocation(MainActivity.this, new GPSLocationProvider.LocationCallback() {
             @Override
             public void onNewLocation(GPSData data) {
@@ -163,6 +164,14 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void processFinish(Praia output) {
                             praiaGlobal = output;
+                            if(praiaGlobal.getNumRating()<3) {
+                                txtRatingMessage.setText("Votos insuficientes");
+                                txtRate.setText("");
+                                ratingBar.setRating(Float.parseFloat(praiaGlobal.getRate().toString()));
+                            } else {
+                                txtRatingMessage.setText("Well done!");
+                                ratingBar.setRating(Float.parseFloat(praiaGlobal.getRate().toString()));
+                            }
                         }
                     });
                     ws.execute(praiaGlobal);
@@ -197,7 +206,7 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View view) {
                 Intent login = new Intent(ctx, Login.class);
                 if (login.resolveActivity(getPackageManager()) != null) {
-                    startActivityForResult(login, REQUEST_LOGIN);
+                    startActivityForResult(login, 1);
                 }
             }
         });
@@ -219,6 +228,21 @@ public class MainActivity extends FragmentActivity {
                             txtNome.setText(praiaGlobal.getNome());
                             //actualizar fragmento
                             autocompleteFragment.setText(data.cidade);
+                            GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, null, new AsyncResponse(){
+                                @Override
+                                public void processFinish(Praia output) {
+                                    praiaGlobal = output;
+                                    if(praiaGlobal.getNumRating()<3) {
+                                        txtRatingMessage.setText("Votos insuficientes");
+                                        txtRate.setText("");
+                                        ratingBar.setRating(Float.parseFloat(praiaGlobal.getRate().toString()));
+                                    } else {
+                                        txtRatingMessage.setText("Well done!");
+                                        ratingBar.setRating(Float.parseFloat(praiaGlobal.getRate().toString()));
+                                    }
+                                }
+                            });
+                            ws.execute(praiaGlobal);
                         } else {
                             Toast.makeText(MainActivity.this, "Impossivel obter localização", Toast.LENGTH_LONG).show();
                             autocompleteFragment.setText("Praia ");
@@ -228,57 +252,11 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        btnPhoto.setOnClickListener(new View.OnClickListener() {
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onClick(View view) {
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                // Ensure that there's a camera activity to handle the intent
-                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    // Create the File where the photo should go
-                    File photoFile = null;
-                    try {
-                        photoFile = createImageFile();
-                    } catch (IOException ex) {
-                        // Error occurred while creating the File
-                    }
-                    // Continue only if the File was successfully created
-                    if (photoFile != null) {
-                        Uri photoURI = FileProvider.getUriForFile(MainActivity.this,
-                          "com.example.android.fileprovider",
-                          photoFile);
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                        startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-                    }
-                }
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                txtRatingMessage.setText("Meu rate: " + String.valueOf(rating));
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_LOGIN && resultCode == Activity.RESULT_OK) {
-            user = (User) data.getSerializableExtra("user");
-        }
-
-        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-
-        }
-    }
-
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-          imageFileName,  /* prefix */
-          ".jpg",         /* suffix */
-          storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
     }
 }
