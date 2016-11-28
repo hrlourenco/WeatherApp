@@ -27,6 +27,8 @@ import mei.weatherapp.asynctasks.GetPraiaFromDB;
 import mei.weatherapp.asynctasks.GetPraiasAPI;
 import mei.weatherapp.contratos.GPSData;
 import mei.weatherapp.contratos.Praia;
+import mei.weatherapp.contratos.User;
+import mei.weatherapp.interfaces.AsyncResponse;
 import mei.weatherapp.uteis.GPSLocationProvider;
 
 public class MainActivity extends FragmentActivity {
@@ -47,6 +49,7 @@ public class MainActivity extends FragmentActivity {
     Button btnDetails;
     Button btnLogin;
     Button btnActualLocation;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +104,13 @@ public class MainActivity extends FragmentActivity {
                 //actualizar praiaGlobal
                 praiaGlobal = praia;
                 //chamar dados da API
-                GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, null);
-                ws.execute(praia);
+                GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, null, new AsyncResponse(){
+                    @Override
+                    public void processFinish(Praia output) {
+                        praiaGlobal = output;
+                    }
+                });
+                ws.execute(praia).getStatus();
                 //desactivar rating
             }
 
@@ -130,7 +138,12 @@ public class MainActivity extends FragmentActivity {
                     //actualizar fragmento
                     autocompleteFragment.setText(data.cidade);
                     //chamar dados da API
-                    GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, null);
+                    GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, null, new AsyncResponse(){
+                        @Override
+                        public void processFinish(Praia output) {
+                            praiaGlobal = output;
+                        }
+                    });
                     ws.execute(praiaGlobal);
                 } else {
                     Toast.makeText(MainActivity.this, "Impossivel obter localização", Toast.LENGTH_LONG).show();

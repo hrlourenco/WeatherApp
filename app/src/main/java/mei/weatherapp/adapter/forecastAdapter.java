@@ -65,7 +65,9 @@ public class forecastAdapter extends BaseAdapter {
 
     Condicoes aux = (Condicoes) this.getItem(i);
 
-    int id = ctx.getResources().getIdentifier(aux.getIcon().replace("-", "_"), "drawable", ctx.getPackageName());
+
+
+    int id = ctx.getResources().getIdentifier(Utils.IconWeatherString(aux.getIcon()),"drawable", ctx.getPackageName());
     Drawable drawable = ctx.getResources().getDrawable(id);
     img_tempo.setImageDrawable(drawable);
 

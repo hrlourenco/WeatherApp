@@ -36,16 +36,15 @@ public class LoginAsyncTask extends AsyncTask<String, Void, User> {
       WeatherIPCAWebService ws = new WeatherIPCAWebService();
       res = new JSONObject(ws.doLogin(strings[0]));
       if(!res.has("internalErrorCode")){
-        user = new User(res.getString("_id"), res.getString("username"));
+        user = new User(res.getString("_id"), res.getString("username"), res.getInt("credito"));
+        if (keep){
+          SQLiteDatabase db = moh.getWritableDatabase();
+          moh.deleteFromUsers(db);
+          moh.insertIntoUsers(db, user);
+        }
       }
     } catch (JSONException e) {
       e.printStackTrace();
-    }
-
-    if (keep){
-      SQLiteDatabase db = moh.getWritableDatabase();
-      moh.deleteFromUsers(db);
-      moh.insertIntoUsers(db, user);
     }
 
     return user;
@@ -71,9 +70,7 @@ public class LoginAsyncTask extends AsyncTask<String, Void, User> {
     }
     if(user != null){
       Activity a = (Activity) ctx;
-      Intent intenteMain = new Intent(ctx, MainActivity.class);
-      intenteMain.putExtra("user", user);
-      a.setResult(Activity.RESULT_OK);
+      a.setResult(Activity.RESULT_OK, new Intent(ctx, MainActivity.class).putExtra("user", user));
       a.finish();
     }
   }

@@ -23,7 +23,7 @@ import java.util.Locale;
 import mei.weatherapp.contratos.GPSData;
 
 public class GPSLocationProvider {
-    //este interface será utilizado na chamada à função de busca de localização
+    //este interfaces será utilizado na chamada à função de busca de localização
     public static interface LocationCallback {
         public void onNewLocation(GPSData location);
     }
@@ -79,7 +79,7 @@ public class GPSLocationProvider {
                         builder.append("");
                     }
                     addrFinal = builder.toString();
-                    //'implementação' do nosso interface
+                    //'implementação' do nosso interfaces
                     callback.onNewLocation(new GPSData(location.getLatitude(), location.getLongitude(), addrFinal));
                 }
 

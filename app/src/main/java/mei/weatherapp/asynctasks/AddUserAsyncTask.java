@@ -44,7 +44,7 @@ public class AddUserAsyncTask extends AsyncTask<Void, Void, User> {
       WeatherIPCAWebService ws = new WeatherIPCAWebService();
       res = new JSONObject(ws.doAddUser(username, username + password));
       if (!res.has("internalErrorCode")){
-        user = new User(res.getString("_id"), res.getString("username"));
+        user = new User(res.getString("_id"), res.getString("username"), res.getInt("credito"));
 
         if(keep){
           SQLiteDatabase db = moh.getWritableDatabase();
@@ -79,9 +79,7 @@ public class AddUserAsyncTask extends AsyncTask<Void, Void, User> {
     }
     if(user != null){
       Activity a = (Activity) ctx;
-      Intent intenteMain = new Intent(ctx, MainActivity.class);
-      intenteMain.putExtra("user", user);
-      a.setResult(Activity.RESULT_OK);
+      a.setResult(Activity.RESULT_OK, new Intent(ctx, MainActivity.class).putExtra("user", user));
       a.finish();
     }
   }

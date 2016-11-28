@@ -5,13 +5,15 @@ import java.io.Serializable;
 public class User implements Serializable {
   private String userId;
   private String username;
+  private int creditos;
 
   public User() {
   }
 
-  public User(String userId, String username) {
+  public User(String userId, String username, int creditos) {
     this.userId = userId;
     this.username = username;
+    this.creditos = creditos;
   }
 
   public String getUserId() {
@@ -28,5 +30,13 @@ public class User implements Serializable {
 
   public void setUsername(String username) {
     this.username = username;
+  }
+
+  public int getCreditos() {
+    return creditos;
+  }
+
+  public void setCreditos(int creditos) {
+    this.creditos = creditos;
   }
 }

@@ -1,5 +1,6 @@
 package mei.weatherapp.asynctasks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,15 +14,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import mei.weatherapp.MainActivity;
 import mei.weatherapp.Utils;
 import mei.weatherapp.contratos.Condicoes;
 import mei.weatherapp.contratos.Praia;
+import mei.weatherapp.interfaces.AsyncResponse;
 import mei.weatherapp.webservice.AccuWeatherWebService;
 import mei.weatherapp.webservice.WeatherIPCAWebService;
 import mei.weatherapp.webservice.WebserviceConnector;
 
 
 public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
+
+    public AsyncResponse delegate = null;
+
     RelativeLayout load;
     String txtUserId;
     TextView txtPercentagem;
@@ -34,7 +40,7 @@ public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
     Integer totalLoads = 2;
 
     public GetPraiasAPI(Context ctx, ImageView imgTemp, RelativeLayout load
-            , TextView txtMsg, TextView txtPercentagem, TextView txtTemp, TextView txtRate, String userId) {
+            , TextView txtMsg, TextView txtPercentagem, TextView txtTemp, TextView txtRate, String userId, AsyncResponse delegate) {
         this.ctx = ctx;
         this.imgTemp = imgTemp;
         this.load = load;
@@ -44,6 +50,7 @@ public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
         this.txtTemp = txtTemp;
         this.txtRate = txtRate;
         this.txtUserId = txtUserId;
+        this.delegate = delegate;
     }
 
     @Override
@@ -82,6 +89,11 @@ public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
         this.txtRate.setText(praia.getRate() + "");
 
         this.load.setVisibility(View.GONE);
+
+        Intent intentMain = new Intent(ctx, MainActivity.class);
+        intentMain.putExtra("praia", praia);
+
+        delegate.processFinish(praia);
 
     }
 
