@@ -1,6 +1,7 @@
 package mei.weatherapp.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,6 @@ import mei.weatherapp.R;
 import mei.weatherapp.Utils;
 import mei.weatherapp.contratos.Condicoes;
 
-/**
- * Created by joaofaria on 13/09/16.
- */
 public class forecastAdapter extends BaseAdapter {
   private Context ctx;
   private List<Condicoes> ds;
@@ -67,8 +65,10 @@ public class forecastAdapter extends BaseAdapter {
 
     Condicoes aux = (Condicoes) this.getItem(i);
 
-    //int id = ctx.getResources().getIdentifier(Utils.MakeAWImageString(aux.getIcon()),"drawable", ctx.getPackageName());
-    //img_tempo.setImageResource(id);
+    int id = ctx.getResources().getIdentifier(aux.getIcon().replace("-", "_"), "drawable", ctx.getPackageName());
+    Drawable drawable = ctx.getResources().getDrawable(id);
+    img_tempo.setImageDrawable(drawable);
+
     tv_tempMax.setText(aux.getTempMax() + "º C");
     tv_tempMin.setText(aux.getTempMin() + "º C");
     SimpleDateFormat formate = new SimpleDateFormat("EEE yyyy-MM-dd");

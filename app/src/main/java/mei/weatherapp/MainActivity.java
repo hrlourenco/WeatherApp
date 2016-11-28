@@ -140,7 +140,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
                 ArrayList<Condicoes> cond = new ArrayList<Condicoes>();
-                Condicoes c = new Condicoes(10d, "Nuvens", "Mau tempo", 10d, 10d, 10d, 10d);
+                Condicoes c = new Condicoes(10d, "partly-cloudy-day", "Mau tempo", 10d, 10d, 10d, 10d);
                 cond.add(c);
                 cond.add(c);
                 cond.add(c);
