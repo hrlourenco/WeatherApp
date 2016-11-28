@@ -42,7 +42,7 @@ public class GPSLocationProvider {
             criteria.setAccuracy(Criteria.ACCURACY_FINE);
             proceed = true;
         } else if( isNetwork) {
-            proceed = false;
+            proceed = true;
             criteria.setAccuracy(Criteria.ACCURACY_COARSE);
         }
 

@@ -22,7 +22,7 @@ public class Praia implements Serializable{
   private int rating;
   private int numRating;
   private ArrayList<Condicoes> forecast;
-  private String dataTempo;
+  private Long dataTempo;
   //dados do tempo actual
   private String icon;
   private Double temperatura;
@@ -31,7 +31,7 @@ public class Praia implements Serializable{
   public Praia() {
   }
 
-  public Praia(String dataTempo, Boolean favorito, ArrayList<Condicoes> forecast, String imagem, Double latitude
+  public Praia(Long dataTempo, Boolean favorito, ArrayList<Condicoes> forecast, String imagem, Double latitude
           , Double longitude, String nome, int numRating, String praiaId, Double rate, int rating, Double temperatura) {
     this.dataTempo = dataTempo;
     this.favorito = favorito;
@@ -137,11 +137,11 @@ public class Praia implements Serializable{
     this.forecast = forecast;
   }
 
-  public String getDataTempo() {
+  public Long getDataTempo() {
     return dataTempo;
   }
 
-  public void setDataTempo(String dataTempo) {
+  public void setDataTempo(Long dataTempo) {
     this.dataTempo = dataTempo;
   }
 
@@ -161,7 +161,15 @@ public class Praia implements Serializable{
       resPraia.setPraiaId(praia.getString("_id"));
       resPraia.setNome(praia.getString("praia"));
       resPraia.setImagem(praia.getString("imagem"));
-      resPraia.setDataTempo(praia.getString("dataTempo"));
+      try {
+        String auxDT = praia.getString("dataTempo");
+        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        Date d = f.parse(auxDT);
+        long milisegundos = d.getTime();
+        resPraia.setDataTempo(milisegundos);
+      } catch (Exception e) {
+        resPraia.setDataTempo(System.currentTimeMillis());
+      }
       //pegar o array tempo
       String array = praia.getString("tempo");
       JSONArray tempo = new JSONArray(array);

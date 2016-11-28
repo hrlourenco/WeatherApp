@@ -66,12 +66,12 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     db.execSQL(CreateUsersDbSql);
 
     //TODO: Comentar este código antes de entregar
-    String sqlInsertPraia = "INSERT INTO " + _PRAIAS_NOME_TABELA_ + "( "+ _PRAIAS_PRAIA_ID_ + "," + _PRAIAS_NOME_ + "," + _PRAIAS_LONGITUDE_ + "," +
+/*    String sqlInsertPraia = "INSERT INTO " + _PRAIAS_NOME_TABELA_ + "( "+ _PRAIAS_PRAIA_ID_ + "," + _PRAIAS_NOME_ + "," + _PRAIAS_LONGITUDE_ + "," +
       _PRAIAS_LATITUDE_ + "," + _PRAIAS_RATE_ + "," + _PRAIAS_TEMPERATURA_ + ") VALUES ('5835c5eb5bd8bf001095c17f', 'Praia da Luz', 37.0972979, " +
       "-8.778702, 3, 30, " + System.nanoTime() + ")";
 
     db.execSQL(sqlInsertPraia);
-
+*/
   }
 
   @Override
@@ -131,7 +131,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
       p.setLatitude(cur.getDouble(cur.getColumnIndex(_PRAIAS_LATITUDE_)));
       p.setRate(cur.getDouble(cur.getColumnIndex(_PRAIAS_RATE_)));
       p.setTemperatura(cur.getDouble(cur.getColumnIndex(_PRAIAS_TEMPERATURA_)));
-      p.setDataTempo(cur.getString(cur.getColumnIndex(_PRAIAS_TEMPERATURA_)));
+      p.setDataTempo(cur.getLong(cur.getColumnIndex(_PRAIAS_TEMPERATURA_)));
     } catch (Exception e) {
       e.printStackTrace();
     }

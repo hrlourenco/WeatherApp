@@ -60,17 +60,19 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_weight="7"
-            android:id="@+id/llTopo">
+            android:layout_weight="5"
+            android:id="@+id/llTopo"
+            android:background="#a6bae2">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="-"
+                    android:text="Olá User"
                     android:id="@+id/txtAdress"
                     android:gravity="bottom|center_horizontal"
-                    android:textColor="@color/textColor" />
+                    android:textColor="@color/textColor"
+                    android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -81,48 +83,74 @@
             android:id="@+id/llImage">
 
                 <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/llSubImage">
-
-                        <ImageView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:id="@+id/imgTemp"
-                            android:contentDescription="@string/icon_do_estado_do_tempo"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="50dp" />
+                    android:layout_weight="10">
 
                         <LinearLayout
-                            android:orientation="vertical"
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:id="@+id/llSubImage"
+                            android:layout_weight="80">
 
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceLarge"
-                                    android:id="@+id/txtTemp"
-                                    android:gravity="center_vertical"
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:id="@+id/imgTemp"
+                                    android:contentDescription="@string/icon_do_estado_do_tempo"
                                     android:layout_gravity="center_vertical"
-                                    android:layout_weight="20"
-                                    android:textSize="50dp"
-                                    android:textColor="@color/textColor" />
+                                    android:layout_marginLeft="5dp"
+                                    android:scaleType="centerCrop" />
 
-                                <TextView
+                                <LinearLayout
+                                    android:orientation="vertical"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceLarge"
-                                    android:id="@+id/txtRate"
-                                    android:gravity="center_vertical"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_weight="20"
-                                    android:textSize="50dp"
-                                    android:textColor="@color/textColor" />
+                                    android:layout_height="match_parent">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textAppearance="?android:attr/textAppearanceLarge"
+                                            android:id="@+id/txtTemp"
+                                            android:gravity="center_vertical"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_weight="20"
+                                            android:textSize="36dp"
+                                            android:textColor="@color/textColor" />
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textAppearance="?android:attr/textAppearanceLarge"
+                                            android:id="@+id/txtRate"
+                                            android:gravity="center_vertical"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_weight="20"
+                                            android:textSize="36dp"
+                                            android:textColor="@color/textColor" />
+                                </LinearLayout>
+
                         </LinearLayout>
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/llRating"
+                    android:layout_weight="30">
+
+                        <RatingBar
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/ratingBar"
+                            android:numStars="3"
+                            android:stepSize="1" />
+                </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
