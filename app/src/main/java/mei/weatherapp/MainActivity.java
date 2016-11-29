@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ import java.util.Date;
 import mei.weatherapp.asynctasks.AccuweatherCurrentConditions;
 import mei.weatherapp.asynctasks.GetPraiaFromDB;
 import mei.weatherapp.asynctasks.GetPraiasAPI;
+import mei.weatherapp.asynctasks.RatePraiaAPI;
 import mei.weatherapp.contratos.GPSData;
 import mei.weatherapp.contratos.Praia;
 import mei.weatherapp.contratos.User;
@@ -62,8 +64,10 @@ public class MainActivity extends FragmentActivity {
     TextView txtLatitude;
     TextView txtLongitude;
     TextView txtNome;
+    TextView txtUser;
     TextView txtRatingMessage;
     RatingBar ratingBar;
+    LinearLayout llRating;
     private Praia praiaGlobal;
     Context ctx;
     Button btnDetails;
@@ -90,8 +94,10 @@ public class MainActivity extends FragmentActivity {
         txtLatitude = (TextView) findViewById(R.id.txtLatitude);
         txtLongitude = (TextView) findViewById(R.id.txtLongitude);
         txtNome = (TextView) findViewById(R.id.txtNome);
+        txtUser = (TextView) findViewById(R.id.txtUser);
         txtRatingMessage = (TextView) findViewById(R.id.txtRatingMessage);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        llRating = (LinearLayout) findViewById(R.id.llRating);
 
         btnDetails = (Button) findViewById(R.id.btnDetails);
         load = (RelativeLayout) findViewById(R.id.loading);
@@ -114,6 +120,9 @@ public class MainActivity extends FragmentActivity {
         {
             @Override
             public void onPlaceSelected(Place place) {
+                //é uma praia diferente da localização actual, não tem acesso a fazer rating
+                llRating.setVisibility(View.GONE);
+
                 Log.i(TAG, "Place: " + place.getName());
                 findViewById(R.id.ini).setVisibility(View.GONE);
 
@@ -227,6 +236,11 @@ public class MainActivity extends FragmentActivity {
                     @Override
                     public void onNewLocation(GPSData data) {
                         if(data.lon != -1) {
+                            if(user!=null) {
+                                //é uma praia da localização actual, tem acesso a fazer rating
+                                llRating.setVisibility(View.VISIBLE);
+                            }
+
                             //actualizar praiaGlobal
                             praiaGlobal.setLatitude((double) data.lat);
                             praiaGlobal.setLongitude((double) data.lon);
@@ -264,7 +278,11 @@ public class MainActivity extends FragmentActivity {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                txtRatingMessage.setText("Meu rate: " + String.valueOf(rating));
+                txtRatingMessage.setText("Rate: " + String.valueOf(rating));
+                if(user != null) {
+                    RatePraiaAPI rp = new RatePraiaAPI(MainActivity.this, praiaGlobal.getPraiaId(), (int)Math.round(rating), txtUser, txtRate, user.getUserId());
+                    rp.execute(praiaGlobal);
+                }
             }
         });
 
@@ -296,15 +314,26 @@ public class MainActivity extends FragmentActivity {
 
 
 
+    //receber dados de activity for result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_LOGIN && resultCode == Activity.RESULT_OK) {
+            llRating.setVisibility(View.VISIBLE);
             user = (User) data.getSerializableExtra("user");
+            txtUser.setText(user.getUsername() + " :: " + user.getCreditos() + " créditos");
         }
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
 
+        }
+    }
+
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        super.onActivityReenter(resultCode, data);
+        if(user!=null) {
+            llRating.setVisibility(View.VISIBLE);
         }
     }
 

@@ -35,6 +35,27 @@ public class WeatherIPCAWebService extends WebserviceConnector {
         return result;
     }
 
+    public String doRatePraia(String userId, String praiaId , int rating) {
+        JSONObject dataPost = new JSONObject();
+        String result = null;
+
+        try {
+            dataPost.put("userId",userId);
+            dataPost.put("praiaId",praiaId);
+            dataPost.put("ratingGeral",rating);
+            dataPost.put("ratingCriancas",rating);
+            dataPost.put("ratingEquipamento",rating);
+            dataPost.put("ratingSeguranca",rating);
+            buildWebserviceCall(APIData.WeatherIPCA.ENDPOINT_RATE, null);
+            result = postToWebserviceJson(dataPost);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
     //get praia from API with login
     public String doGetPraiasLogin(String nomePraia, Double latitude, Double longitude, String userId) {
         JSONObject dataPost = new JSONObject();

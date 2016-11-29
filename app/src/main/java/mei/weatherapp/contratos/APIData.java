@@ -10,6 +10,8 @@ public class APIData {
 
         public static final String ENDPOINT_GETPRAIA  = ENDPOINT + "/praias/";
 
+        public static final String ENDPOINT_RATE  = ENDPOINT + "/rate/";
+
         public static final String ENDPOINT_USERS  = ENDPOINT + "/users/";
 
     }

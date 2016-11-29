@@ -69,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="-"
-                    android:id="@+id/txtAdress"
+                    android:id="@+id/txtUser"
                     android:gravity="bottom|center_horizontal"
                     android:textColor="@color/textColor"
                     android:textSize="18sp" />
@@ -96,8 +96,8 @@
                             android:layout_weight="80">
 
                                 <ImageView
-                                    android:layout_width="100dp"
-                                    android:layout_height="100dp"
+                                    android:layout_width="120dp"
+                                    android:layout_height="120dp"
                                     android:id="@+id/imgTemp"
                                     android:contentDescription="@string/icon_do_estado_do_tempo"
                                     android:layout_gravity="center_vertical"
@@ -118,7 +118,8 @@
                                             android:layout_gravity="center_vertical"
                                             android:layout_weight="20"
                                             android:textSize="36dp"
-                                            android:textColor="@color/textColor" />
+                                            android:textColor="@color/textColor"
+                                            android:paddingLeft="20dp" />
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -129,7 +130,8 @@
                                             android:layout_gravity="center_vertical"
                                             android:layout_weight="20"
                                             android:textSize="36dp"
-                                            android:textColor="@color/textColor" />
+                                            android:textColor="@color/textColor"
+                                            android:paddingLeft="20dp" />
                                 </LinearLayout>
 
                         </LinearLayout>
@@ -141,7 +143,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/llRating"
-                    android:layout_weight="20">
+                    android:layout_weight="20"
+                    android:visibility="gone">
 
                         <LinearLayout
                             android:orientation="horizontal"
