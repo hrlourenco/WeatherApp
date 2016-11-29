@@ -222,7 +222,7 @@ public class MainActivity extends FragmentActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent login = new Intent(ctx, Login.class);
+                Intent login = new Intent(MainActivity.this, Login.class);
                 if (login.resolveActivity(getPackageManager()) != null) {
                     startActivityForResult(login, REQUEST_LOGIN);
                 }
