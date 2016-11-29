@@ -280,7 +280,7 @@ public class MainActivity extends FragmentActivity {
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 txtRatingMessage.setText("Rate: " + String.valueOf(rating));
                 if(user != null) {
-                    RatePraiaAPI rp = new RatePraiaAPI(MainActivity.this, praiaGlobal.getPraiaId(), (int)Math.round(rating), txtUser, txtRate, user.getUserId());
+                    RatePraiaAPI rp = new RatePraiaAPI(MainActivity.this, praiaGlobal.getPraiaId(), (int)Math.round(rating), txtUser, txtRate, user.getUserId(), txtMsg);
                     rp.execute(praiaGlobal);
                 }
             }

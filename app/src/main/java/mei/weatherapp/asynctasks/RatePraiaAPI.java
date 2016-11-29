@@ -1,8 +1,10 @@
 package mei.weatherapp.asynctasks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -10,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import mei.weatherapp.MainActivity;
+import mei.weatherapp.Utils;
 import mei.weatherapp.basedados.MyOpenHelper;
 import mei.weatherapp.contratos.Praia;
 import mei.weatherapp.contratos.User;
@@ -25,16 +29,18 @@ public class RatePraiaAPI extends AsyncTask<Praia, Void, Praia> {
 
     TextView txtRate;
     TextView txtUser;
+    TextView txtMsg;
     int rating;
     String userId;
     String praiaId;
     Context ctx;
 
-    public RatePraiaAPI(Context ctx, String praiaId, int rating, TextView txtUser, TextView txtRate, String userId) {
+    public RatePraiaAPI(Context ctx, String praiaId, int rating, TextView txtUser, TextView txtRate, String userId, TextView txtMsg) {
         this.ctx = ctx;
         this.praiaId = praiaId;
         this.rating = rating;
         this.txtRate = txtRate;
+        this.txtMsg = txtMsg;
         this.txtUser = txtUser;
         this.userId = userId;
 
@@ -46,6 +52,7 @@ public class RatePraiaAPI extends AsyncTask<Praia, Void, Praia> {
     protected Praia doInBackground(Praia... params) {
         Praia praiaLocal = new Praia();
         praiaLocal = params[0];
+        Praia mPraia = new Praia();
 
         WeatherIPCAWebService ws = new WeatherIPCAWebService();
         String teste = ws.doRatePraia(userId, praiaId, rating);
@@ -73,15 +80,15 @@ public class RatePraiaAPI extends AsyncTask<Praia, Void, Praia> {
                     moh.insertIntoUsers(db, u);
 
                     auxPraia = geral.getJSONObject("auxPraia");
-                    Praia mPraia = new Praia();
                     mPraia = mPraia.doParsingAPIJsonToPraia(auxPraia.toString());
+
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return mPraia;
     }
 
     @Override
@@ -97,5 +104,18 @@ public class RatePraiaAPI extends AsyncTask<Praia, Void, Praia> {
         if(internalError!=null) {
             Toast.makeText(this.ctx, internalError, Toast.LENGTH_LONG).show();
         }
+
+        Integer val = (int)Math.round(praia.getRate());
+        switch (val) {
+            case 0: this.txtMsg.setText("Muito Mau"); break;
+            case 1: this.txtMsg.setText("Bom"); break;
+            case 2: this.txtMsg.setText("Muito Bom"); break;
+            default: this.txtMsg.setText("Melhor.... Impossível");
+        }
+
+        String iconTempo = praia.getIcon();
+        iconTempo = "icon_" + iconTempo.replace("-","");
+        this.txtRate.setText(String.format("%.1f",praia.getRate()) + "");
+
     }
 }
