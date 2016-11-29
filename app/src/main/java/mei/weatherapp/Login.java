@@ -55,6 +55,7 @@ public class Login extends AppCompatActivity {
         txtPassword2.setVisibility(View.VISIBLE);
         lblPassword2.setVisibility(View.VISIBLE);
         btnLogin.setVisibility(View.GONE);
+        btnLoggout.setVisibility(View.GONE);
         btnRegistar.setVisibility(View.GONE);
         btnRegistarOk.setVisibility(View.VISIBLE);
         btnRegistarCancelar.setVisibility(View.VISIBLE);
@@ -69,6 +70,7 @@ public class Login extends AppCompatActivity {
         lblPassword2.setVisibility(View.GONE);
         btnLogin.setVisibility(View.VISIBLE);
         btnRegistar.setVisibility(View.VISIBLE);
+        btnLoggout.setVisibility(View.VISIBLE);
         btnRegistarOk.setVisibility(View.GONE);
         btnRegistarCancelar.setVisibility(View.GONE);
         lblTitle.setText("Login");
@@ -96,6 +98,7 @@ public class Login extends AppCompatActivity {
         SQLiteDatabase db = moh.getWritableDatabase();
         moh.deleteFromUsers(db);
         Toast.makeText(Login.this, "Removido Login", Toast.LENGTH_LONG).show();
+        finish();
       }
     });
 

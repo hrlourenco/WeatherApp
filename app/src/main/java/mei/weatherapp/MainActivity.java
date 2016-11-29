@@ -30,17 +30,23 @@ import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import cz.msebera.android.httpclient.Header;
 import mei.weatherapp.asynctasks.AccuweatherCurrentConditions;
 import mei.weatherapp.asynctasks.GetPraiaFromDB;
 import mei.weatherapp.asynctasks.GetPraiasAPI;
 import mei.weatherapp.asynctasks.RatePraiaAPI;
 import mei.weatherapp.basedados.MyOpenHelper;
+import mei.weatherapp.contratos.APIData;
 import mei.weatherapp.contratos.GPSData;
 import mei.weatherapp.contratos.Praia;
 import mei.weatherapp.contratos.User;
@@ -270,8 +276,10 @@ public class MainActivity extends FragmentActivity {
                     public void onNewLocation(GPSData data) {
                         if(data.lon != -1) {
                             if(user!=null) {
-                                //é uma praia da localização actual, tem acesso a fazer rating
-                                llRating.setVisibility(View.VISIBLE);
+                                if(user.getUsername()!=null) {
+                                    //é uma praia da localização actual, tem acesso a fazer rating
+                                    llRating.setVisibility(View.VISIBLE);
+                                }
                             }
 
                             //actualizar praiaGlobal
@@ -349,8 +357,6 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
-
-
     //receber dados de activity for result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -364,8 +370,28 @@ public class MainActivity extends FragmentActivity {
 
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
 
-        }
+            // gather your request parameters
+            File myFile = new File(mCurrentPhotoPath);
+            RequestParams params = new RequestParams();
+            try {
+                params.put("image", myFile);
+            } catch(FileNotFoundException e) {}
 
+
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.post(APIData.WeatherIPCA.ENDPOINT_UPLOAD_FOTOS, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
+                    Toast.makeText(MainActivity.this, "sucesso", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
+                    Toast.makeText(MainActivity.this, "erro", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
         getLoggedUser();
     }
 
@@ -407,10 +433,12 @@ public class MainActivity extends FragmentActivity {
                 txtRate.setVisibility(View.VISIBLE);
             } else {
                 llTopo.setVisibility(View.GONE);
+                llRating.setVisibility(View.GONE);
                 txtRate.setVisibility(View.GONE);
             }
         } else {
             llTopo.setVisibility(View.GONE);
+            llRating.setVisibility(View.GONE);
             txtRate.setVisibility(View.GONE);
         }
     }

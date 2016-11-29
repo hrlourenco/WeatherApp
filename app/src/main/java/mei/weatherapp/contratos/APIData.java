@@ -14,5 +14,7 @@ public class APIData {
 
         public static final String ENDPOINT_USERS  = ENDPOINT + "/users/";
 
+        public static final String ENDPOINT_UPLOAD_FOTOS  = ENDPOINT + "/file_upload/";
+
     }
 }

@@ -103,7 +103,7 @@
             android:layout_weight="1"/>
 
         <Button
-            android:text="Loggout"
+            android:text="Logout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnLoggout"
