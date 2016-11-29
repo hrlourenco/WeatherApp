@@ -7,12 +7,19 @@
     tools:context="mei.weatherapp.MainActivity"
     android:background="@color/background_color">
 
-        <fragment
-            android:id="@+id/place_autocomplete_fragment"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
-            />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#a6bae2">
+
+                <fragment
+                    android:id="@+id/place_autocomplete_fragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                    />
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/loading"
@@ -62,7 +69,9 @@
             android:layout_height="0dip"
             android:layout_weight="5"
             android:id="@+id/llTopo"
-            android:background="#a6bae2">
+            android:background="#a6bae2"
+            android:layout_marginTop="2dp"
+            android:visibility="visible">
 
                 <TextView
                     android:layout_width="match_parent"

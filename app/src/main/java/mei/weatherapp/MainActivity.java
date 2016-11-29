@@ -45,7 +45,9 @@ import mei.weatherapp.contratos.User;
 import mei.weatherapp.interfaces.AsyncResponse;
 import mei.weatherapp.uteis.GPSLocationProvider;
 
+import static mei.weatherapp.R.id.btnGoogleMaps;
 import static mei.weatherapp.R.id.btnPhoto;
+import static mei.weatherapp.R.id.llTopo;
 
 public class MainActivity extends FragmentActivity {
 
@@ -65,6 +67,7 @@ public class MainActivity extends FragmentActivity {
     TextView txtLongitude;
     TextView txtNome;
     TextView txtUser;
+    LinearLayout llTopo;
     TextView txtRatingMessage;
     RatingBar ratingBar;
     LinearLayout llRating;
@@ -74,6 +77,7 @@ public class MainActivity extends FragmentActivity {
     Button btnLogin;
     Button btnActualLocation;
     Button btnPhoto;
+    Button btnGoogleMaps;
     private User user;
 
     @Override
@@ -95,17 +99,22 @@ public class MainActivity extends FragmentActivity {
         txtLongitude = (TextView) findViewById(R.id.txtLongitude);
         txtNome = (TextView) findViewById(R.id.txtNome);
         txtUser = (TextView) findViewById(R.id.txtUser);
+        llTopo = (LinearLayout) findViewById(R.id.llTopo);
         txtRatingMessage = (TextView) findViewById(R.id.txtRatingMessage);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         llRating = (LinearLayout) findViewById(R.id.llRating);
 
         btnDetails = (Button) findViewById(R.id.btnDetails);
         load = (RelativeLayout) findViewById(R.id.loading);
-        load.setVisibility(View.GONE);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnActualLocation = (Button) findViewById(R.id.btnActualLocation);
         btnPhoto = (Button) findViewById(R.id.btnPhoto);
+        btnGoogleMaps = (Button) findViewById(R.id.btnGoogleMaps);
         praiaGlobal = new Praia();
+
+        load.setVisibility(View.GONE);
+        llTopo.setVisibility(View.GONE);
+        txtRate.setVisibility(View.GONE);
 
         //fragmento Google
         final PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -136,16 +145,20 @@ public class MainActivity extends FragmentActivity {
                 //actualizar praiaGlobal
                 praiaGlobal = praia;
                 //chamar dados da API
-                GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, null, new AsyncResponse(){
+                String userId = null;
+                if(user != null) {
+                    userId = user.getUserId();
+                }
+                GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, txtUser, userId, true, new AsyncResponse(){
                     @Override
                     public void processFinish(Praia output) {
                         praiaGlobal = output;
-                        if(praiaGlobal.getNumRating()<3) {
+                        if(praiaGlobal.getNumRating()<3 || user == null) {
+                            txtRate.setVisibility(View.GONE);
                             txtRatingMessage.setText("Votos insuficientes");
-                            txtRate.setText("");
                             ratingBar.setRating(Float.parseFloat("0.0"));
                         } else {
-                            txtRatingMessage.setText("Well done!");
+                            txtRate.setVisibility(View.VISIBLE);
                             ratingBar.setRating(Float.parseFloat(praiaGlobal.getRate().toString()));
                         }
                     }
@@ -177,17 +190,21 @@ public class MainActivity extends FragmentActivity {
                     txtNome.setText(praiaGlobal.getNome());
                     //actualizar fragmento
                     autocompleteFragment.setText(data.cidade);
+                    String userId = null;
+                    if(user != null) {
+                        userId = user.getUserId();
+                    }
                     //chamar dados da API
-                    GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, null, new AsyncResponse(){
+                    GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, txtUser, userId, false, new AsyncResponse(){
                         @Override
                         public void processFinish(Praia output) {
                             praiaGlobal = output;
-                            if(praiaGlobal.getNumRating()<3) {
+                            if(praiaGlobal.getNumRating()<3 || user == null) {
+                                txtRate.setVisibility(View.GONE);
                                 txtRatingMessage.setText("Votos insuficientes");
-                                txtRate.setText("");
-                                ratingBar.setRating(Float.parseFloat(praiaGlobal.getRate().toString()));
+                                ratingBar.setRating(Float.parseFloat("0.0"));
                             } else {
-                                txtRatingMessage.setText("Well done!");
+                                txtRate.setVisibility(View.VISIBLE);
                                 ratingBar.setRating(Float.parseFloat(praiaGlobal.getRate().toString()));
                             }
                         }
@@ -201,6 +218,17 @@ public class MainActivity extends FragmentActivity {
         });
 
         /*EVENTOS DE BOTÕES*/
+        btnGoogleMaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent viewGoogleMaps = new Intent(ctx, MapsActivity.class);
+                viewGoogleMaps.putExtra("praia", praiaGlobal);
+                if(viewGoogleMaps.resolveActivity(getPackageManager()) != null) {
+                    startActivity(viewGoogleMaps);
+                }
+            }
+        });
+
         btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -249,18 +277,22 @@ public class MainActivity extends FragmentActivity {
                             txtLatitude.setText(Double.toString(praiaGlobal.getLatitude()));
                             txtLatitude.setText(Double.toString(praiaGlobal.getLongitude()));
                             txtNome.setText(praiaGlobal.getNome());
+                            String userId = null;
+                            if(user != null) {
+                                userId = user.getUserId();
+                            }
                             //actualizar fragmento
                             autocompleteFragment.setText(data.cidade);
-                            GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, null, new AsyncResponse(){
+                            GetPraiasAPI ws = new GetPraiasAPI(MainActivity.this, imgTemp, load, txtMsg, txtPercentagem, txtTemp, txtRate, txtUser, userId, false, new AsyncResponse(){
                                 @Override
                                 public void processFinish(Praia output) {
                                     praiaGlobal = output;
-                                    if(praiaGlobal.getNumRating()<3) {
+                                    if(praiaGlobal.getNumRating()<3 || user == null) {
+                                        txtRate.setVisibility(View.GONE);
                                         txtRatingMessage.setText("Votos insuficientes");
-                                        txtRate.setText("");
-                                        ratingBar.setRating(Float.parseFloat(praiaGlobal.getRate().toString()));
+                                        ratingBar.setRating(Float.parseFloat("0.0"));
                                     } else {
-                                        txtRatingMessage.setText("Well done!");
+                                        txtRate.setVisibility(View.VISIBLE);
                                         ratingBar.setRating(Float.parseFloat(praiaGlobal.getRate().toString()));
                                     }
                                 }
@@ -278,8 +310,8 @@ public class MainActivity extends FragmentActivity {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                txtRatingMessage.setText("Rate: " + String.valueOf(rating));
                 if(user != null) {
+                    txtRatingMessage.setText("Rate: " + String.valueOf(rating));
                     RatePraiaAPI rp = new RatePraiaAPI(MainActivity.this, praiaGlobal.getPraiaId(), (int)Math.round(rating), txtUser, txtRate, user.getUserId(), txtMsg);
                     rp.execute(praiaGlobal);
                 }
@@ -319,7 +351,8 @@ public class MainActivity extends FragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_LOGIN && resultCode == Activity.RESULT_OK) {
-            llRating.setVisibility(View.VISIBLE);
+            llTopo.setVisibility(View.VISIBLE);
+            txtRate.setVisibility(View.VISIBLE);
             user = (User) data.getSerializableExtra("user");
             txtUser.setText(user.getUsername() + " :: " + user.getCreditos() + " créditos");
         }
@@ -333,7 +366,8 @@ public class MainActivity extends FragmentActivity {
     public void onActivityReenter(int resultCode, Intent data) {
         super.onActivityReenter(resultCode, data);
         if(user!=null) {
-            llRating.setVisibility(View.VISIBLE);
+            llTopo.setVisibility(View.VISIBLE);
+            txtRate.setVisibility(View.VISIBLE);
         }
     }
 

@@ -161,6 +161,9 @@ public class Praia implements Serializable{
       resPraia.setPraiaId(praia.getString("_id"));
       resPraia.setNome(praia.getString("praia"));
       resPraia.setImagem(praia.getString("imagem"));
+      JSONObject coord = praia.getJSONObject("coordenadas");
+      resPraia.setLatitude(coord.getDouble("lat"));
+      resPraia.setLongitude(coord.getDouble("long"));
       try {
         String auxDT = praia.getString("dataTempo");
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -228,5 +231,80 @@ public class Praia implements Serializable{
     }
     return resPraia;
   }
+
+  public Praia doParsingPraiaJson(JSONObject apiPraia) {
+    Praia resPraia = new Praia();
+    try {
+        JSONObject praia = apiPraia;
+        resPraia.setPraiaId(praia.getString("_id"));
+        resPraia.setNome(praia.getString("praia"));
+        resPraia.setImagem(praia.getString("imagem"));
+        try {
+            String auxDT = praia.getString("dataTempo");
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            Date d = f.parse(auxDT);
+            long milisegundos = d.getTime();
+            resPraia.setDataTempo(milisegundos);
+        } catch (Exception e) {
+            resPraia.setDataTempo(System.currentTimeMillis());
+        }
+        //pegar o array tempo
+        String array = praia.getString("tempo");
+        JSONArray tempo = new JSONArray(array);
+        //pegar o primeiro elemento que contem a temperatura do dia actual
+        JSONObject tempoActual = tempo.getJSONObject(0);
+        if(tempoActual.has("tempMax"))
+            resPraia.setTemperatura(Double.parseDouble(tempoActual.getString("tempMax")));
+        if(tempoActual.has("icon"))
+            resPraia.setIcon(tempoActual.getString("icon"));
+        ArrayList<Condicoes> auxArrayCondicoes = new ArrayList<Condicoes>();
+        for( int i = 0; i < tempo.length(); i++) {
+            JSONObject auxTempo = tempo.getJSONObject(i);
+            Condicoes auxCondicoes = new Condicoes();
+            if(auxTempo.has("tempMin"))
+                auxCondicoes.setTempMin(auxTempo.getDouble("tempMin"));
+            if(auxTempo.has("tempMax"))
+                auxCondicoes.setTempMax(auxTempo.getDouble("tempMax"));
+            if(auxTempo.has("vento"))
+                auxCondicoes.setVento(auxTempo.getDouble("vento"));
+            if(auxTempo.has("humidade"))
+                auxCondicoes.setHumidade(auxTempo.getDouble("humidade"));
+            if(auxTempo.has("pressao"))
+                auxCondicoes.setPressao(auxTempo.getDouble("pressao"));
+            if(auxTempo.has("mensagem"))
+                auxCondicoes.setMensagem(auxTempo.getString("mensagem"));
+            if(auxTempo.has("icon"))
+                auxCondicoes.setIcon(auxTempo.getString("icon"));
+            auxArrayCondicoes.add(auxCondicoes);
+        }
+        resPraia.setForecast(auxArrayCondicoes);
+        //objecto rating
+        try {
+            Double rateAux = 0.0;
+            if(praia.has("rating")) {
+                JSONObject ratingObj = praia.getJSONObject("rating");
+                resPraia.setRating(ratingObj.getInt("ratingGeral"));
+                resPraia.setNumRating(ratingObj.getInt("ratingGeralNum"));
+                if (resPraia.getNumRating() > 0) {
+                    int a = resPraia.getRating();
+                    int b = resPraia.getNumRating();
+                    rateAux = ((double) a / (double) b);
+                } else
+                    rateAux = -0.0;
+            }
+            resPraia.setRate(rateAux);
+        } catch (JSONException e) {
+            resPraia.setRating(0);
+            resPraia.setNumRating(0);
+            resPraia.setRate(0.0);
+        }
+
+    } catch (JSONException e) {
+        e.printStackTrace();
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+    return resPraia;
+}
 
 }

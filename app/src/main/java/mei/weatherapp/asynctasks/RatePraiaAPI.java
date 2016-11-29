@@ -26,6 +26,7 @@ public class RatePraiaAPI extends AsyncTask<Praia, Void, Praia> {
     String internalError;
     JSONObject auxUser;
     JSONObject auxPraia;
+    Praia mPraia;
 
     TextView txtRate;
     TextView txtUser;
@@ -50,9 +51,7 @@ public class RatePraiaAPI extends AsyncTask<Praia, Void, Praia> {
 
     @Override
     protected Praia doInBackground(Praia... params) {
-        Praia praiaLocal = new Praia();
-        praiaLocal = params[0];
-        Praia mPraia = new Praia();
+        mPraia = params[0];
 
         WeatherIPCAWebService ws = new WeatherIPCAWebService();
         String teste = ws.doRatePraia(userId, praiaId, rating);
@@ -80,8 +79,7 @@ public class RatePraiaAPI extends AsyncTask<Praia, Void, Praia> {
                     moh.insertIntoUsers(db, u);
 
                     auxPraia = geral.getJSONObject("auxPraia");
-                    mPraia = mPraia.doParsingAPIJsonToPraia(auxPraia.toString());
-
+                    mPraia = mPraia.doParsingPraiaJson(auxPraia);
                 }
             }
         } catch (JSONException e) {
@@ -105,17 +103,25 @@ public class RatePraiaAPI extends AsyncTask<Praia, Void, Praia> {
             Toast.makeText(this.ctx, internalError, Toast.LENGTH_LONG).show();
         }
 
-        Integer val = (int)Math.round(praia.getRate());
-        switch (val) {
-            case 0: this.txtMsg.setText("Muito Mau"); break;
-            case 1: this.txtMsg.setText("Bom"); break;
-            case 2: this.txtMsg.setText("Muito Bom"); break;
-            default: this.txtMsg.setText("Melhor.... Impossível");
+        if(praia.getRate() != null) {
+            Integer val = (int) Math.round(praia.getRate());
+            switch (val) {
+                case 0:
+                    this.txtMsg.setText("Muito Mau");
+                    break;
+                case 1:
+                    this.txtMsg.setText("Bom");
+                    break;
+                case 2:
+                    this.txtMsg.setText("Muito Bom");
+                    break;
+                default:
+                    this.txtMsg.setText("Melhor.... Impossível");
+            }
+
+            String iconTempo = praia.getIcon();
+            iconTempo = "icon_" + iconTempo.replace("-", "");
+            this.txtRate.setText(String.format("%.1f", praia.getRate()) + "");
         }
-
-        String iconTempo = praia.getIcon();
-        iconTempo = "icon_" + iconTempo.replace("-","");
-        this.txtRate.setText(String.format("%.1f",praia.getRate()) + "");
-
     }
 }

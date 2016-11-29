@@ -64,8 +64,8 @@ public class WeatherIPCAWebService extends WebserviceConnector {
 
         try {
             dataPost.put("praia",nomePraia);
-                coordenadas.put("lat", Double.toString(latitude));
-                coordenadas.put("long", Double.toString(longitude));
+                coordenadas.put("lat", latitude);
+                coordenadas.put("long", longitude);
             dataPost.put("coordenadas", coordenadas);
             dataPost.put("userId",userId);
             buildWebserviceCall(APIData.WeatherIPCA.ENDPOINT_GETPRAIA, null);

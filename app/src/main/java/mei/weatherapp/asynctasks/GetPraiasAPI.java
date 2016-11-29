@@ -18,6 +18,7 @@ import mei.weatherapp.MainActivity;
 import mei.weatherapp.Utils;
 import mei.weatherapp.contratos.Condicoes;
 import mei.weatherapp.contratos.Praia;
+import mei.weatherapp.contratos.User;
 import mei.weatherapp.interfaces.AsyncResponse;
 import mei.weatherapp.webservice.AccuWeatherWebService;
 import mei.weatherapp.webservice.WeatherIPCAWebService;
@@ -29,28 +30,32 @@ public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
     public AsyncResponse delegate = null;
 
     RelativeLayout load;
-    String txtUserId;
+    String userId;
     TextView txtPercentagem;
     ImageView imgTemp;
     TextView txtTemp;
     TextView txtRate;
     TextView txtMsg;
+    TextView txtUser;
+    boolean pesquisaManual;
+    User user;
 
     Context ctx;
     Integer totalLoads = 2;
 
     public GetPraiasAPI(Context ctx, ImageView imgTemp, RelativeLayout load
-            , TextView txtMsg, TextView txtPercentagem, TextView txtTemp, TextView txtRate, String userId, AsyncResponse delegate) {
+            , TextView txtMsg, TextView txtPercentagem, TextView txtTemp, TextView txtRate, TextView txtUser, String userId, boolean pesquisaManual, AsyncResponse delegate) {
         this.ctx = ctx;
         this.imgTemp = imgTemp;
         this.load = load;
-        this.totalLoads = totalLoads;
         this.txtMsg = txtMsg;
         this.txtPercentagem = txtPercentagem;
         this.txtTemp = txtTemp;
         this.txtRate = txtRate;
-        this.txtUserId = txtUserId;
         this.delegate = delegate;
+        this.pesquisaManual = pesquisaManual;
+        this.txtUser = txtUser;
+        this.userId = userId;
     }
 
     @Override
@@ -62,10 +67,28 @@ public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
 
         WeatherIPCAWebService ws = new WeatherIPCAWebService();
         publishProgress(-2); //a obter json
-        String teste = ws.doGetPraiasNoLogin(praiaLocal.getNome(),praiaLocal.getLatitude(),praiaLocal.getLongitude());
+
+        String teste = null;
+        if(userId == null) {
+            teste = ws.doGetPraiasNoLogin(praiaLocal.getNome(), praiaLocal.getLatitude(), praiaLocal.getLongitude());
+        } else {
+            teste = ws.doGetPraiasLogin(praiaLocal.getNome(), praiaLocal.getLatitude(), praiaLocal.getLongitude(), userId);
+            JSONObject res = null;
+            try {
+                JSONObject geral = new JSONObject(teste);
+                if(geral.has("user")) {
+                    JSONObject userJson = geral.getJSONObject("user");
+                    user = new User(userJson.getString("_id"), userJson.getString("username"), userJson.getInt("credito"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         Praia resPraia = new Praia();
-        resPraia = resPraia.doParsingAPIJsonToPraia(teste);
+        if(teste != null) {
+            resPraia = resPraia.doParsingAPIJsonToPraia(teste);
+        }
 
         return resPraia;
     }
@@ -87,6 +110,9 @@ public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
         this.imgTemp.setImageResource(id);
         this.txtTemp.setText(String.format("%.1f",praia.getTemperatura()) + "º C");
         this.txtRate.setText(String.format("%.1f",praia.getRate()) + "");
+        if(user != null) {
+            this.txtUser.setText(user.getUsername() + " :: " + user.getCreditos() + " créditos");
+        }
 
         this.load.setVisibility(View.GONE);
 
