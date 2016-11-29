@@ -21,6 +21,7 @@ public class RatePraiaAPI extends AsyncTask<Praia, Void, Praia> {
     String auxRate;
     String internalError;
     JSONObject auxUser;
+    JSONObject auxPraia;
 
     TextView txtRate;
     TextView txtUser;
@@ -70,6 +71,10 @@ public class RatePraiaAPI extends AsyncTask<Praia, Void, Praia> {
                     SQLiteDatabase db = moh.getWritableDatabase();
                     moh.deleteFromUsers(db);
                     moh.insertIntoUsers(db, u);
+
+                    auxPraia = geral.getJSONObject("auxPraia");
+                    Praia mPraia = new Praia();
+                    mPraia = mPraia.doParsingAPIJsonToPraia(auxPraia.toString());
                 }
             }
         } catch (JSONException e) {
