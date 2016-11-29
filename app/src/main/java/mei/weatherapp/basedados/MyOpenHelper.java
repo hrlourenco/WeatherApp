@@ -51,7 +51,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
       _PRAIAS_LONGITUDE_ + " DOUBLE  NOT NULL, " +
       _PRAIAS_LATITUDE_ + " DOUBLE  NOT NULL, " +
       _PRAIAS_RATE_ + " INTEGER DEFAULT '0' NOT NULL, " +
-      _PRAIAS_TEMPERATURA_ + " DOUBLE DEFAULT '0' NOT NULL " +
+      _PRAIAS_TEMPERATURA_ + " DOUBLE DEFAULT '0' NOT NULL, " +
       _PRAIAS_DATA_TEMPO_ + " LONG NOT NULL " +
       ")";
 
