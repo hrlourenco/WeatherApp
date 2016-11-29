@@ -1,7 +1,9 @@
 package mei.weatherapp;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 
 import mei.weatherapp.asynctasks.AddUserAsyncTask;
 import mei.weatherapp.asynctasks.LoginAsyncTask;
+import mei.weatherapp.basedados.MyOpenHelper;
 import mei.weatherapp.contratos.User;
 
 public class Login extends AppCompatActivity {
@@ -23,6 +26,7 @@ public class Login extends AppCompatActivity {
   TextView txtPassword;
   Button btnRegistar;
   Button btnLogin;
+  Button btnLoggout;
   Button btnRegistarOk;
   Button btnRegistarCancelar;
   CheckBox chkManter;
@@ -37,6 +41,7 @@ public class Login extends AppCompatActivity {
     lblTitle = (TextView) findViewById(R.id.lbl_title);
     btnRegistar = (Button) findViewById(R.id.btn_registar);
     btnLogin = (Button) findViewById(R.id.btn_login);
+    btnLoggout = (Button) findViewById(R.id.btnLoggout);
     btnRegistarCancelar = (Button) findViewById(R.id.btn_registar_cancelar);
     btnRegistarOk = (Button) findViewById(R.id.btn_registar_ok);
     txtUsername = (TextView) findViewById(R.id.txt_username);
@@ -81,6 +86,16 @@ public class Login extends AppCompatActivity {
           LoginAsyncTask login = new LoginAsyncTask(Login.this, chkManter.isChecked());
           login.execute(txtUsername.getText().toString().toString() + txtPassword.getText().toString());
         }
+      }
+    });
+
+    btnLoggout.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        MyOpenHelper moh = new MyOpenHelper(Login.this);
+        SQLiteDatabase db = moh.getWritableDatabase();
+        moh.deleteFromUsers(db);
+        Toast.makeText(Login.this, "Removido Login", Toast.LENGTH_LONG).show();
       }
     });
 

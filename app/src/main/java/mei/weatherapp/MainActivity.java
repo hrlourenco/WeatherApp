@@ -3,6 +3,7 @@ package mei.weatherapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ import mei.weatherapp.asynctasks.AccuweatherCurrentConditions;
 import mei.weatherapp.asynctasks.GetPraiaFromDB;
 import mei.weatherapp.asynctasks.GetPraiasAPI;
 import mei.weatherapp.asynctasks.RatePraiaAPI;
+import mei.weatherapp.basedados.MyOpenHelper;
 import mei.weatherapp.contratos.GPSData;
 import mei.weatherapp.contratos.Praia;
 import mei.weatherapp.contratos.User;
@@ -123,6 +125,9 @@ public class MainActivity extends FragmentActivity {
         autocompleteFragment.setBoundsBias(new LatLngBounds(
                 new LatLng(37.026228, -8.988789),
                 new LatLng(41.685452, -6.624795)));
+
+        //verificar se o user está previamente logado na app
+        getLoggedUser();
 
         //alterações de localização
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener()
@@ -360,6 +365,8 @@ public class MainActivity extends FragmentActivity {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
 
         }
+
+        getLoggedUser();
     }
 
     @Override
@@ -369,6 +376,8 @@ public class MainActivity extends FragmentActivity {
             llTopo.setVisibility(View.VISIBLE);
             txtRate.setVisibility(View.VISIBLE);
         }
+
+        getLoggedUser();
     }
 
     private File createImageFile() throws IOException {
@@ -385,5 +394,24 @@ public class MainActivity extends FragmentActivity {
         // Save a file: path for use with ACTION_VIEW intents
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    private void getLoggedUser() {
+        MyOpenHelper moh = new MyOpenHelper(MainActivity.this);
+        SQLiteDatabase db = moh.getReadableDatabase();
+        user = moh.getFromUsers(db);
+        if(user!=null) {
+            if (user.getUsername() != null) {
+                llTopo.setVisibility(View.VISIBLE);
+                txtUser.setText(user.getUsername() + " :: " + user.getCreditos() + " créditos");
+                txtRate.setVisibility(View.VISIBLE);
+            } else {
+                llTopo.setVisibility(View.GONE);
+                txtRate.setVisibility(View.GONE);
+            }
+        } else {
+            llTopo.setVisibility(View.GONE);
+            txtRate.setVisibility(View.GONE);
+        }
     }
 }

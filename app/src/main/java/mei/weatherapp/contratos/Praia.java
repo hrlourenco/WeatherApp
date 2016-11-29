@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class Praia implements Serializable{
   //dados do tempo actual
   private String icon;
   private Double temperatura;
+  private  ArrayList<Proximas> proximas;
 
   //CONSTRUTORES
   public Praia() {
@@ -45,6 +47,7 @@ public class Praia implements Serializable{
     this.rate = rate;
     this.rating = rating;
     this.temperatura = temperatura;
+    proximas = new ArrayList<Proximas>();
   }
 
   //GET & SET
@@ -153,7 +156,15 @@ public class Praia implements Serializable{
     this.icon = icon;
   }
 
-  public Praia doParsingAPIJsonToPraia(String apiPraia) {
+    public ArrayList<Proximas> getProximas() {
+        return proximas;
+    }
+
+    public void setProximas(ArrayList<Proximas> proximas) {
+        this.proximas = proximas;
+    }
+
+    public Praia doParsingAPIJsonToPraia(String apiPraia) {
     Praia resPraia = new Praia();
     try {
       JSONObject geral = new JSONObject(apiPraia);
@@ -306,5 +317,27 @@ public class Praia implements Serializable{
     }
     return resPraia;
 }
+    public ArrayList<Proximas> doParsingProximas(String apiPraia) {
+        ArrayList<Proximas> proximas = new ArrayList<Proximas>();
+        try {
+            JSONObject geral = new JSONObject(apiPraia);
+            JSONArray praia = geral.getJSONArray("proximas");
+            for(int i=0; i<praia.length(); i++) {
+                Proximas aux = new Proximas();
+                JSONObject row = praia.getJSONObject(i);
+                aux.setNome(row.getString("praia"));
+                aux.setPraiaId(row.getString("_id"));
+                JSONObject coord = row.getJSONObject("coordenadas");
+                aux.setLatitude(coord.getDouble("lat"));
+                aux.setLongitude(coord.getDouble("long"));
+                proximas.add(aux);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return proximas;
+    }
 
 }

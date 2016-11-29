@@ -7,10 +7,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 import mei.weatherapp.contratos.Praia;
+import mei.weatherapp.contratos.Proximas;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -41,9 +45,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         Praia praia = (Praia) getIntent().getSerializableExtra("praia");
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(praia.getLatitude(), praia.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Eu estou aqui"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(praia.getLatitude(), praia.getLongitude()), 10.0f));
+        LatLng praiaLocal = new LatLng(praia.getLatitude(), praia.getLongitude());
+        MarkerOptions mo = new MarkerOptions().position(praiaLocal).title("Eu estou aqui");
+        mo.icon(BitmapDescriptorFactory.fromResource(R.drawable.mylocation));
+        mMap.addMarker(mo);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(praiaLocal));
+        ArrayList<Proximas> proximas = praia.getProximas();
+
+        if(proximas!=null) {
+            for (int i = 0; i < proximas.size(); i++) {
+                Proximas aux = proximas.get(i);
+                praiaLocal = new LatLng(aux.getLatitude(), aux.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(praiaLocal).title(aux.getNome()));
+            }
+        }
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(praia.getLatitude(), praia.getLongitude()), 14.0f));
     }
 }

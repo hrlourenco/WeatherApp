@@ -35,6 +35,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
   private static final String _USERS_ID_ = "_id";
   private static final String _USERS_USER_ID_ = "userId";
   private static final String _USERS_USERNAME_ = "username";
+  private static final String _USERS_CREDITOS_ = "creditos";
 
 
   public MyOpenHelper(Context context) {
@@ -60,7 +61,8 @@ public class MyOpenHelper extends SQLiteOpenHelper {
     String CreateUsersDbSql = "CREATE TABLE " + _USERS_NOME_TABELA_ + " ( " +
       _USERS_ID_ + " INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT, " +
       _USERS_USER_ID_ + " TEXT  NOT NULL, " +
-      _USERS_USERNAME_ + " TEXT  NOT NULL " +
+      _USERS_USERNAME_ + " TEXT  NOT NULL, " +
+      _USERS_CREDITOS_ + " INTEGER  NOT NULL " +
       ")";
 
     db.execSQL(CreateUsersDbSql);
@@ -103,6 +105,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
 
     cvUsers.put(_USERS_USER_ID_, u.getUserId());
     cvUsers.put(_USERS_USERNAME_, u.getUsername());
+    cvUsers.put(_USERS_CREDITOS_, u.getCreditos());
 
     db.insert(_USERS_NOME_TABELA_, null, cvUsers);
   }
@@ -148,6 +151,7 @@ public class MyOpenHelper extends SQLiteOpenHelper {
       cur.moveToFirst();
       u.setUsername(cur.getString(cur.getColumnIndex(_USERS_USERNAME_)));
       u.setUserId(cur.getString(cur.getColumnIndex(_USERS_USER_ID_)));
+      u.setCreditos(cur.getInt(cur.getColumnIndex(_USERS_CREDITOS_)));
     } catch (Exception e) {
       e.printStackTrace();
     }

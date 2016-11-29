@@ -14,10 +14,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import mei.weatherapp.MainActivity;
 import mei.weatherapp.Utils;
 import mei.weatherapp.contratos.Condicoes;
 import mei.weatherapp.contratos.Praia;
+import mei.weatherapp.contratos.Proximas;
 import mei.weatherapp.contratos.User;
 import mei.weatherapp.interfaces.AsyncResponse;
 import mei.weatherapp.webservice.AccuWeatherWebService;
@@ -88,6 +91,8 @@ public class GetPraiasAPI extends AsyncTask<Praia, Integer, Praia> {
         Praia resPraia = new Praia();
         if(teste != null) {
             resPraia = resPraia.doParsingAPIJsonToPraia(teste);
+            ArrayList<Proximas> proximas = resPraia.doParsingProximas(teste);
+            resPraia.setProximas(proximas);
         }
 
         return resPraia;

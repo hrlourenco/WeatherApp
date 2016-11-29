@@ -103,6 +103,13 @@
             android:layout_weight="1"/>
 
         <Button
+            android:text="Loggout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnLoggout"
+            android:layout_weight="1" />
+
+        <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/cancelar"

@@ -61,7 +61,7 @@ public class RatePraiaAPI extends AsyncTask<Praia, Void, Praia> {
             geral = new JSONObject(teste);
             if(geral.has("internalErrorCode")) {
                 if(geral.getInt("internalErrorCode") == 150) {
-                    internalError = "Não é possível fazer rating";
+                    internalError = "Impossivel, rating a cada 4h!";
                 } else {
                     internalError = "Erro: " + geral.getString("Message");
                 }
